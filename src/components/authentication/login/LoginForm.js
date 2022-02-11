@@ -22,6 +22,10 @@ import { LoadingButton } from '@mui/lab';
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
@@ -58,8 +62,20 @@ export default function LoginForm() {
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+            id="email"
+            value={email}
+            onChange={(e)=> setEmail(e.target.value)}
           />
-
+          <div className="form-group">
+            <input
+              type="email"
+              required
+              id="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
           <TextField
             fullWidth
             autoComplete="current-password"
