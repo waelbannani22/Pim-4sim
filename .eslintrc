@@ -6,12 +6,10 @@
   },
   "extends": [
     "airbnb",
-    "prettier",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended"
   ],
   "plugins": [
-    "prettier",
     "react",
     "react-hooks"
   ],
@@ -25,6 +23,9 @@
     }
   },
   "rules": {
+    "skipBlankLines": 1,
+    "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "object-curly-newline": "off",
     "import": 0,
     "max-len": 0,
     "no-alert": 0,
@@ -62,12 +63,15 @@
       }
     ],
     "prettier/prettier": [
-      2,
+      0,
       {
         "printWidth": 100,
         "singleQuote": true,
         "trailingComma": "none",
         "tabWidth": 2
+      },
+      {
+        "ObjectExpression": { "multiline": true, "minProperties": 1 }
       }
     ]
   }

@@ -3767,17 +3767,10 @@
     "source-map" "^0.6.1"
     "source-map-resolve" "^0.6.0"
 
-<<<<<<< Updated upstream
-"cssdb@^6.1.0":
+"cssdb@^6.2.1":
   "integrity" "sha512-OP1owHiK7IkCPSmNvWGMOEbfMcPZ8HA1TkzUXzB2SA708Y4pFGXWtLAVxds2QJI/0FA3mCNwRkEA9B4U4fW2Dw=="
   "resolved" "https://registry.npmjs.org/cssdb/-/cssdb-6.2.0.tgz"
   "version" "6.2.0"
-=======
-"cssdb@^6.2.1":
-  "integrity" "sha512-U/nJSGsM0NIEsVPwat6r6QrvtqZ8m+eYb8qLoSFXXWNghy5x3z6ftubzbb6AMFcvaYVVRXKAmgD1I1e2A31qug=="
-  "resolved" "https://registry.npmjs.org/cssdb/-/cssdb-6.3.0.tgz"
-  "version" "6.3.0"
->>>>>>> Stashed changes
 
 "cssesc@^3.0.0":
   "integrity" "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg=="
@@ -7447,15 +7440,9 @@
     "postcss-value-parser" "^4.2.0"
 
 "postcss-load-config@^3.1.0":
-<<<<<<< Updated upstream
   "integrity" "sha512-c/9XYboIbSEUZpiD1UQD0IKiUe8n9WHYV7YFe7X7J+ZwCsEKkUJSFWjS9hBU1RR9THR7jMXst8sxiqP0jjo2mg=="
   "resolved" "https://registry.npmjs.org/postcss-load-config/-/postcss-load-config-3.1.1.tgz"
   "version" "3.1.1"
-=======
-  "integrity" "sha512-5EYgaM9auHGtO//ljHH+v/aC/TQ5LHXtL7bQajNAUBKUVKiYE8rYpFms7+V26D9FncaGe2zwCoPQsFKb5zF/Hw=="
-  "resolved" "https://registry.npmjs.org/postcss-load-config/-/postcss-load-config-3.1.3.tgz"
-  "version" "3.1.3"
->>>>>>> Stashed changes
   dependencies:
     "lilconfig" "^2.0.4"
     "yaml" "^1.10.2"
@@ -7807,7 +7794,6 @@
   "resolved" "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz"
   "version" "1.1.2"
 
-<<<<<<< Updated upstream
 "prettier-linter-helpers@^1.0.0":
   "integrity" "sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w=="
   "resolved" "https://registry.npmjs.org/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz"
@@ -7820,8 +7806,6 @@
   "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.4.1.tgz"
   "version" "2.4.1"
 
-=======
->>>>>>> Stashed changes
 "pretty-bytes@^5.3.0", "pretty-bytes@^5.4.1":
   "integrity" "sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg=="
   "resolved" "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz"
@@ -9166,15 +9150,9 @@
     "strip-ansi" "^6.0.0"
 
 "tailwindcss@^3.0.2":
-<<<<<<< Updated upstream
   "integrity" "sha512-rjsdfz/qZya5xQ0OVynEMETgWq1CacmftgMYeXXh6bRM5vxsNwRSbMJsCCIjq/w67om9VP/AFMolOwiE+5VKig=="
   "resolved" "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.0.19.tgz"
   "version" "3.0.19"
-=======
-  "integrity" "sha512-F8lt74RlNZirnkaSk310+vGQta7c0/hgx7/bqxruM4wS9lp8oqV93lzavajC3VT0Lp4UUtUVIt8ifKcmGzkr0A=="
-  "resolved" "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.0.22.tgz"
-  "version" "3.0.22"
->>>>>>> Stashed changes
   dependencies:
     "arg" "^5.0.1"
     "chalk" "^4.1.2"
