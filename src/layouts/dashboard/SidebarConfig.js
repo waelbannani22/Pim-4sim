@@ -33,6 +33,11 @@ const sidebarConfig = [
     icon: getIcon(fileTextFill)
   },
   {
+    title: 'card',
+    path: '/dashboard/card',
+    icon: getIcon(fileTextFill)
+  },
+  {
     title: 'login',
     path: '/login',
     icon: getIcon(lockFill)
