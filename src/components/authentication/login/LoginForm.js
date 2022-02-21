@@ -88,6 +88,7 @@ export default function LoginForm({history}) {
       .then(function  (response1) {
         localStorage.setItem("resetcode",response1.data.data)
         localStorage.setItem("emailReset",email1)
+        window.location.replace(false)
         navigate('/resetpassword', { replace: false });
       })
       .catch(function (error) {

@@ -136,7 +136,7 @@ export const AccountProfile = (props) => {
 
 
 
-
+          <ImageUpload/>
           <div>
 
             <Dialog open={isOpen} onClose={toggleModal} >
