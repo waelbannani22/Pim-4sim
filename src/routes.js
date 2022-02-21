@@ -10,11 +10,29 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
-
+import Profile from './pages/profile';
+import Reset from './pages/resetpassword';
+import ConfirmpasswordPage from './pages/confirmpasswordpage';
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
+    {
+      path: '/',
+      element: <LogoOnlyLayout />,
+      children: [
+        { element: <Navigate to="/login" replace /> },
+
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: '404', element: <NotFound /> },
+        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '*', element: <Navigate to="/404" /> },
+        { path: 'resetpassword', element: <Reset /> },
+        { path: 'confirmpassword', element: <ConfirmpasswordPage /> }
+        
+      ]
+    },
     {
       path: '/dashboard',
       element: <DashboardLayout />,
@@ -23,20 +41,11 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'blog', element: <Blog /> },
+        { path: 'profile', element: <Profile /> }
       ]
     },
-    {
-      path: '/',
-      element: <LogoOnlyLayout />,
-      children: [
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
-        { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
-        { path: '*', element: <Navigate to="/404" /> }
-      ]
-    },
+    
     { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }
