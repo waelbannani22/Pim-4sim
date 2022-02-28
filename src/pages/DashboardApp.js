@@ -34,11 +34,16 @@ import {
   AppCurrentSubject,
   AppConversionRates
 } from '../components/_dashboard/app';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+
+ 
+  
   return (
+   
     <Page title="Dashboard | Minimal-UI">
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>

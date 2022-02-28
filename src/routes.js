@@ -13,6 +13,7 @@ import NotFound from './pages/Page404';
 import Profile from './pages/profile';
 import Reset from './pages/resetpassword';
 import ConfirmpasswordPage from './pages/confirmpasswordpage';
+import TeacherChart from './pages/TeachersStatChart';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -42,7 +43,8 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'profile', element: <Profile /> }
+        { path: 'profile', element: <Profile /> },
+        { path: 'chart', element: <TeacherChart /> }
       ]
     },
     

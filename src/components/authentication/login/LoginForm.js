@@ -88,7 +88,7 @@ export default function LoginForm({history}) {
       .then(function  (response1) {
         localStorage.setItem("resetcode",response1.data.data)
         localStorage.setItem("emailReset",email1)
-        window.location.replace(false)
+       // window.location.replace(false)
         navigate('/resetpassword', { replace: false });
       })
       .catch(function (error) {
@@ -163,6 +163,8 @@ export default function LoginForm({history}) {
                  sessionStorage.setItem("id", response1.data.data._id);
                  sessionStorage.setItem("phone", response1.data.data.phone);
                 navigate('/dashboard', { replace: true });
+                window.location.reload(false)
+
               })
               .catch(function (error) {
                 console.log(error);
