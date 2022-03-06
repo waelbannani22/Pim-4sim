@@ -10,16 +10,32 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
-import AddNewCard from './pages/AddNewCard'
-import SeeAllChapter from './pages/SeeAllChapter';
-import AddChapter from './pages/AddChapter';
-import  PdfUpload  from './pages/PdfUpload';
-import PDFViewer from './pages/PdfViewer';
-
+import Profile from './pages/profile';
+import Reset from './pages/resetpassword';
+import ConfirmpasswordPage from './pages/confirmpasswordpage';
+import TeacherChart from './pages/TeachersStatChart';
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
+    
+     
+    {
+      path: '/',
+      element: <LogoOnlyLayout />,
+      children: [
+        { element: <Navigate to="/login" replace /> },
+
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: '404', element: <NotFound /> },
+        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '*', element: <Navigate to="/404" /> },
+        { path: 'resetpassword', element: <Reset /> },
+        { path: 'confirmpassword', element: <ConfirmpasswordPage /> }
+        
+      ]
+    },
     {
       path: '/dashboard',
       element: <DashboardLayout />,
@@ -29,24 +45,17 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
+        { path: 'profile', element: <Profile /> },
+        { path: 'chart', element: <TeacherChart /> },
         { path: 'card', element: <AddNewCard /> },
         { path: 'allChapter', element: <SeeAllChapter /> },
         { path: 'addChapter', element: <AddChapter /> },
         { path: 'pdf', element: <PdfUpload /> },
         { path: 'pdfview', element: <PDFViewer /> }
+      
       ]
     },
-    {
-      path: '/',
-      element: <LogoOnlyLayout />,
-      children: [
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
-        { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
-        { path: '*', element: <Navigate to="/404" /> }
-      ]
-    },
+    
     { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }

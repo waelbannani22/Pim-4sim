@@ -9,6 +9,9 @@ import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import { LoginForm } from '../components/authentication/login';
 import AuthSocial from '../components/authentication/AuthSocial';
+import VerifCode from 'src/components/authentication/reset/verifcode';
+import confirmpassword from 'src/components/authentication/reset/confirmpassword';
+import Confirmpassword from 'src/components/authentication/reset/confirmpassword';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +42,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function ConfirmpasswordPage() {
   return (
     <RootStyle title="Login | Minimal-UI">
       <AuthLayout>
@@ -66,9 +69,9 @@ export default function Login() {
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
           </Stack>
-         
+          
 
-          <LoginForm />
+          <Confirmpassword />
 
           <MHidden width="smUp">
             <Typography variant="body2" align="center" sx={{ mt: 3 }}>

@@ -16,12 +16,29 @@ import {
 // components
 
 import Page from '../components/Page';
-import { CardProf, CardStudent } from '../pages';
+import {
+  AppTasks,
+  AppNewUsers,
+  AppBugReports,
+  AppItemOrders,
+  AppNewsUpdate,
+  AppWeeklySales,
+  AppOrderTimeline,
+  AppWebsiteVisits,
+  AppTrafficBySite,
+  AppCurrentSubject,
+  AppConversionRates
+} from '../components/_dashboard/app';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+
+ 
+  
   return (
+   
     <Page title="Dashboard | Minimal-UI">
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>

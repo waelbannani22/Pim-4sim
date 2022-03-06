@@ -25,5 +25,6 @@ const users = [...Array(24)].map((_, index) => ({
     'Full Stack Developer'
   ])
 }));
+const user = 12;
 
 export default users;

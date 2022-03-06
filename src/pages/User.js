@@ -1,9 +1,11 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import { mockImgAvatar } from '../utils/mockImages';
+import axios from "axios";
 // material
 import {
   Card,
@@ -18,7 +20,8 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Chip
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -29,12 +32,14 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 //
 import USERLIST from '../_mocks_/user';
 
+
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'email', label: 'email', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
@@ -78,6 +83,55 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [users, setUsers] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+
+  const add = async () => {
+    try {
+
+      var list = [];
+      var config2 = {
+        method: 'get',
+        url: 'http://localhost:5000/admin/fetchteacher',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+
+      };
+      await axios(config2)
+        .then(function (response1) {
+          var i = 1;
+          var result = response1.data.data
+          setTeachers(result)
+          const userss = result.map((e) => ({
+            id: e._id,
+            name: e.firstname +" "+e.lastname,
+            avatarUrl: mockImgAvatar(i++),
+            email: e.email,
+            company: "ESPRIT",
+            isVerified : e.verified.toString()
+
+
+          }));
+          //console.log(userss)
+          setUsers(userss)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  }
+
+  useEffect(() => {
+    add()
+
+  }, [])
+
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -87,7 +141,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = users.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -113,24 +167,103 @@ export default function User() {
   };
 
   const handleChangePage = (event, newPage) => {
+
     setPage(newPage);
+
   };
 
+  const click = () => {
+    console.log(users)
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const show = (id) => {
+    console.log(id)
+  };
+  
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
+  //accept 
+  const accept = async ( id) => {
+    try {
+      var data = {
+        "idTeacher": id
+      }
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/admin/acceptTeacher',
+        headers: {
+          'Content-Type': 'application/json',
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+        },
+        data:data
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+      };
+      axios(config2)
+        .then(function (response1) {
+
+          alert(response1.data.data)
+          window.location.reload()
+          // console.log("users",re)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  }
+  //decline
+  const decline = async ( id) => {
+    try {
+      var data = {
+        "idTeacher": id
+      }
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/admin/refuseTeacher',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        data:data
+
+      };
+      axios(config2)
+        .then(function (response1) {
+
+          alert(response1.data.data)
+          window.location.reload()
+          // console.log("users",re)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  }
+ var b ;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+
+  const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-
+  
+ 
+ 
   return (
     <Page title="User | Minimal-UI">
       <Container>
@@ -162,7 +295,7 @@ export default function User() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={users.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -171,7 +304,7 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                      const { id, name, email, status, company, avatarUrl, isVerified } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (
@@ -198,15 +331,21 @@ export default function User() {
                             </Stack>
                           </TableCell>
                           <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left">{email}</TableCell>
+                          <TableCell align="left">{isVerified}</TableCell>
+                          
                           <TableCell align="left">
-                            <Label
-                              variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
-                            </Label>
+                          
+                               <Stack direction="row" alignItems="center" spacing={2}>
+                              <Button variant="contained" color="success"   onClick={() => accept( id)}>
+                                Accept
+                              </Button>
+                              <Button variant="outlined" color="error" onClick={() => decline( id)}>
+                                Refuse
+                              </Button>
+                            </Stack>
+                            
+                           
                           </TableCell>
 
                           <TableCell align="right">
@@ -237,13 +376,14 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={users.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
+        
       </Container>
     </Page>
   );
