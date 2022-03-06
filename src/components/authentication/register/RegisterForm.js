@@ -1,34 +1,42 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import axios from "axios";
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, } from 'react-router-dom';
+
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function RegisterForm({history}) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  
+  //localStorage.setItem("authToken", "");
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string()
+    firstname: Yup.string()
       .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('First name required'),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
+      ,
+      lastname: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required')
   });
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
       email: '',
       password: ''
     },
@@ -39,37 +47,89 @@ export default function RegisterForm() {
   });
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  
+  const registerHandler = async (e) => {
+    e.preventDefault();
 
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    console.log(firstname,lastname,email,password);
+   /* if (password !== confirmpassword) {
+      setPassword("");
+      setConfirmPassword("");
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+      return setError("Passwords do not match");
+    }
+    */
+
+    try {
+      
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        { firstname,lastname,email, password },
+        config
+      );
+      console.log(JSON.stringify("success",data))
+      localStorage.setItem("authToken", data.token);
+      navigate('/dashboard', { replace: true });
+      history.push("/");
+    } catch (error) {
+      console.log(JSON.stringify("failure",error))
+      //setError(error.response.success);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+  };
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form onSubmit={registerHandler}>
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
               label="First name"
-              {...getFieldProps('firstName')}
-              error={Boolean(touched.firstName && errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
+            
+              type="text"
+             
+              id="firstname"
+              value={firstname}
+              onChange={(e)=> setFirstName(e.target.value)}
+              tabIndex={1}
+             
             />
 
             <TextField
               fullWidth
               label="Last name"
-              {...getFieldProps('lastName')}
-              error={Boolean(touched.lastName && errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
+              type="text"
+              id="lastname"
+              value={lastname}
+              onChange={(e)=> setLastName(e.target.value)}
+              tabIndex={2}
+              
+            
             />
           </Stack>
 
           <TextField
             fullWidth
-            autoComplete="username"
-            type="email"
+           
+            type="text"
             label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            id="email"
+            value={email}
+            
+            onChange={(e)=> setEmail(e.target.value)}
+            tabIndex={3}
+           
+           // helperText={touched.email && errors.email}
           />
 
           <TextField
@@ -77,7 +137,11 @@ export default function RegisterForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
-            {...getFieldProps('password')}
+           
+            id="password"
+            value={password}
+            onChange={(e)=> setPassword(e.target.value)}
+            tabIndex={4}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -87,9 +151,10 @@ export default function RegisterForm() {
                 </InputAdornment>
               )
             }}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
+          
           />
+          
+          
 
           <LoadingButton
             fullWidth

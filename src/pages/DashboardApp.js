@@ -1,5 +1,5 @@
 // material
-import {Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import {
@@ -10,12 +10,13 @@ import {
   Stack,
   Button,
   Container,
-  Typography,
-
+  Typography
 } from '@mui/material';
 
 // components
+
 import Page from '../components/Page';
+import { CardProf, CardStudent } from '../pages';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,6 @@ export default function DashboardApp() {
   return (
     <Page title="Dashboard | Minimal-UI">
       <Container maxWidth="xl">
-
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Lessons
@@ -34,35 +34,29 @@ export default function DashboardApp() {
             to="/dashboard/card"
             startIcon={<Icon icon={plusFill} />}
           >
-            Add new lesson 
-          </Button>       
-        </Stack> 
-
+            Add new card
+          </Button>
+        </Stack>
       </Container>
-
 
       <Container>
-      <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image=""
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lesson name
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Description
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Go to Lesson</Button>
-      </CardActions>
-    </Card>
-      </Container>
-      
 
+      <Stack
+          direction="row"
+          flexWrap="wrap"
+          alignItems="center"
+          justifyContent="flex-start"
+          sx={{ mb: 5 }}
+          spacing={1} flexShrink={0}
+        >
+          
+          <CardProf />
+          <CardStudent/>
+         
+        </Stack>
+     
+
+      </Container>
     </Page>
   );
 }
