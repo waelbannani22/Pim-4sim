@@ -11,6 +11,10 @@ import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
 import AddNewCard from './pages/AddNewCard'
+import SeeAllChapter from './pages/SeeAllChapter';
+import AddChapter from './pages/AddChapter';
+import  PdfUpload  from './pages/PdfUpload';
+import PDFViewer from './pages/PdfViewer';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +29,11 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'card', element: <AddNewCard /> }
+        { path: 'card', element: <AddNewCard /> },
+        { path: 'allChapter', element: <SeeAllChapter /> },
+        { path: 'addChapter', element: <AddChapter /> },
+        { path: 'pdf', element: <PdfUpload /> },
+        { path: 'pdfview', element: <PDFViewer /> }
       ]
     },
     {

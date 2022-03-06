@@ -1,6 +1,6 @@
-import React from "react";
 // used for making the prop types of this component
 import PropTypes from "prop-types";
+import React, { useState } from 'react';
 
 import { Button } from "reactstrap";
 
@@ -8,6 +8,8 @@ import defaultImage from "../assets/img/holder.png";
 import defaultAvatar from "../assets/img/holder.png";
 
  function ImageUpload(props) {
+  const [idPhoto, setIdPhoto] = useState('');
+
   const [file, setFile] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState(
     props.avatar ? defaultAvatar : defaultImage
@@ -25,12 +27,6 @@ import defaultAvatar from "../assets/img/holder.png";
       reader.readAsDataURL(file);
     }
   };
-  // const handleSubmit = e => {
-  // e.preventDefault();
-  // this.state.file is the file/image uploaded
-  // in this function you can save the image (this.state.file) on form submit
-  // you have to call it yourself
-  // };
   const handleClick = () => {
     fileInput.current.click();
   };
@@ -40,10 +36,11 @@ import defaultAvatar from "../assets/img/holder.png";
     fileInput.current.value = null;
   };
   return (
+
     <div className="fileinput text-center">
       <input type="file" onChange={handleImageChange} ref={fileInput} />
       <div className={"thumbnail" + (props.avatar ? " img-circle" : "")}>
-        <img src={imagePreviewUrl} alt="..." />
+        <img src={imagePreviewUrl} value={idPhoto} onChange={(e)=> setIdPhoto(e.target.value)} alt="..." />
       </div>
       <div>
         {file === null ? (
@@ -85,4 +82,4 @@ ImageUpload.propTypes = {
   avatar: PropTypes.bool,
 };
 
-export default ImageUpload;
+export default ImageUpload ;
