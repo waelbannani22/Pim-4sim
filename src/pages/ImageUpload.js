@@ -15,6 +15,7 @@ import defaultAvatar from "../assets/img/holder.png";
     props.avatar ? defaultAvatar : defaultImage
   );
   const fileInput = React.useRef(null);
+  
   const handleImageChange = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {

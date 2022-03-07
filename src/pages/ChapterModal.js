@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
@@ -15,7 +15,11 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
 
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 
@@ -41,7 +45,11 @@ export default function ChapterModal() {
 
   const navigate = useNavigate();
 
+  const [isOpen, setIsOpen] = useState(false);
 
+  function toggleModal() {
+    setIsOpen(!isOpen);
+  }
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -66,23 +74,21 @@ export default function ChapterModal() {
     try {
      
       var data2 = JSON.stringify({
-        "id": sessionStorage.getItem("id"),
-        "firstname": values.firstName,
-        "lastname": values.lastName,
-        "phone": values.phone,
-        "password": password,
-        
-
+        "course": "6224ca73caf9570b7c3b8243",
+        "name":name,
+        "description": description,
+        "pdfname": localStorage.getItem("pdfname"),
+     
       });
-   
+      console.log(data2)
       var config2 = {
         method: 'post',
-        url: 'http://localhost:5000/api/cour/add',
+        url: 'http://localhost:5000/api/resource/add',
         headers: { 
-          'Content-Type': '/',
+          'Content-Type': 'application/json',
           
         },
-        data: formData
+        data: data2
       };
       console.log(config2)
       axios(config2)
@@ -91,7 +97,7 @@ export default function ChapterModal() {
 
          
 
-          navigate('/dashboard/app', { replace: false });
+         // navigate('/dashboard/app', { replace: false });
           //window.location.reload();
         })
         .catch(function (error) {
@@ -108,53 +114,56 @@ export default function ChapterModal() {
 
   return (
     <div align="end">
-      <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={handleOpen}>
+      <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
         Add new chapter
       </Button>
-      <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={(e)=>addChapterHandler}>
-      <Modal
-        sx={style2}
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <TextField
-              fullWidth
-              label="chapter name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              label="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <PdfUpload />
-            <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            onSubmit={addChapterHandler}
-          >
-            Add
-          </LoadingButton>
-          </Box>
-        </Fade>
-      </Modal>
-      </Form>
-    </FormikProvider>
+      
+      
+      <div>
+
+<Dialog open={isOpen} onClose={toggleModal} >
+  <DialogTitle>Add new chapter</DialogTitle>
+  <DialogContent>
+    <DialogContentText>
+      Please insert your title
+    </DialogContentText>
+    <TextField
+      autoFocus
+      margin="dense"
+      id="title"
+      label="title"
+      type="text"
+      fullWidth
+      
+      variant="standard"
+      onChange={(e)=> setName(e.target.value)}
+    />
+    <DialogContentText>
+      Please insert your description
+    </DialogContentText>
+    <TextField
+      autoFocus
+      margin="dense"
+      
+      label="description"
+      type="text"
+      fullWidth
+      
+      variant="standard"
+      onChange={(e)=> setDescription(e.target.value)}
+    />
+    <DialogContentText>
+      Please insert your file
+    </DialogContentText>
+    <PdfUpload/>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={toggleModal}>Cancel</Button>
+    <Button onClick={addChapterHandler}>send</Button>
+  </DialogActions>
+</Dialog>
+</div>
+     
     </div>
   );
 }

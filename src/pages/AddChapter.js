@@ -18,7 +18,7 @@ import { Button, Container, Modal, Stack } from '@mui/material';
 import { ChapterModal } from '../pages';
 import { PdfViewer } from '../pages';
 import axios from 'axios';
-
+import PDFViewer from 'pdf-viewer-reactjs'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -66,7 +66,11 @@ export default class AddChapter extends React.Component {
 
                 <CardContent>
                   <Typography paragraph>{resource.description}</Typography>
-                  <PdfViewer />
+                  <PDFViewer
+                    document={{
+                      url: 'http://localhost:5000/uploads\\'+ resource.pdfname
+                    }}
+                  />
                 </CardContent>
                 <Button
                   onClick={(e) => this.deleteRow(resource._id, e)}

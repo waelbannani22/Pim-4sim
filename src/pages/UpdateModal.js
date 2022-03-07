@@ -62,7 +62,7 @@ export default function UploadModal() {
             type="text"
             label="description"
           />
-          <ImageUpload/>
+         
           
           <Button
             fullWidth

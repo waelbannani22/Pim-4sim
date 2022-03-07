@@ -10,11 +10,16 @@ import { green, red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CardActionArea from '@mui/material/CardActionArea';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Container, Stack } from '@mui/material';
+import { Button, Container, Stack,TextField} from '@mui/material';
 import { UpdateModal } from '../pages';
 import { Row } from 'reactstrap';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -29,17 +34,35 @@ const ExpandMore = styled((props) => {
 
 export default class CardProf extends React.Component {
   state = {
-    prop: []
+    prop: [],
+    isOpen : false,
+    title: "",
+    description: ""
   };
 
+  
+
+  toggleModal=() =>{
+    this.setState({isOpen:!this.state.isOpen});
+  
+  }
   componentDidMount() {
     axios.get('http://localhost:5000/api/cour/').then((res) => {
-        const prop = res.data.response;
-        this.setState({ prop });
-      })
-    
+      const prop = res.data.response;
+      this.setState({ prop });
+    });
   }
-
+  update(id, e) {
+    e.preventDefault();
+    const courseID = id;
+    axios.post('http://localhost:5000/api/cour/update', 
+    {"courseID":courseID,"title":this.state.title,"description":this.state.description})
+    .then((res) => {
+      console.log(res);
+      console.log(res.data);
+      
+    });
+  }
   deleteRow(id, e) {
     e.preventDefault();
     const courseID = id;
@@ -50,6 +73,7 @@ export default class CardProf extends React.Component {
       this.setState({ prop });
     });
   }
+
 
   render() {
     return (
@@ -63,7 +87,7 @@ export default class CardProf extends React.Component {
           sx={{ mb: 5 }}
         >
           {this.state.prop.map((course) => (
-            <Card sx={{ maxWidth: 345 }} direction="row" spacing={1}  sx={{ my: 3 }}>
+            <Card sx={{ maxWidth: 345 }} direction="row" spacing={1} sx={{ my: 3 }}>
               <CardHeader
                 avatar={
                   <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
@@ -81,10 +105,8 @@ export default class CardProf extends React.Component {
               <CardActionArea component={RouterLink} to="/dashboard/addChapter">
                 <CardMedia
                   component="img"
-
-                  sx={{ width:345, height: 200 }} 
-                  image={"http://localhost:5000/"+course.idPhoto}
-                  
+                  sx={{ width: 345, height: 200 }}
+                  image={'http://localhost:5000/' + course.idPhoto}
                 />
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
@@ -94,8 +116,49 @@ export default class CardProf extends React.Component {
               </CardActionArea>
               <br />
               <Stack direction="row" alignItems="center" justifyContent="space-around" mb={5}>
-                <UpdateModal />
-
+                <div>
+                  <Dialog open={this.state.isOpen} onClose={this.toggleModal}>
+                    <DialogTitle>Add new chapter</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>Please insert your title</DialogContentText>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="title"
+                        label="title"
+                        type="text"
+                        fullWidth
+                        value={course.title}
+                        variant="standard"
+                        onChange={(e) => this.setState({title:e.target.value})}
+                      />
+                      <DialogContentText>Please insert your description</DialogContentText>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        label="description"
+                        type="text"
+                        fullWidth
+                        value={course.description}
+                        variant="standard"
+                        onChange={(e) => this.setState({description:e.target.value})}
+                      />
+                      
+                      
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.toggleModal}>Cancel</Button>
+                      <Button onClick={(e)=>this.update(course._id,e)}>update</Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+                <Button
+                  onClick={this.toggleModal}
+                  variant="outlined"
+                  color="success"
+                >
+                  update
+                </Button>
                 <Button
                   onClick={(e) => this.deleteRow(course._id, e)}
                   variant="outlined"

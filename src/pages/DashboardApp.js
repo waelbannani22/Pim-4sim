@@ -30,6 +30,7 @@ import {
   AppConversionRates
 } from '../components/_dashboard/app';
 import { useEffect } from 'react';
+import { CardProf, CardStudent } from '.';
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +68,7 @@ export default function DashboardApp() {
           spacing={1} flexShrink={0}
         >
           
-          <CardProf />
+          <CardProf/>
           <CardStudent/>
          
         </Stack>
