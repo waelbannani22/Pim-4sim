@@ -72,7 +72,7 @@ export const AccountProfileDetails = (props) => {
     fileInput.current.value = null;
   };
   
-  
+  console.log(file)
   const [password, setPassword] = useState('');
 
   const [isOpen, setIsOpen] = useState(false);
@@ -89,7 +89,7 @@ export const AccountProfileDetails = (props) => {
   };
   const editHandler = async (e) => {
     e.preventDefault();
-console.log(file)
+
     try {
       var data2 = JSON.stringify({
         "id": sessionStorage.getItem("id"),
@@ -101,14 +101,14 @@ console.log(file)
 
       });
       const formData = new FormData()
-      formData.append('image', file[0])
+      formData.append('image', file)
       formData.append('id', sessionStorage.getItem("id"))
       formData.append('firstname', values.firstName)
       formData.append('lastname', values.lastName)
       formData.append('phone',values.phone)
         formData.append('password',values.password)
         
-        console.log(formData['image'])
+        
       var config2 = {
         method: 'post',
         url: 'http://localhost:5000/api/auth/updateUser',
@@ -130,7 +130,7 @@ console.log(file)
           sessionStorage.setItem("phone", response1.data.data.phone);
 
 
-        //  window.location.reload();
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);

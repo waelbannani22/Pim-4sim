@@ -286,14 +286,28 @@ export default function Students() {
 
   const isUserNotFound = filteredUsers.length === 0;
 //
-  
+  /*
+   <TableCell align="left">
+
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              <Button variant="contained" color="success" onClick={() => accept(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
+                                Accept
+                              </Button>
+                              <Button variant="outlined" color="error" onClick={() => decline(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
+                                Refuse
+                              </Button>
+                            </Stack>
+
+
+                          </TableCell>
+  */
 // 
   return (
     <Page title="User | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Student
+            4SIM1
           </Typography>
          
           <Button onClick={(e)=>navigate('/dashboard/AffectStudent', { replace: true })}>
@@ -354,19 +368,7 @@ export default function Students() {
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{status}</TableCell>
 
-                          <TableCell align="left">
-
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Button variant="contained" color="success" onClick={() => accept(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
-                                Accept
-                              </Button>
-                              <Button variant="outlined" color="error" onClick={() => decline(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
-                                Refuse
-                              </Button>
-                            </Stack>
-
-
-                          </TableCell>
+                         
 
                           <TableCell align="right">
                             <UserMoreMenu />

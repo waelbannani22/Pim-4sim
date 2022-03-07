@@ -53,7 +53,7 @@ export default function Router() {
         { path: 'chart', element: <TeacherChart /> },
         { path: 'AffectStudent', element: <AffectStudent /> },
         { path: 'Student', element: <Students /> },
-{ path: 'Compilator', element: <Compilator /> },
+        { path: 'Compilator', element: <Compilator /> },
           { path: 'Payment', element: <Payment /> },
         { path: 'welcomeadmin', element: <WelcomeAdmin /> }
       ]

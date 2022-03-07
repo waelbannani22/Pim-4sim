@@ -212,7 +212,7 @@ export default function AffectStudent() {
         .then(function (response1) {
 
           alert(response1.data.data)
-          window.location.reload()
+          navigate('/dashboard/Student', { replace: true });
           // console.log("users",re)
         })
         .catch(function (error) {
