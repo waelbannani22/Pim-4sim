@@ -77,7 +77,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function AffectStudent() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -86,7 +86,7 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
   const [teachers, setTeachers] = useState([]);
-  const [selectedId, setSelectedId] = useState([]);
+
   
   const navigate = useNavigate();
   
@@ -96,7 +96,7 @@ export default function User() {
       var list = [];
       var config2 = {
         method: 'get',
-        url: 'http://localhost:5000/admin/fetchteacher',
+        url: 'http://localhost:5000/admin/fetchStudent',
         headers: {
           'Content-Type': 'application/json',
 
@@ -145,18 +145,18 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.id);
+      const newSelecteds = users.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -169,23 +169,7 @@ export default function User() {
     }
     setSelected(newSelected);
   };
-  const handleSelectId = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
+
   const handleChangePage = (event, newPage) => {
 
     setPage(newPage);
@@ -208,14 +192,15 @@ export default function User() {
     setFilterName(event.target.value);
   };
   //accept 
-  const accept = async (id) => {
+  const assign = async (id) => {
     try {
       var data = {
-        "idTeacher": id
+        "idClasse": "621bc8fb56c4863334f44a4a",
+        "listId":[id]
       }
       var config2 = {
         method: 'post',
-        url: 'http://localhost:5000/admin/acceptTeacher',
+        url: 'http://localhost:5000/admin/class/assign',
         headers: {
           'Content-Type': 'application/json',
 
@@ -289,14 +274,12 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Teacher's application list
+            Students without class
           </Typography>
-          <Button variant="contained" endIcon={<PieChartOutlineIcon />} onClick={ (e)=>navigate('/dashboard/chart', { replace: true })}>
+          <Button variant="contained" onClick={ (e)=>navigate('/dashboard/chart', { replace: false })}>
             check the statistics
           </Button>
-          <Button onClick={(e)=>console.log(selected)}>
-            show selected
-          </Button>
+
         </Stack>
 
         <Card>
@@ -323,7 +306,7 @@ export default function User() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { id, name, email,  company, avatarUrl, status } = row;
-                      const isItemSelected = selected.indexOf(id) !== -1;
+                      const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (
                         <TableRow
@@ -337,7 +320,7 @@ export default function User() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, id)}
+                              onChange={(event) => handleClick(event, name)}
                             />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
@@ -355,8 +338,8 @@ export default function User() {
                           <TableCell align="left">
 
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Button variant="contained" color="success" onClick={() => accept(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
-                                Accept
+                              <Button variant="contained" color="success" onClick={() => assign(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
+                                Assign to this class
                               </Button>
                               <Button variant="outlined" color="error" onClick={() => decline(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
                                 Refuse

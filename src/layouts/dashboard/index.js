@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import { Link as RouterLink,Navigate,useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +35,22 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
+   
+  const navigate = useNavigate();
 
+  var c;
+
+  c=sessionStorage.getItem("firstname")
+
+console.log(c)
+if (c ==null)
+{
+console.log("fefefefefe")
+  //navigate('/login',{replace:true});
+  return(
+    <Navigate replace to ="/login" />
+  )
+}
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />

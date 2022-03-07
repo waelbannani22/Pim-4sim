@@ -3,7 +3,9 @@ import { useRef, useState } from 'react';
 import homeFill from '@iconify/icons-eva/home-fill';
 import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink ,useNavigate,usena} from 'react-router-dom';
+//import {useNavigation} from '@react-navigation/native';
+
 // material
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
@@ -11,7 +13,7 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
-import { replace } from 'lodash';
+//import { replace } from 'lodash';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +21,7 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: homeFill,
-    linkTo: '/'
+    linkTo: '/dashboard'
   },
   {
     label: 'Profile',
@@ -50,7 +52,8 @@ export default function AccountPopover() {
     localStorage.removeItem("authToken")
     localStorage.removeItem("idUser")
     sessionStorage.clear();
-    navigate('/login',{replace: true});
+    
+    navigate('/login',{reset: true});
   }
 
   return (
@@ -75,7 +78,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={"http://localhost:5000/" + sessionStorage.getItem("image")} alt="photoURL" />
       </IconButton>
 
       <MenuPopover

@@ -20,7 +20,7 @@ import {
     
     
     return (
-       <><AccountProfile/><AccountProfileDetails /></>
+       <><AccountProfileDetails /></>
     
     );
   }

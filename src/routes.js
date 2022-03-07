@@ -14,6 +14,12 @@ import Profile from './pages/profile';
 import Reset from './pages/resetpassword';
 import ConfirmpasswordPage from './pages/confirmpasswordpage';
 import TeacherChart from './pages/TeachersStatChart';
+import AffectStudent from './pages/AffectStudent';
+import UserProfile from './components/authentication/profile/FullProfile';
+import WelcomeAdmin from './pages/WelcomeAdmin';
+import Students from './pages/Student';
+import Compilator from './pages/compilator';
+import Payment from'./pages/payment';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -44,7 +50,12 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'profile', element: <Profile /> },
-        { path: 'chart', element: <TeacherChart /> }
+        { path: 'chart', element: <TeacherChart /> },
+        { path: 'AffectStudent', element: <AffectStudent /> },
+        { path: 'Student', element: <Students /> },
+{ path: 'Compilator', element: <Compilator /> },
+          { path: 'Payment', element: <Payment /> },
+        { path: 'welcomeadmin', element: <WelcomeAdmin /> }
       ]
     },
     

@@ -19,7 +19,7 @@ import {
   TablePagination
 } from '@mui/material';
 // components
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink,Navigate,useNavigate } from 'react-router-dom';
 import Page from '../components/Page';
 import {
   AppTasks,
@@ -34,13 +34,31 @@ import {
   AppCurrentSubject,
   AppConversionRates
 } from '../components/_dashboard/app';
+
 import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  
+     const navigate = useNavigate();
 
+  var c;
+
+  c=sessionStorage.getItem("firstname")
+
+console.log(c)
+if (c ==null)
+{
+console.log("fefefefefe")
+  //navigate('/login',{replace:true});
+  return(
+    <Navigate replace to ="/login" />
+  )
+}
+  
  
+
   
   return (
    

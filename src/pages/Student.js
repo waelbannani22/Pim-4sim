@@ -42,7 +42,7 @@ const TABLE_HEAD = [
   { id: 'company', label: 'Company', alignRight: false },
   { id: 'email', label: 'email', alignRight: false },
 
-  { id: 'status', label: 'Status', alignRight: false },
+  
   { id: '' }
 ];
 
@@ -77,7 +77,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function Students() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -92,15 +92,19 @@ export default function User() {
   
   const add = async () => {
     try {
-
+      var data = {
+        "idClasse": "621bc8fb56c4863334f44a4a"
+      }
       var list = [];
       var config2 = {
-        method: 'get',
-        url: 'http://localhost:5000/admin/fetchteacher',
+        method: 'post',
+        url: 'http://localhost:5000/admin/fetchStudentsInX',
         headers: {
           'Content-Type': 'application/json',
 
         },
+        data: data
+        
 
       };
       await axios(config2)
@@ -114,7 +118,7 @@ export default function User() {
             avatarUrl: mockImgAvatar(i++),
             email: e.email,
             company: "ESPRIT",
-            status: e.status
+           
 
 
           }));
@@ -289,13 +293,11 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Teacher's application list
+            Student
           </Typography>
-          <Button variant="contained" endIcon={<PieChartOutlineIcon />} onClick={ (e)=>navigate('/dashboard/chart', { replace: true })}>
-            check the statistics
-          </Button>
-          <Button onClick={(e)=>console.log(selected)}>
-            show selected
+         
+          <Button onClick={(e)=>navigate('/dashboard/AffectStudent', { replace: true })}>
+            add more student 
           </Button>
         </Stack>
 

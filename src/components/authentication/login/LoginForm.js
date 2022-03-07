@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -30,13 +30,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 export default function LoginForm({history}) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-   
+
   const [email, setEmail] = useState('');
   const [email1, setEmail1] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
-
-  
+  const [reload,setreload] = useState(false)
+ 
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleModal() {
@@ -110,6 +110,34 @@ export default function LoginForm({history}) {
     
 
     try {
+      //http://localhost:5000/admin/login
+      var admindata = JSON.stringify({
+        "email":email,
+        "password":password
+      }); 
+      var configadmin = {
+        method: 'post',
+        url:'http://localhost:5000/admin/login',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : admindata
+      };
+      axios(configadmin)
+              .then(function  (response1) {
+                console.log(response1.data.data.role)
+                sessionStorage.setItem("role", response1.data.data.role);
+                sessionStorage.setItem("firstname", response1.data.data.fullname);
+                sessionStorage.setItem("lastname", response1.data.data.fullname);
+                
+                navigate('/dashboard/welcomeadmin', { replace: true });
+                window.location.reload(false)
+
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+      
       var data = JSON.stringify({
         "email":email,
         "password":password
@@ -155,13 +183,17 @@ export default function LoginForm({history}) {
               axios(config2)
               .then(function  (response1) {
                 console.log(response1.data.data)
-                
+                 
                  sessionStorage.setItem("email", response1.data.data.email);
                  sessionStorage.setItem("role", response1.data.data.role);
                  sessionStorage.setItem("firstname", response1.data.data.firstname);
                  sessionStorage.setItem("lastname", response1.data.data.lastname);
                  sessionStorage.setItem("id", response1.data.data._id);
                  sessionStorage.setItem("phone", response1.data.data.phone);
+                 sessionStorage.setItem("image", response1.data.data.image);
+                if ( response1.data.data.role == "admin")  {
+                    
+                }
                 navigate('/dashboard', { replace: true });
                 window.location.reload(false)
 
@@ -192,13 +224,7 @@ export default function LoginForm({history}) {
       .catch(function (error) {
         console.log(error);
       });
-        
-      
-      
-      
-
-      
-     
+ 
       
     } catch (error) {
       setError(error.response.data.error);
@@ -207,7 +233,8 @@ export default function LoginForm({history}) {
       }, 5000);
     }
   };
-
+  
+ 
   return (
     <FormikProvider value={formik}>
       <Form  onSubmit={loginHandler}>
