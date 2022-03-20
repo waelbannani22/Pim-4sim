@@ -106,7 +106,7 @@ export const AccountProfileDetails = (props) => {
       formData.append('firstname', values.firstName)
       formData.append('lastname', values.lastName)
       formData.append('phone',values.phone)
-        formData.append('password',values.password)
+        formData.append('password',password)
         
         
       var config2 = {
@@ -128,7 +128,7 @@ export const AccountProfileDetails = (props) => {
           sessionStorage.setItem("firstname", response1.data.data.firstname);
           sessionStorage.setItem("lastname", response1.data.data.lastname);
           sessionStorage.setItem("phone", response1.data.data.phone);
-
+          sessionStorage.setItem("image", response1.data.data.image);
 
           window.location.reload();
         })
