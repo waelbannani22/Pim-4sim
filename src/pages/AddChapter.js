@@ -43,8 +43,8 @@ export default class AddChapter extends React.Component {
   }
   deleteRow(id, e) {
     e.preventDefault();
-    const courseID = id;
-    axios.post('http://localhost:5000/api/resource/delete', {}).then((res) => {
+    const resourceID = id;
+    axios.post('http://localhost:5000/api/resource/delete', {"resourceID":id}).then((res) => {
       console.log(res);
       console.log(res.data);
       const prop = this.state.prop.filter((item) => item._id !== id);

@@ -66,7 +66,7 @@ export default class CardProf extends React.Component {
   deleteRow(id, e) {
     e.preventDefault();
     const courseID = id;
-    axios.post('http://localhost:5000/api/cour/delete', {}).then((res) => {
+    axios.post('http://localhost:5000/api/cour/delete', {"courseID":id}).then((res) => {
       console.log(res);
       console.log(res.data);
       const prop = this.state.prop.filter((item) => item._id !== id);
@@ -87,7 +87,7 @@ export default class CardProf extends React.Component {
           sx={{ mb: 5 }}
         >
           {this.state.prop.map((course) => (
-            <Card sx={{ maxWidth: 345 }} direction="row" spacing={1} sx={{ my: 3 }}>
+            <Card sx={{ maxWidth: 345 ,  my: 3}} direction="row" spacing={1} >
               <CardHeader
                 avatar={
                   <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
@@ -152,13 +152,17 @@ export default class CardProf extends React.Component {
                     </DialogActions>
                   </Dialog>
                 </div>
+                
+
                 <Button
+                
                   onClick={this.toggleModal}
                   variant="outlined"
                   color="success"
                 >
                   update
                 </Button>
+                
                 <Button
                   onClick={(e) => this.deleteRow(course._id, e)}
                   variant="outlined"
@@ -166,7 +170,7 @@ export default class CardProf extends React.Component {
                 >
                   Delete
                 </Button>
-              </Stack>
+                </Stack>
             </Card>
           ))}
         </Stack>

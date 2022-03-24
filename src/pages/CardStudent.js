@@ -53,7 +53,7 @@ export default class CardStudent extends React.Component {
           sx={{ mb: 5 }}
         >
           {this.state.prop.map((course) => (
-            <Card sx={{ maxWidth: 345 }} direction="row" spacing={1}  sx={{ my: 3 }}>
+            <Card sx={{ maxWidth: 345, my: 3 }} direction="row" spacing={1}  >
               <CardHeader
                 avatar={
                   <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
