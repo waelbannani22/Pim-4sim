@@ -279,6 +279,41 @@ export default function Students() {
       console.log("failure")
     }
   }
+    //decline
+    const ban = async (idStudent) => {
+      try {
+        var data = {
+          "idClasse": "621bc8fb56c4863334f44a4a",
+          "idStudent":idStudent
+        }
+        var config2 = {
+          method: 'post',
+          url: 'http://localhost:5000/admin/banStudent',
+          headers: {
+            'Content-Type': 'application/json',
+  
+          },
+          data: data
+  
+        };
+        axios(config2)
+          .then(function (response1) {
+  
+            alert("Student banned ")
+            window.location.reload()
+            // console.log("users",re)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+  
+  
+  
+        //console.log(data);
+      } catch (error) {
+        console.log("failure")
+      }
+    }
   var b;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
@@ -368,7 +403,17 @@ export default function Students() {
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{status}</TableCell>
 
-                         
+                          <TableCell align="left">
+
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              <Button variant="contained" color="error" onClick={()=>ban(id)} >
+                               BAN
+                              </Button>
+                             
+                            </Stack>
+
+
+                          </TableCell>
 
                           <TableCell align="right">
                             <UserMoreMenu />

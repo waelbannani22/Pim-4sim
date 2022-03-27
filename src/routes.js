@@ -20,6 +20,7 @@ import WelcomeAdmin from './pages/WelcomeAdmin';
 import Students from './pages/Student';
 import Compilator from './pages/compilator';
 import Payment from'./pages/payment';
+import LoginGoogle from './pages/LoginGoogle';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -36,7 +37,8 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> },
         { path: 'resetpassword', element: <Reset /> },
-        { path: 'confirmpassword', element: <ConfirmpasswordPage /> }
+        { path: 'confirmpassword', element: <ConfirmpasswordPage /> },
+        { path: 'loginGoogle', element: <LoginGoogle /> }
         
       ]
     },

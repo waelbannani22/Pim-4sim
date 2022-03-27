@@ -23,20 +23,27 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import GoogleLogin from 'react-google-login';
 
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm({history}) {
+export default function LoginForm({ history }) {
   const navigate = useNavigate();
+
+  const [loginData, setLoginData] = useState(
+    localStorage.getItem('loginData')
+      ? JSON.parse(localStorage.getItem('loginData'))
+      : null
+  );
   const [showPassword, setShowPassword] = useState(false);
 
   const [email, setEmail] = useState('');
   const [email1, setEmail1] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
-  const [reload,setreload] = useState(false)
- 
+  const [reload, setreload] = useState(false)
+
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleModal() {
@@ -66,166 +73,166 @@ export default function LoginForm({history}) {
   };
   const sendmail = async (e) => {
     e.preventDefault();
-    
+
     try {
       var data2 = JSON.stringify({
-        "email":email1
-        
-       
+        "email": email1
+
+
       });
-     
+
       var config2 = {
         method: 'post',
-        url:'http://localhost:5000/api/auth/forgotpassword',
-        headers: { 
+        url: 'http://localhost:5000/api/auth/forgotpassword',
+        headers: {
           'Content-Type': 'application/json',
-          
+
         },
-        data:data2
+        data: data2
       };
       console.log(config2)
       axios(config2)
-      .then(function  (response1) {
-        localStorage.setItem("resetcode",response1.data.data)
-        localStorage.setItem("emailReset",email1)
-       // window.location.replace(false)
-        navigate('/resetpassword', { replace: false });
-      })
-      .catch(function (error) {
-        console.log(error);
-        alert("no user found , please check the email")
-      });
-   
-        //console.log(data);
+        .then(function (response1) {
+          localStorage.setItem("resetcode", response1.data.data)
+          localStorage.setItem("emailReset", email1)
+          // window.location.replace(false)
+          navigate('/resetpassword', { replace: false });
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert("no user found , please check the email")
+        });
+
+      //console.log(data);
     } catch (error) {
       console.log("failure")
     }
-    
+
 
 
   }
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    
+
 
     try {
       //http://localhost:5000/admin/login
       var admindata = JSON.stringify({
-        "email":email,
-        "password":password
-      }); 
+        "email": email,
+        "password": password
+      });
       var configadmin = {
         method: 'post',
-        url:'http://localhost:5000/admin/login',
-        headers: { 
+        url: 'http://localhost:5000/admin/login',
+        headers: {
           'Content-Type': 'application/json'
         },
-        data : admindata
+        data: admindata
       };
       axios(configadmin)
-              .then(function  (response1) {
-                console.log(response1.data.data.role)
-                sessionStorage.setItem("role", response1.data.data.role);
-                sessionStorage.setItem("firstname", response1.data.data.fullname);
-                sessionStorage.setItem("lastname", response1.data.data.fullname);
-                
-                navigate('/dashboard/welcomeadmin', { replace: true });
-                window.location.reload(false)
+        .then(function (response1) {
+          console.log(response1.data.data.role)
+          sessionStorage.setItem("role", response1.data.data.role);
+          sessionStorage.setItem("firstname", response1.data.data.fullname);
+          sessionStorage.setItem("lastname", response1.data.data.fullname);
 
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-      
+          navigate('/dashboard/welcomeadmin', { replace: true });
+          window.location.reload(false)
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
       var data = JSON.stringify({
-        "email":email,
-        "password":password
+        "email": email,
+        "password": password
       });
       var config = {
         method: 'post',
-        url:'http://localhost:5000/api/auth/login',
-        headers: { 
+        url: 'http://localhost:5000/api/auth/login',
+        headers: {
           'Content-Type': 'application/json'
         },
-        data : data
+        data: data
       };
       axios(config)
-      .then(function (response) {
-        localStorage.setItem("authToken", response.data.token);
-        try {
-          var config1 = {
-            method: 'get',
-            url:'http://localhost:5000/api/',
-            headers: { 
-              'Content-Type': 'application/json',
-              'authorization' : 'Bearer '+ response.data.token
-            },
-          };
-          axios(config1)
-          .then(function (response) {
-            console.log(response.data.message);
-            localStorage.setItem("idUser", response.data.message);
-            try {
-              var data2 = JSON.stringify({
-                "id":response.data.message,
-               
-              });
-              var config2 = {
-                method: 'post',
-                url:'http://localhost:5000/api/auth/findbyid',
-                headers: { 
-                  'Content-Type': 'application/json',
-                  
-                },
-                data:data2
-              };
-              axios(config2)
-              .then(function  (response1) {
-                console.log(response1.data.data)
-                 
-                 sessionStorage.setItem("email", response1.data.data.email);
-                 sessionStorage.setItem("role", response1.data.data.role);
-                 sessionStorage.setItem("firstname", response1.data.data.firstname);
-                 sessionStorage.setItem("lastname", response1.data.data.lastname);
-                 sessionStorage.setItem("id", response1.data.data._id);
-                 sessionStorage.setItem("phone", response1.data.data.phone);
-                 sessionStorage.setItem("image", response1.data.data.image);
-                if ( response1.data.data.role == "admin")  {
-                    
+        .then(function (response) {
+          localStorage.setItem("authToken", response.data.token);
+          try {
+            var config1 = {
+              method: 'get',
+              url: 'http://localhost:5000/api/',
+              headers: {
+                'Content-Type': 'application/json',
+                'authorization': 'Bearer ' + response.data.token
+              },
+            };
+            axios(config1)
+              .then(function (response) {
+                console.log(response.data.message);
+                localStorage.setItem("idUser", response.data.message);
+                try {
+                  var data2 = JSON.stringify({
+                    "id": response.data.message,
+
+                  });
+                  var config2 = {
+                    method: 'post',
+                    url: 'http://localhost:5000/api/auth/findbyid',
+                    headers: {
+                      'Content-Type': 'application/json',
+
+                    },
+                    data: data2
+                  };
+                  axios(config2)
+                    .then(function (response1) {
+                      console.log(response1.data.data)
+
+                      sessionStorage.setItem("email", response1.data.data.email);
+                      sessionStorage.setItem("role", response1.data.data.role);
+                      sessionStorage.setItem("firstname", response1.data.data.firstname);
+                      sessionStorage.setItem("lastname", response1.data.data.lastname);
+                      sessionStorage.setItem("id", response1.data.data._id);
+                      sessionStorage.setItem("phone", response1.data.data.phone);
+                      sessionStorage.setItem("image", response1.data.data.image);
+                      if (response1.data.data.role == "admin") {
+
+                      }
+                      navigate('/dashboard', { replace: true });
+                      window.location.reload(false)
+
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+
+
+
+                  //console.log(data);
+                } catch (error) {
+                  console.log("failure")
                 }
-                navigate('/dashboard', { replace: true });
-                window.location.reload(false)
 
               })
               .catch(function (error) {
                 console.log(error);
               });
-              
-              
-              
-                //console.log(data);
-            } catch (error) {
-              console.log("failure")
-            }
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
-          
-          
+
+
+
             //console.log(data);
-        } catch (error) {
-          console.log("failure")
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
- 
-      
+          } catch (error) {
+            console.log("failure")
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
     } catch (error) {
       setError(error.response.data.error);
       setTimeout(() => {
@@ -233,15 +240,112 @@ export default function LoginForm({history}) {
       }, 5000);
     }
   };
-  
- 
+  const handleFailure = (result) => {
+    alert(result);
+  };
+  const handleLogin = async (googleData) => {
+    console.log(googleData)
+    sessionStorage.set
+    try {
+      var data = {
+        "email": googleData.profileObj.email
+      }
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/api/auth/verifGoogle',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        data: data
+
+      };
+      axios(config2)
+        .then(function (response1) {
+          console.log(response1.data)
+          if (response1.data.success == false){
+            
+           
+            sessionStorage.setItem("firstname", googleData.profileObj.givenName)
+            sessionStorage.setItem("lastname", googleData.profileObj.familyName)
+            sessionStorage.setItem("email", googleData.profileObj.email)
+            sessionStorage.setItem("image",googleData.profileObj.imageUrl)
+            
+            navigate('/loginGoogle', { replace: true });
+          }
+          else{
+            
+              try {
+                var data = {
+                  "email": googleData.profileObj.email
+                }
+                var config2 = {
+                  method: 'post',
+                  url: 'http://localhost:5000/api/auth/findbyemail',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    
+                  },
+                  data: data
+          
+                };
+                axios(config2)
+                  .then(function (response1) {
+          
+                    sessionStorage.setItem("firstname", response1.data.data.firstname)
+                    sessionStorage.setItem("lastname", response1.data.data.lastname)
+                    sessionStorage.setItem("email",response1.data.data.email)
+                    sessionStorage.setItem("image",response1.data.data.image)
+                    sessionStorage.setItem("role",response1.data.data.role)
+                    sessionStorage.setItem("phone",response1.data.data.phone)
+                    sessionStorage.setItem("id",response1.data.data._id)
+                    
+                    navigate('/dashboard', { replace: true });
+                    // console.log("users",re)
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+          
+          
+          
+                //console.log(data);
+              } catch (error) {
+                console.log("failure")
+              }
+            
+            
+          }
+         
+         
+          // console.log("users",re)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+    
+  };
+  const handleLogout = () => {
+    localStorage.removeItem('loginData');
+    setLoginData(null);
+  };
+
+
   return (
     <FormikProvider value={formik}>
-      <Form  onSubmit={loginHandler}>
+      <Form onSubmit={loginHandler}>
+
         <Stack spacing={3}>
           <TextField
             fullWidth
-            
+
             type="email"
             label="Email address"
             //{...getFieldProps('email')}
@@ -249,10 +353,10 @@ export default function LoginForm({history}) {
             //helperText={touched.email && errors.email}
             id="email"
             value={email}
-            onChange={(e)=> setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             tabIndex={1}
           />
-          
+
           <TextField
             fullWidth
             autoComplete="current-password"
@@ -261,7 +365,7 @@ export default function LoginForm({history}) {
             {...getFieldProps('password')}
             id="password"
             value={password}
-            onChange={(e)=> setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -289,30 +393,30 @@ export default function LoginForm({history}) {
         </Stack>
         <div>
 
-            <Dialog open={isOpen} onClose={toggleModal} >
-              <DialogTitle>reset</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Please insert your email
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="email"
-                  type="email"
-                  fullWidth
-                  
-                  variant="standard"
-                  onChange={(e)=> setEmail1(e.target.value)}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={toggleModal}>Cancel</Button>
-                <Button onClick={sendmail}>send</Button>
-              </DialogActions>
-            </Dialog>
-          </div>
+          <Dialog open={isOpen} onClose={toggleModal} >
+            <DialogTitle>reset</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Please insert your email
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="email"
+                label="email"
+                type="email"
+                fullWidth
+
+                variant="standard"
+                onChange={(e) => setEmail1(e.target.value)}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={toggleModal}>Cancel</Button>
+              <Button onClick={sendmail}>send</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
 
         <LoadingButton
           fullWidth
@@ -324,6 +428,17 @@ export default function LoginForm({history}) {
           Login
         </LoadingButton>
       </Form>
+      <Stack spacing={3}>
+        <p>   </p>
+        <GoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          buttonText="Log in with Google"
+          onSuccess={handleLogin}
+          onFailure={handleFailure}
+          cookiePolicy={'single_host_origin'}
+        ></GoogleLogin>
+      </Stack>
+
     </FormikProvider>
   );
 }
