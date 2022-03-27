@@ -40,11 +40,14 @@ const style2 = {
 
 
 
-export default function ChapterModal() {
+export default function HomeWork() {
   const [file, setFile] = useState(null);
   
-  const [name, setName] = useState('');
+  const [exercice, setExercice] = useState('');
   const [description, setDescription] = useState('');
+  const [date, setDate] = useState('');
+
+
 
   const navigate = useNavigate();
 
@@ -60,7 +63,7 @@ export default function ChapterModal() {
   const RegisterSchema = Yup.object().shape({});
 
   const formik = useFormik({
-    initialValues: { name: '', description: '' },
+    initialValues: { exercice: '', description: '',date:'' },
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard', { replace: true });
@@ -74,14 +77,15 @@ export default function ChapterModal() {
     try {
       var data2 = JSON.stringify({
         course: '6224ca73caf9570b7c3b8243',
-        name: name,
+        exercice: exercice,
         description: description,
-        pdfname: localStorage.getItem('pdfname')
+        date: date,
+        pdfexercicename: localStorage.getItem('pdfexercicename')
       });
       console.log(data2);
       var config2 = {
         method: 'post',
-        url: 'http://localhost:5000/api/resource/add',
+        url: 'http://localhost:5000/api/work/add',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -111,23 +115,23 @@ export default function ChapterModal() {
   return (
     <div align="end">
       <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
-        Add new chapter
+        Add homework
       </Button>
 
       <div>
         <Dialog open={isOpen} onClose={toggleModal}>
-          <DialogTitle>Add new chapter</DialogTitle>
+          <DialogTitle>Add homework</DialogTitle>
           <DialogContent>
-            <DialogContentText>Please insert your title</DialogContentText>
+            <DialogContentText>Please insert your exercice</DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="title"
-              label="title"
+              id="exercice"
+              label="exercice"
               type="text"
               fullWidth
               variant="standard"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setExercice(e.target.value)}
             />
             <DialogContentText>Please insert your description</DialogContentText>
             <TextField

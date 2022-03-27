@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
+import { Stack, label, Input,  IconButton, InputAdornment, Container,Avatar} from '@mui/material';
 
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
@@ -40,11 +41,10 @@ const style2 = {
 
 
 
-export default function ChapterModal() {
-  const [file, setFile] = useState(null);
+export default function AddCommentModal() {
   
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [commantaire, setCommantaire] = useState('');
+  
 
   const navigate = useNavigate();
 
@@ -60,7 +60,7 @@ export default function ChapterModal() {
   const RegisterSchema = Yup.object().shape({});
 
   const formik = useFormik({
-    initialValues: { name: '', description: '' },
+    initialValues: { commantaire: '' },
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard', { replace: true });
@@ -73,15 +73,13 @@ export default function ChapterModal() {
 
     try {
       var data2 = JSON.stringify({
-        course: '6224ca73caf9570b7c3b8243',
-        name: name,
-        description: description,
-        pdfname: localStorage.getItem('pdfname')
+     //   course: '6224ca73caf9570b7c3b8243',
+        commantaire: commantaire
       });
       console.log(data2);
       var config2 = {
         method: 'post',
-        url: 'http://localhost:5000/api/resource/add',
+        url: 'http://localhost:5000/api/commantaire/add',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -109,45 +107,36 @@ export default function ChapterModal() {
 
 
   return (
-    <div align="end">
+    <div align="end" >
       <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
-        Add new chapter
+        Add new comment
       </Button>
 
       <div>
+      <Stack direction="column" alignItems="center" justifyContent="space-between" mb={5}>
+
         <Dialog open={isOpen} onClose={toggleModal}>
           <DialogTitle>Add new chapter</DialogTitle>
           <DialogContent>
-            <DialogContentText>Please insert your title</DialogContentText>
+            <DialogContentText>Please insert your comment</DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="title"
-              label="title"
+              id="comment"
+              label="comment"
               type="text"
               fullWidth
               variant="standard"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setCommantaire(e.target.value)}
             />
-            <DialogContentText>Please insert your description</DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="description"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <DialogContentText>Please insert your file</DialogContentText>
-            <PdfUpload />
-         
+          
           </DialogContent>
           <DialogActions>
             <Button onClick={toggleModal}>Cancel</Button>
             <Button onClick={addChapterHandler}>send</Button>
           </DialogActions>
         </Dialog>
+        </Stack>
       </div>
     </div>
   );

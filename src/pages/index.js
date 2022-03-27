@@ -5,3 +5,5 @@ export { default as ChapterModal } from './ChapterModal';
 export { default as PdfUpload } from './PdfUpload';
 export { default as PdfViewer } from './PdfViewer';
 export { default as UpdateModal } from './UpdateModal';
+export { default as AddCommentModal } from './AddCommentModal';
+export { default as HomeWork } from './HomeWork';
