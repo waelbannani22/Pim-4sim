@@ -33,19 +33,26 @@
     ]
   },
   "dependencies": {
+    "@babel/preset-env": "^7.16.11",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@iconify/icons-ant-design": "^1.1.0",
     "@iconify/icons-eva": "^1.1.0",
     "@iconify/icons-ic": "^1.1.10",
     "@iconify/react": "^3.0.1",
-    "@mui/icons-material": "^5.4.4",
+ 
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.0.0",
     "@mui/utils": "^5.0.0",
     "@react-navigation/native": "^6.0.8",
-    "@testing-library/jest-dom": "^5.14.1",
+  
     "ace-builds": "^1.4.14",
+    "@mui/icons-material": "^5.4.1",
+   
+    "@react-pdf-viewer/core": "^2.4.1",
+    "@react-pdf-viewer/default-layout": "^2.4.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.5",
     "apexcharts": "^3.28.3",
     "axios": "^0.25.0",
     "change-case": "^4.1.2",
@@ -62,6 +69,7 @@
     "node-mathcoin-api": "^1.0.2",
     "numeral": "^2.0.6",
     "path-browserify": "^1.0.1",
+    "pdf-viewer-reactjs": "^2.2.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-ace": "^9.5.0",
@@ -72,6 +80,8 @@
     "react-fs-treeview": "^0.1.11",
     "react-google-drive-picker": "^1.1.4",
     "react-google-login": "^5.2.2",
+    "react-dom": "^17.0.2",
+    "react-drag-drop-files": "^2.3.4",
     "react-helmet-async": "^1.1.2",
     "react-modal": "^3.14.4",
     "react-router-dom": "^6.0.0-beta.4",
@@ -87,7 +97,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.17.5",
     "@babel/eslint-parser": "^7.15.7",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",

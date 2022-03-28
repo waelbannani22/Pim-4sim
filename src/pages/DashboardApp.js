@@ -1,25 +1,21 @@
 // material
+import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import {
-  Box,
-  Grid,
   Card,
-  Table,
+  CardContent,
+  CardActions,
+  CardMedia,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
-  Typography,
-  TableContainer,
-  TablePagination
+  Typography
 } from '@mui/material';
+
 // components
 import { Link as RouterLink,Navigate,useNavigate } from 'react-router-dom';
+
 import Page from '../components/Page';
 import {
   AppTasks,
@@ -36,6 +32,7 @@ import {
 } from '../components/_dashboard/app';
 
 import { useEffect } from 'react';
+import { CardProf, CardStudent } from '.';
 
 // ----------------------------------------------------------------------
 
@@ -71,12 +68,31 @@ console.log("fefefefefe")
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
+            to="/dashboard/card"
             startIcon={<Icon icon={plusFill} />}
           >
-            Add new lesson
+            Add new card
           </Button>
         </Stack>
+      </Container>
+
+      <Container>
+
+      <Stack
+          direction="row"
+          flexWrap="wrap"
+          alignItems="center"
+          justifyContent="flex-start"
+          sx={{ mb: 5 }}
+          spacing={1} flexShrink={0}
+        >
+          
+          <CardProf/>
+          <CardStudent/>
+         
+        </Stack>
+     
+
       </Container>
     </Page>
   );

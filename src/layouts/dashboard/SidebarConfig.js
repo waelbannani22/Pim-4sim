@@ -43,8 +43,21 @@ const sidebarConfig = [
     path: '/dashboard/blog',
     icon: getIcon(fileTextFill)
   },
- 
-  
+  {
+    title: 'card',
+    path: '/dashboard/card',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'login',
+    path: '/login',
+    icon: getIcon(lockFill)
+  },
+  {
+    title: 'register',
+    path: '/register',
+    icon: getIcon(personAddFill)
+  },
   {
     title: 'Not found',
     path: '/404',

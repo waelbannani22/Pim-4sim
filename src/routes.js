@@ -21,10 +21,23 @@ import Students from './pages/Student';
 import Compilator from './pages/compilator';
 import Payment from'./pages/payment';
 import LoginGoogle from './pages/LoginGoogle';
+import AddNewCard from './pages/AddNewCard';
+import SeeAllChapter from './pages/SeeAllChapter';
+import AddChapter from './pages/AddChapter';
+import { AddCommentModal, PdfUpload, PdfViewer } from './pages';
+import AddComment from './pages/AddComment';
+import HomeWork from './pages/HomeWork';
+import HomeWorkList from './pages/HomeWorkList';
+
+
+
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
+    
+     
     {
       path: '/',
       element: <LogoOnlyLayout />,
@@ -57,7 +70,17 @@ export default function Router() {
         { path: 'Student', element: <Students /> },
         { path: 'Compilator', element: <Compilator /> },
           { path: 'Payment', element: <Payment /> },
-        { path: 'welcomeadmin', element: <WelcomeAdmin /> }
+        { path: 'welcomeadmin', element: <WelcomeAdmin /> },
+        { path: 'card', element: <AddNewCard /> },
+        { path: 'allChapter', element: <SeeAllChapter /> },
+        { path: 'addChapter', element: <AddChapter /> },
+        { path: 'pdf', element: <PdfUpload /> },
+        { path: 'pdfview', element: <PdfViewer /> },
+        { path: 'commentModal', element: <AddCommentModal /> },
+        { path: 'homework', element: <HomeWork /> },
+        { path: 'homeworklist', element: <HomeWorkList /> },
+        { path: 'addComment', element: <AddComment /> }
+      
       ]
     },
     
