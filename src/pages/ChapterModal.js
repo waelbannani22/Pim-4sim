@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
+import { TextField, Input } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import axios from 'axios';
@@ -240,22 +240,17 @@ export default function ChapterModal() {
     <br></br>
 
       <form className='form-group' onSubmit={handlePdfFileSubmit}>
-        <input type="file" className='form-control'
+        <Input type="file" className='form-control'
           required onChange={handlePdfFileChange}
         />
         {pdfFileError&&<div className='error-msg'>{pdfFileError}</div>}
         <br></br>
-        <button  className='btn btn-success btn-lg'>
-          UPLOAD
-        </button>
+       
         <br></br>
       
       </form>
-      <button  className='btn btn-success btn-lg' onClick={(e)=>upload()}>
-          upload to ressource
-        </button>
+      
       <br></br>
-      <h4>View PDF</h4>
       <div className='pdf-container'>
         {/* show pdf conditionally (if we have one)  */}
         {viewPdf&&<><Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
@@ -264,7 +259,6 @@ export default function ChapterModal() {
       </Worker></>}
 
       {/* if we dont have pdf or viewPdf state is null */}
-      {!viewPdf&&<>No pdf file selected</>}
       </div>
 
     </div>
