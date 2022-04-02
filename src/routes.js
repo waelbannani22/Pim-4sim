@@ -17,7 +17,17 @@ import TeacherChart from './pages/TeachersStatChart';
 import AddNewCard from './pages/AddNewCard';
 import SeeAllChapter from './pages/SeeAllChapter';
 import AddChapter from './pages/AddChapter';
-import { PdfUpload, PdfViewer } from './pages';
+import { AddCommentModal, PdfUpload, PdfViewer } from './pages';
+import AddComment from './pages/AddComment';
+import HomeWork from './pages/HomeWork';
+import HomeWorkList from './pages/HomeWorkList';
+import Drag from './pages/Drag';
+
+
+
+
+
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -55,7 +65,13 @@ export default function Router() {
         { path: 'allChapter', element: <SeeAllChapter /> },
         { path: 'addChapter', element: <AddChapter /> },
         { path: 'pdf', element: <PdfUpload /> },
-        { path: 'pdfview', element: <PdfViewer /> }
+        { path: 'pdfview', element: <PdfViewer /> },
+        { path: 'commentModal', element: <AddCommentModal /> },
+        { path: 'homework', element: <HomeWork /> },
+        { path: 'homeworklist', element: <HomeWorkList /> },
+        
+
+        { path: 'addComment', element: <AddComment /> }
       
       ]
     },

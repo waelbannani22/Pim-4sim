@@ -22,6 +22,7 @@ import PDFViewer from 'pdf-viewer-reactjs';
 import { Link as RouterLink } from 'react-router-dom';
 import HomeWork from './HomeWork';
 
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -33,13 +34,13 @@ const ExpandMore = styled((props) => {
   })
 }));
 
-export default class AddChapter extends React.Component {
+export default class HomeWorkList extends React.Component {
   state = {
     prop: []
   };
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/resource/').then((res) => {
+    axios.get('http://localhost:5000/api/work/').then((res) => {
       const prop = res.data.response;
       this.setState({ prop });
     });
@@ -47,7 +48,7 @@ export default class AddChapter extends React.Component {
   deleteRow(id, e) {
     e.preventDefault();
     const resourceID = id;
-    axios.post('http://localhost:5000/api/resource/delete', { resourceID: id }).then((res) => {
+    axios.post('http://localhost:5000/api/work/delete', { workID: id }).then((res) => {
       console.log(res);
       console.log(res.data);
       const prop = this.state.prop.filter((item) => item._id !== id);
@@ -58,58 +59,36 @@ export default class AddChapter extends React.Component {
     return (
       <Container>
         <Container>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <ChapterModal />
-            <HomeWork />
-            <Button variant="contained" component={RouterLink} to="/dashboard/addComment">
-              Send FeedBack
-            </Button>
-          </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+         
+      </Stack>
         </Container>
         <br />
-
-        <Container>
-          <Stack
-            direction="column"
-            flexWrap="wrap"
-            alignItems="center"
-            justifyContent="space-around"
-            paddingTop={2}
-            sx={{ mb: 5 }}
-          >
-            {this.state.prop.map((resource) => (
-              <Card sx={{ maxWidth: 1200, my: 3 }} direction="row" spacing={1}>
-                <Stack
-                  direction="row"
-                  flexWrap="wrap"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  paddingTop={2}
-                  sx={{ mb: 5 }}
-                >
-                  <CardHeader title={resource.name} />
-                
-                  <Button
-                    onClick={(e) => this.deleteRow(resource._id, e)}
-                    variant="outlined"
-                    color="error"
-                  >
-                    Delete
-                  </Button>
-                  </Stack>
-                
+       
+        <Container >
+          <Stack>
+            {this.state.prop.map((work) => (
+              <Card sx={{ maxWidth: 1000 }}>
+                <CardHeader title={work.exercice} />
                 <CardContent>
-                  <Typography paragraph>{resource.description}</Typography>
+                  <Typography paragraph>{work.description}</Typography>
                   <PDFViewer
                     document={{
-                      url: 'http://localhost:5000/uploads\\' + resource.pdfname
+                      url: 'http://localhost:5000/uploads\\' + work.pdfexercicename
                     }}
                   />
                 </CardContent>
+                <Button
+                  onClick={(e) => this.deleteRow(work._id, e)}
+                  variant="outlined"
+                  color="error"
+                >
+                  Delete
+                </Button>
               </Card>
             ))}
-          </Stack>
-        </Container>
+          </Stack> 
+        </Container> 
       </Container>
     );
   }
