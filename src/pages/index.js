@@ -12,4 +12,3 @@ export { default as AddComment } from './AddComment';
 
 
 
-export { default as HomeWork } from './HomeWork';
