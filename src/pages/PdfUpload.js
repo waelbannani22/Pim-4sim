@@ -1,3 +1,4 @@
+
 import React,{useState} from 'react'
 // Import the main component
 import { Viewer } from '@react-pdf-viewer/core'; // install this library
@@ -9,8 +10,17 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 // Worker
 import { Worker } from '@react-pdf-viewer/core'; // install this library
 import axios from 'axios';
+import { FileUploader } from "react-drag-drop-files";
+
+const fileTypes = ["JPG", "PNG", "PDF"];
+
+
 export const PdfUpload = () => {
   const [filename, setFileName] = React.useState(null);
+  const [file, setFile] = useState(null);
+  const handleChange = (file) => {
+    setFile(file);
+  };
 const  upload=()=>
 {
   try {
@@ -133,6 +143,7 @@ const  upload=()=>
 
       {/* if we dont have pdf or viewPdf state is null */}
       {!viewPdf&&<>No pdf file selected</>}
+      <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
       </div>
 
     </div>
