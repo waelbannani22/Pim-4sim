@@ -3,10 +3,9 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink ,useNavigate} from 'react-router-dom';
 import { mockImgAvatar } from '../utils/mockImages';
 import axios from "axios";
-import Swal from 'sweetalert2'
 
 // material
 import {
@@ -34,7 +33,6 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 //
 import USERLIST from '../_mocks_/user';
 import PieChartOutlineIcon from '@mui/icons-material/PieChartOutline';
-import { nb } from 'date-fns/locale';
 
 
 // ----------------------------------------------------------------------
@@ -44,7 +42,7 @@ const TABLE_HEAD = [
   { id: 'company', label: 'Company', alignRight: false },
   { id: 'email', label: 'email', alignRight: false },
 
-  { id: 'status', label: 'Status', alignRight: false },
+  
   { id: '' }
 ];
 
@@ -79,7 +77,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function StudentsTeacher() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -89,20 +87,24 @@ export default function User() {
   const [users, setUsers] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
-
+  
   const navigate = useNavigate();
-
+  
   const add = async () => {
     try {
-
+      var data = {
+        "idClasse": sessionStorage.getItem("classid")
+      }
       var list = [];
       var config2 = {
-        method: 'get',
-        url: 'http://localhost:5000/admin/fetchteacher',
+        method: 'post',
+        url: 'http://localhost:5000/admin/fetchStudentsInX',
         headers: {
           'Content-Type': 'application/json',
 
         },
+        data: data
+        
 
       };
       await axios(config2)
@@ -116,7 +118,7 @@ export default function User() {
             avatarUrl: mockImgAvatar(i++),
             email: e.email,
             company: "ESPRIT",
-            status: e.status
+           
 
 
           }));
@@ -188,10 +190,6 @@ export default function User() {
     }
     setSelected(newSelected);
   };
-  const aba = (nb)=> {
-    sessionStorage.setItem("idT",nb)
-    navigate('/dashboard/classesAffect', { replace: true })
-  }
   const handleChangePage = (event, newPage) => {
 
     setPage(newPage);
@@ -281,27 +279,74 @@ export default function User() {
       console.log("failure")
     }
   }
+    //decline
+    const ban = async (idStudent) => {
+      try {
+        var data = {
+          "idClasse": "621bc8fb56c4863334f44a4a",
+          "idStudent":idStudent
+        }
+        var config2 = {
+          method: 'post',
+          url: 'http://localhost:5000/admin/banStudent',
+          headers: {
+            'Content-Type': 'application/json',
+  
+          },
+          data: data
+  
+        };
+        axios(config2)
+          .then(function (response1) {
+  
+            alert("Student banned ")
+            window.location.reload()
+            // console.log("users",re)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+  
+  
+  
+        //console.log(data);
+      } catch (error) {
+        console.log("failure")
+      }
+    }
   var b;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  //
+//
+  /*
+   <TableCell align="left">
 
-  // 
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              <Button variant="contained" color="success" onClick={() => accept(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
+                                Accept
+                              </Button>
+                              <Button variant="outlined" color="error" onClick={() => decline(id)} disabled={row.status == "accepted"||row.status =="refused"?true:false}>
+                                Refuse
+                              </Button>
+                            </Stack>
+
+
+                          </TableCell>
+  */
+// 
   return (
     <Page title="User | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Teacher's application list
+            {sessionStorage.getItem("class")}
           </Typography>
-          <Button variant="contained" endIcon={<PieChartOutlineIcon />} onClick={(e) => navigate('/dashboard/chart', { replace: true })}>
-            check the statistics
-          </Button>
-          <Button onClick={(e) => console.log(selected)}>
-            show selected
+         
+          <Button onClick={(e)=>navigate('/dashboard/AffectStudent', { replace: true })}>
+            add more student 
           </Button>
         </Stack>
 
@@ -328,7 +373,7 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, email, company, avatarUrl, status } = row;
+                      const { id, name, email,  company, avatarUrl, status } = row;
                       const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
@@ -339,7 +384,6 @@ export default function User() {
                           role="checkbox"
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
-
                         >
                           <TableCell padding="checkbox">
                             <Checkbox
@@ -347,13 +391,7 @@ export default function User() {
                               onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none" onClick={(e) => status == "accepted" ?aba(id)   :
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'Oops...',
-                              text: 'the  status of the teacher must be accepted',
-                             
-                            })}>
+                          <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
@@ -368,18 +406,18 @@ export default function User() {
                           <TableCell align="left">
 
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Button variant="contained" color="success" onClick={() => accept(id)} disabled={row.status == "accepted" || row.status == "refused" ? true : false}>
-                                Accept
+                              <Button variant="contained" color="error" onClick={()=>ban(id)} >
+                               BAN
                               </Button>
-                              <Button variant="outlined" color="error" onClick={() => decline(id)} disabled={row.status == "accepted" || row.status == "refused" ? true : false}>
-                                Refuse
-                              </Button>
+                             
                             </Stack>
 
 
                           </TableCell>
 
-
+                          <TableCell align="right">
+                            <UserMoreMenu />
+                          </TableCell>
                         </TableRow>
                       );
                     })}

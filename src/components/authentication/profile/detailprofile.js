@@ -32,7 +32,7 @@ export const AccountProfileDetails = (props) => {
     lastName: sessionStorage.getItem("lastname"),
     email: sessionStorage.getItem("email"),
     phone: sessionStorage.getItem("phone"),
-   
+    
 
 
   });
@@ -50,11 +50,13 @@ export const AccountProfileDetails = (props) => {
   }
   */
   const fileInput = React.useRef(null);
+  
   const handleImageChange = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {
       let reader = new FileReader();
       let file = e.target.files[0];
+      console.log(file)
       reader.onloadend = () => {
         setFile(file);
         
@@ -129,6 +131,61 @@ export const AccountProfileDetails = (props) => {
           sessionStorage.setItem("lastname", response1.data.data.lastname);
           sessionStorage.setItem("phone", response1.data.data.phone);
           sessionStorage.setItem("image", response1.data.data.image);
+        
+
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+
+
+
+  }
+  const editHandler1 = async (e) => {
+    e.preventDefault();
+
+    try {
+      var data2 = JSON.stringify({
+        "id": sessionStorage.getItem("id"),
+        "firstname": values.firstName,
+        "lastname": values.lastName,
+        "phone": values.phone,
+        "password": password,
+        
+
+      });
+      
+        
+        
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/api/auth/updateUser1',
+        headers: { 
+          'Content-Type': 'application/json'
+          
+        },
+        data: data2
+      };
+      console.log(config2)
+      axios(config2)
+        .then(function (response1) {
+          console.log(response1.data.data)
+
+          sessionStorage.setItem("email", response1.data.data.email);
+          sessionStorage.setItem("role", response1.data.data.role);
+          sessionStorage.setItem("firstname", response1.data.data.firstname);
+          sessionStorage.setItem("lastname", response1.data.data.lastname);
+          sessionStorage.setItem("phone", response1.data.data.phone);
+          
+        
 
           window.location.reload();
         })
@@ -166,7 +223,7 @@ export const AccountProfileDetails = (props) => {
              
             </div>
             <div>
-        {file === null ? (
+        {file !== null ? (
           <Button
             className="btn-round"
             color="default"
@@ -304,7 +361,7 @@ export const AccountProfileDetails = (props) => {
               </DialogContent>
               <DialogActions>
                 <Button onClick={toggleModal}>Cancel</Button>
-                <Button onClick={editHandler}>confirm</Button>
+                <Button onClick={file == null ? editHandler1: editHandler}>confirm</Button>
               </DialogActions>
             </Dialog>
           </div>

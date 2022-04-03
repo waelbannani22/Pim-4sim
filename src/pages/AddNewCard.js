@@ -6,7 +6,7 @@ import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, label, Input,  IconButton, InputAdornment, Container,Avatar} from '@mui/material';
+import { Stack, TextField, label, Input,  IconButton, InputAdornment, Container,Avatar,Select,MenuItem,InputLabel,FormControl} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {ImageUpload} from '../pages';
 import axios from "axios";
@@ -20,11 +20,13 @@ import PropTypes from "prop-types";
 export default function AddNewCard(props) {
   const [title, setTitle] = useState('');
   const [description, SetDescription] = useState('');
+  const [classes, SetClass]= useState('');
   const [image, setImage] = useState(null);
   const [file, setFile] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
     props.avatar ? defaultAvatar : defaultImage
   );
+  
   const fileInput = React.useRef(null);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -72,11 +74,15 @@ export default function AddNewCard(props) {
     //console.log(file[0])
     try {
      
+      var today = new Date(),
+
+      date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       const formData = new FormData()
       formData.append('idPhoto', file)
-      formData.append('user', "6216c15c354ac14af06f63c6")
+      formData.append('user', sessionStorage.getItem("id"))
       formData.append('title', title)
       formData.append('description', description)
+      formData.append('created',date)
    
       var config2 = {
         method: 'post',
@@ -197,15 +203,28 @@ export default function AddNewCard(props) {
             value={description}
             onChange={(e)=>SetDescription(e.target.value)}
           />
-          
+           <FormControl fullWidth>
+           <InputLabel id="demo-simple-select-label">role</InputLabel>
+          <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={classes}
+              label="class"
+              
+              onChange={(e) => SetClass(e.target.value)}
+            >
+              <MenuItem  value="teacher">4sim1</MenuItem>
+              <MenuItem value="student">4sim2</MenuItem>
+
+            </Select>
+            </FormControl>
           
           <LoadingButton
             fullWidth
             size="large"
             type="submit"
             variant="contained"
-           
-           
+       
           >
             Add
           </LoadingButton>

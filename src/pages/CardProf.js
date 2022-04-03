@@ -100,7 +100,7 @@ export default class CardProf extends React.Component {
                   </IconButton>
                 }
                 title={course.title}
-                subheader="September 14, 2021"
+                subheader={course.created}
               />
               <CardActionArea component={RouterLink} to="/dashboard/addChapter">
                 <CardMedia

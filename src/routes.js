@@ -28,6 +28,10 @@ import { AddCommentModal, PdfUpload, PdfViewer } from './pages';
 import AddComment from './pages/AddComment';
 import HomeWork from './pages/HomeWork';
 import HomeWorkList from './pages/HomeWorkList';
+import ClassCard from './pages/classesCard';
+import StudentsTeacher from './pages/StudentTeacher';
+import ClassAffect from './pages/classAfect';
+
 
 
 
@@ -79,8 +83,10 @@ export default function Router() {
         { path: 'commentModal', element: <AddCommentModal /> },
         { path: 'homework', element: <HomeWork /> },
         { path: 'homeworklist', element: <HomeWorkList /> },
-        { path: 'addComment', element: <AddComment /> }
-      
+        { path: 'addComment', element: <AddComment /> },
+        { path: 'classes', element: <ClassCard /> },
+        { path: 'classesTeacher', element: <StudentsTeacher /> },
+        { path: 'classesAffect', element: <ClassAffect /> },
       ]
     },
     

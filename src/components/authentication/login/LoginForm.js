@@ -6,6 +6,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+
 // material
 import {
   Link,
@@ -15,7 +16,9 @@ import {
   IconButton,
   InputAdornment,
   FormControlLabel,
-  Button
+  Button,
+  Alert,
+  Snackbar
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Dialog from '@mui/material/Dialog';
@@ -114,7 +117,9 @@ export default function LoginForm({ history }) {
   const loginHandler = async (e) => {
     e.preventDefault();
 
-
+    if ( email == '' || password == ''){
+     alert( "please provide an email and a password")
+    }else{
 
     try {
       //http://localhost:5000/admin/login
@@ -136,6 +141,7 @@ export default function LoginForm({ history }) {
           sessionStorage.setItem("role", response1.data.data.role);
           sessionStorage.setItem("firstname", response1.data.data.fullname);
           sessionStorage.setItem("lastname", response1.data.data.fullname);
+        
 
           navigate('/dashboard/welcomeadmin', { replace: true });
           window.location.reload(false)
@@ -239,7 +245,8 @@ export default function LoginForm({ history }) {
         setError("");
       }, 5000);
     }
-  };
+  }
+};
   const handleFailure = (result) => {
     alert(result);
   };
@@ -343,14 +350,15 @@ export default function LoginForm({ history }) {
       <Form onSubmit={loginHandler}>
 
         <Stack spacing={3}>
+       
           <TextField
             fullWidth
 
             type="email"
             label="Email address"
-            //{...getFieldProps('email')}
-            //error={Boolean(touched.email && errors.email)}
-            //helperText={touched.email && errors.email}
+            {...getFieldProps('email')}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

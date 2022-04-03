@@ -195,7 +195,7 @@ export default function AffectStudent() {
   const assign = async (id) => {
     try {
       var data = {
-        "idClasse": "621bc8fb56c4863334f44a4a",
+        "idClasse": sessionStorage.getItem("classid"),
         "listId":[id]
       }
       var config2 = {

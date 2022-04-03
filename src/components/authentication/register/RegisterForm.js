@@ -143,8 +143,8 @@ export default function RegisterForm({ history }) {
               label="role"
               onChange={(e) => setrole(e.target.value)}
             >
-              <MenuItem value={10}>Teacher</MenuItem>
-              <MenuItem value={20}>Student</MenuItem>
+              <MenuItem value="teacher">Teacher</MenuItem>
+              <MenuItem value="student">Student</MenuItem>
 
             </Select>
           </FormControl>

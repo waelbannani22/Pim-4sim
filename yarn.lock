@@ -16054,6 +16054,11 @@
     "classnames" "^2.2.5"
     "object-assign" "^4.1.0"
 
+"react-custom-alert@^0.1.2":
+  "integrity" "sha512-VkxPh4loaDzeQ4THauq5qOETr/SL/4L+4k1Ie3C948nSgxCy0CSY7MKrzkFwiwIiYCxib3/60zIqmTLUECHEww=="
+  "resolved" "https://registry.npmjs.org/react-custom-alert/-/react-custom-alert-0.1.2.tgz"
+  "version" "0.1.2"
+
 "react-dev-utils@^12.0.0":
   "integrity" "sha512-xBQkitdxozPxt1YZ9O1097EJiVpwHr9FoAuEVURCKV0Av8NBERovJauzP7bo1ThvuhZ4shsQ1AJiu4vQpoT1AQ=="
   "resolved" "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-12.0.0.tgz"

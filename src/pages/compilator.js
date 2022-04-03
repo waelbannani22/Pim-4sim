@@ -1,3 +1,4 @@
+
 /**
  * function detectLang(snippet, options) { ... }
  *
@@ -17,8 +18,10 @@ import Swal from 'sweetalert2'
 import Tree from "react-fs-treeview";
 import './style.css';
 import AceEditor from 'react-ace';
-import React, { useState, Component, useRef, useCallback, useEffect,  forwardRef,
- useImperativeHandle } from 'react';
+import React, {
+  useState, Component, useRef, useCallback, useEffect, forwardRef,
+  useImperativeHandle
+} from 'react';
 import useDrivePoicker from 'react-google-drive-picker';
 import io from 'socket.io-client';
 import 'ace-builds/src-noconflict/mode-java';
@@ -75,50 +78,58 @@ import { findClosestEnabledDate } from '@mui/lab/internal/pickers/date-utils';
 import { string } from 'prop-types';
 import "./styles.css";
 import { motion, AnimatePresence } from "framer-motion";
-const socket = io('http://localhost:5000');
+const socket = io('http://localhost:2001');
 socket.on('connect', () => {
   console.log('you connected');
 });
 
- export default function Compilator() {
+export default function Compilator() {
 
- 
+
   let fileHandle;
-  
+
   const [Mode, setMode] = useState('text');
   const [def, setDef] = useState('');
   const [dis, setDif] = useState('true');
   const [res, setRes] = useState('');
-  const [file,setFile]= useState('');
-  const [path,setPath] = useState('');
-  const[read,setRead]= useState(false);
-  const[col,setCol]=useState('uncol')
-  const [sidebar,setSidebar]= useState('Collapse')
 
-function payment()
-{
- setRead(true)
-}
+
   
+  const [file, setFile] = useState('');
+  const [path, setPath] = useState('');
+  const [read, setRead] = useState(false);
+  const [col, setCol] = useState('uncol')
+  const [sidebar, setSidebar] = useState('Collapse')
+  useEffect(()=>{
+    if ( sessionStorage.getItem("role") == "teacher"){
+   setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work') 
+  }
+  }
+  )
+  
+  function payment() {
+    setRead(true)
+  }
+
   socket.on('receive-message', (message) => {
     setDef(message);
     setMode(detectLang(message))
   });
   const [openPicker, data, authResponse] = useDrivePoicker();
   const handleOpenPicker = () => {
-   // if (dis == 'true') {
-   //   alert('You need to save in order to upload to your drive !!');
-   // } else {
-      openPicker({
-        clientId: '463331987291-kj9ih0vip16oc28es8iqeg92kcunq95g.apps.googleusercontent.com',
-        developerKey: 'AIzaSyBdnWlT2JSPg-yegXtaXK1FDgfE1K0W3BQ',
-        viewId: 'DOCS',
-        showUploadView: true,
-        showUploadFolders: true,
-        supportDrives: true,
-        multiselect: true
-      });
-   //}
+    // if (dis == 'true') {
+    //   alert('You need to save in order to upload to your drive !!');
+    // } else {
+    openPicker({
+      clientId: '463331987291-kj9ih0vip16oc28es8iqeg92kcunq95g.apps.googleusercontent.com',
+      developerKey: 'AIzaSyBdnWlT2JSPg-yegXtaXK1FDgfE1K0W3BQ',
+      viewId: 'DOCS',
+      showUploadView: true,
+      showUploadFolders: true,
+      supportDrives: true,
+      multiselect: true
+    });
+    //}
   };
   useEffect(() => {
     if (data) {
@@ -126,14 +137,14 @@ function payment()
     }
   }, [data]);
   window.onbeforeunload = function (e) {
-   e = e || window.event;
+    e = e || window.event;
 
-   if (e) {
-       e.returnValue = 'Did you save your files ?';
-   }
+    if (e) {
+      e.returnValue = 'Did you save your files ?';
+    }
 
-  
-};
+
+  };
   function onChange(newValue) {
     console.log('change', newValue);
     var message = newValue;
@@ -147,259 +158,387 @@ function payment()
 
     setMode(lang2);
     var x = message.split(/\r\n|\r|\n/).length;
-//if(x>5)
-//{
-//payment()
-//}
+    //if(x>5)
+    //{
+    //payment()
+    //}
 
   }
-  function run()
-  {
-  var y,value;
- value= document.getElementById("inputs").value
-  if (Mode == "python")
-  {
-    y="python3";
-  }
-
-  if (Mode == "c_cpp")
-  {
-    y="cpp";
-  }
-  if (Mode == "java")
-  {
-    y="java";
-  }
-  if (Mode == "javascript")
-  {
-    y="nodejs";
-  }
-
-
-var data = JSON.stringify({
-  "script" : def,
-"language": y,
-"clientId": "94c401bedab266b2b963465707a543d6",
-"clientSecret":"26dd5c86467ff7a6feb3e8a27ff824a22ad0836c36e3ef0ef599f8471cb6718c",
-"stdin":value
-   });
-
-var config = {
-method: 'post',
-url: 'https://cors-anywhere.herokuapp.com/https://api.jdoodle.com/v1/execute',
-headers: { 
-'Content-Type': 'application/json'
-},
-data : data
-};
-
-axios(config)
-
-    .then(function (response) {
-      console.log(response);
-      setRes(response.data.output);
-    })
-    .catch(function (error) {
-      console.log(error);
+  function run() {
+    var y, value;
+    value = document.getElementById("inputs").value
+    var data = JSON.stringify({
+      "data": value
     });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/stdin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+
+
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/folder',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+
+
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/folder',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+
+
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/folder',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
   }
-  function openbypath( path)
-  {
-    
-    console.log("replaced:path",path)
+  function openbypath(path) {
+
     var replaced = path.replace(/\\/g, '/');
     setPath(replaced)
+    var result = replaced.substring(replaced.lastIndexOf("/") + 1);
+    var filename = result.split('.')[0]
     var data = JSON.stringify({
-     "path":replaced
+      "path": replaced
+    });
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/read',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log("data", response.data.text)
+        var message = response.data.text;
+        socket.emit('send-message', message);
+
+        setDef(message)
+        var lang = detectLang(message);
+        var lang2 = lang.toLowerCase();
+        if (lang2 == 'unknown') {
+          lang2 = 'text';
+        }
+
+        setMode(lang2);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-   console.log("data",data)
-   var config = {
-   method: 'post',
-   url: 'http://localhost:5000/read',
-   headers: { 
-   'Content-Type': 'application/json'
-   },
-   data : data
-   };
-   
-   axios(config)
-   
-       .then(function (response) {
-         console.log("data",response.data.text)
-         setDef(response.data.text)
-         var lang = detectLang(response.data.text);
-    var lang2 = lang.toLowerCase();
-    if (lang2 == 'unknown') {
-      lang2 = 'text';
-    }
 
-    setMode(lang2);
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
-      
-    }
- 
-   async  function open() {
-   
-     const { value: ipAddress } = await Swal.fire({
-       title: 'Enter your Directory',
-       input: 'text',
-       inputLabel: 'Your Directory',
-       showCancelButton: true,
-       inputValidator: (value) => {
-         if (!value) {
-           return 'You need to put your work directory !'
-         }
-       }
-     })
+    var data = JSON.stringify({
+      "data": filename
+    });
 
-     if (ipAddress) {
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/readcomp',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
 
-       Swal.fire(`Your Directory is ${ipAddress}`)
-       var replaced = ipAddress.replace(/\\/g, '/');
+    axios(config)
 
-       setFile(replaced);
-     }
-    
-  
+      .then(function (response) {
+        console.log(response);
+        setRes(response.data.fileContent)
 
-    }
-    function collapse()
-    {
-      var x ;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
-      if (col=="col")
-      {
-       x = "Collapse";
-            document.getElementById("mySidebar").style.width = "320px";
-     document.getElementById("main").style.marginLeft = "320px";
-     setCol("uncol")
-     setSidebar(x)
-      }
-    if (col=="uncol")
 
-    {   
-      x="Uncollapse";
-        document.getElementById("mySidebar").style.width = "320px";
-    document.getElementById("main").style.marginLeft = "0px";
-    setCol("col")}
-    setSidebar(x)
 
-   }
-   function save() {
-     var data = JSON.stringify({
-       "path" : path,
-     "data":def 
-        });
-     
-     var config = {
-     method: 'post',
-     url: 'http://localhost:5000/write',
-     headers: { 
-     'Content-Type': 'application/json'
-     },
-     data : data
-     };
-     
-     axios(config)
-     
-         .then(function (response) {
-           console.log(response);
-           const Toast = Swal.mixin({
-             toast: true,
-             position: 'center-end',
-             showConfirmButton: false,
-             timer: 2000,
-             timerProgressBar: true,
-             didOpen: (toast) => {
-               toast.addEventListener('mouseenter', Swal.stopTimer)
-               toast.addEventListener('mouseleave', Swal.resumeTimer)
-             }
-           })
-           
-           Toast.fire({
-             icon: 'success',
-             title: 'Saving file'
-           })
-         })
-         .catch(function (error) {
-           console.log(error);
-         });
-
-  
   }
 
-console.log("file",file)
- 
-function App(){
- return( 
-   <Tree  
-   className="sidebar"
-disableContextMenu={false}  
-basePath={file}
-onItemSelected={selectedItem => openbypath(selectedItem.path)}
+  async function open() {
 
-/>
- );
+    const { value: ipAddress } = await Swal.fire({
+      title: 'Enter your Directory',
+      input: 'text',
+      inputLabel: 'Your Directory',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to put your work directory !'
+        }
+      }
+    })
+
+    if (ipAddress) {
+
+      Swal.fire(`Your Directory is ${ipAddress}`)
+      var replaced = ipAddress.replace(/\\/g, '/');
+
+      setFile(replaced);
+    }
+
+
+
+  }
+  function collapse() {
+    var x;
+
+    if (col == "col") {
+      x = "Collapse";
+      document.getElementById("mySidebar").style.width = "320px";
+      document.getElementById("main").style.marginLeft = "320px";
+      setCol("uncol")
+      setSidebar(x)
+    }
+    if (col == "uncol") {
+      x = "Uncollapse";
+      document.getElementById("mySidebar").style.width = "320px";
+      document.getElementById("main").style.marginLeft = "0px";
+      setCol("col")
+    }
+    setSidebar(x)
+
+  }
+  function save() {
+    var data = JSON.stringify({
+      "path": path,
+      "data": def
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/write',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'center-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Saving file'
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+  }
+
+
+  function App() {
+    return (
+
+      <Tree
+        className="sidebar"
+        disableContextMenu={false}
+        basePath={file}
+
+        onItemSelected={selectedItem => openbypath(selectedItem.path)}
+
+      />
+    );
+
+
+  }
+  function But() {
+    return (
+      <button className="butt" onClick={collapse}>
+        {sidebar}
+      </button>
+    );
+
+  }
+  function upback() {
+
+
+
+
+
+
+    var data = JSON.stringify({
+      "data": file
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/upbackend',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'center-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Uploading  file To the Server'
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  
+
+
+
+
 }
-console.log("sidebazr",sidebar)
-function But(){
- return( 
- <button className="butt" onClick={collapse}>
-{sidebar}
-</button>
- );
-}
-
-
-  return (       
-    <Page title="Dashboard | Minimal-UI">
-      <Container maxWidth="xl">
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>  
-
-</Stack>    
-
- 
-        <div className="header">
-
-
-
-          <center>
-            <img src={logo} width="95px"></img>
-          </center>
-        </div>
-        <div className="panel">
-        <button className="butt" onClick={open}>
-            {' '}
-            Open Directory{' '}
-          </button>
-          <button className="butt" onClick={save}>
-            {' '}
-            Save File{' '}
-          </button>
-      
-          <button className="butt" onClick={() => handleOpenPicker()}>
+/*
+   <button className="butt" onClick={() => handleOpenPicker()}>
             Upload To Drive
           </button>
-       <But />
-          <button className="butt" onClick={run} >Run</button>
+          */
+return (
+  <Page title="Dashboard | Minimal-UI">
+    <Container maxWidth="xl">
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
 
-          <div className="mode">
-            {'Language: '}
-            {Mode}
-          </div>
-          
-          
+      </Stack>
+
+
+      <div className="header">
+
+
+
+        <center>
+          <img src={logo} width="95px"></img>
+        </center>
+      </div>
+      <div className="panel">
+        <button className="butt" onClick={open}>
+          {' '}
+          Open Directory{' '}
+        </button>
+        <button className="butt" onClick={save}>
+          {' '}
+          Save File{' '}
+        </button>
+        <button className="butt" onClick={upback}>
+          {' '}
+          Upload To Server {' '}
+        </button>
+
+
+
+
+        <But />
+        <button className="butt" onClick={run} >Run</button>
+
+        <div className="mode">
+          {'Language: '}
+          {Mode}
         </div>
-    <div id="mySidebar"   >
-            <App />
-</div>
 
-<div className="content" id="main">
+
+      </div>
+      <div id="mySidebar"   >
+        <App />
+      </div>
+
+      <div className="content" id="main">
         <AceEditor
-        
+
           name="editor"
           theme="monokai"
           onChange={onChange}
@@ -421,21 +560,21 @@ function But(){
         />
         <div className="button-container">
         </div>
-      
 
- 
+
+
         <textarea className="output" placeholder="Output:" value={res}>
 
-           
-             </textarea>
-        <textarea id="inputs"className="inputs"placeholder="Write Your inputs here: ">
-      
 
-           </textarea>
-    
-     </div>
-         
-        </Container>
-    </Page>
-  );
+        </textarea>
+        <textarea id="inputs" className="inputs" placeholder="Write Your inputs here: ">
+
+
+        </textarea>
+
+      </div>
+
+    </Container>
+  </Page>
+);
 }
