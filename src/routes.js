@@ -31,6 +31,8 @@ import HomeWorkList from './pages/HomeWorkList';
 import ClassCard from './pages/classesCard';
 import StudentsTeacher from './pages/StudentTeacher';
 import ClassAffect from './pages/classAfect';
+import Drag from './pages/Drag';
+
 
 
 

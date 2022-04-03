@@ -188,7 +188,7 @@ export default function AddNewCard(props) {
       </Container>
         <Stack spacing={3}>
           <TextField
-            fullWidth
+            
             
             type="text"
             label="lesson name"
@@ -196,7 +196,6 @@ export default function AddNewCard(props) {
           onChange={(e)=>setTitle(e.target.value)}
           />
           <TextField
-            fullWidth
             
             type="text"
             label="description"
@@ -220,7 +219,6 @@ export default function AddNewCard(props) {
             </FormControl>
           
           <LoadingButton
-            fullWidth
             size="large"
             type="submit"
             variant="contained"

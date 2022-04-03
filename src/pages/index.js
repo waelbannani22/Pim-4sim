@@ -7,3 +7,8 @@ export { default as PdfViewer } from './PdfViewer';
 export { default as UpdateModal } from './UpdateModal';
 export { default as AddCommentModal } from './AddCommentModal';
 export { default as HomeWork } from './HomeWork';
+export { default as Drag } from './Drag';
+export { default as AddComment } from './AddComment';
+
+
+

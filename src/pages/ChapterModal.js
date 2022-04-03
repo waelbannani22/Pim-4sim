@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
+import { TextField, Input } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import axios from 'axios';
@@ -41,6 +41,98 @@ const style2 = {
 
 
 export default function ChapterModal() {
+  const [filename, setFileName] = React.useState(null);
+  const  upload=()=>
+  {
+    try {
+       
+      const formData = new FormData()
+      console.log(pdfFile)
+      formData.append('photo', selected)
+  
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/upload',
+        headers: { 
+          'Content-Type': '/',
+          
+        },
+        data: formData
+      };
+      console.log(config2)
+      axios(config2)
+        .then(function (response1) {
+          console.log("ssucess added")
+  
+         
+  
+         // navigate('/dashboard/app', { replace: false });
+          //window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  
+  
+  
+      console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  
+  
+  
+  }
+    // Create new plugin instance
+    //const defaultLayoutPluginInstance = defaultLayoutPlugin('');
+    
+    // for onchange event
+    const [pdfFile, setPdfFile]=useState(null);
+    const [pdfFileError, setPdfFileError]=useState('');
+  
+    // for submit event
+    const [viewPdf, setViewPdf]=useState(null);
+    const [selected, setselected]=useState(null);
+  
+    // onchange event
+    const fileType=['application/pdf'];
+    const handlePdfFileChange=(e)=>{
+      let selectedFile=e.target.files[0];
+      setselected(selectedFile)
+      if(selectedFile){
+        if(selectedFile&&fileType.includes(selectedFile.type)){
+         
+          let reader = new FileReader();
+              reader.readAsDataURL(selectedFile);
+              setFileName(selectedFile.name)
+  
+              localStorage.setItem("pdfname",selectedFile.name)
+              reader.onloadend = (e) =>{
+                setPdfFile(e.target.result);
+                setPdfFileError('');
+              }
+        }
+        else{
+          setPdfFile(null);
+          setPdfFileError('Please select valid pdf file');
+        }
+      }
+      else{
+        console.log('select your file');
+      }
+    }
+  
+    // form submit
+    const handlePdfFileSubmit=(e)=>{
+      e.preventDefault();
+      if(pdfFile!==null){
+        setViewPdf(pdfFile);
+      }
+      else{
+        setViewPdf(null);
+      }
+    }
+
   const [file, setFile] = useState(null);
   
   const [name, setName] = useState('');
@@ -69,7 +161,6 @@ export default function ChapterModal() {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   const addChapterHandler = async (e) => {
-    e.preventDefault();
 
     try {
       var data2 = JSON.stringify({
@@ -104,6 +195,10 @@ export default function ChapterModal() {
       console.log('failure');
     }
   };
+
+
+  
+
   
    
 
@@ -140,12 +235,43 @@ export default function ChapterModal() {
               onChange={(e) => setDescription(e.target.value)}
             />
             <DialogContentText>Please insert your file</DialogContentText>
-            <PdfUpload />
+            <div className='container'>
+
+    <br></br>
+
+      <form className='form-group' onSubmit={handlePdfFileSubmit}>
+        <Input type="file" className='form-control'
+          required onChange={handlePdfFileChange}
+        />
+        {pdfFileError&&<div className='error-msg'>{pdfFileError}</div>}
+        <br></br>
+       
+        <br></br>
+      
+      </form>
+      
+      <br></br>
+      <div className='pdf-container'>
+        {/* show pdf conditionally (if we have one)  */}
+        {viewPdf&&<><Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+          <Viewer fileUrl={viewPdf}
+            plugins={[defaultLayoutPluginInstance]} />
+      </Worker></>}
+
+      {/* if we dont have pdf or viewPdf state is null */}
+      </div>
+
+    </div>
          
           </DialogContent>
           <DialogActions>
             <Button onClick={toggleModal}>Cancel</Button>
-            <Button onClick={addChapterHandler}>send</Button>
+            <Button 
+            onClick={() => {
+              addChapterHandler();
+              upload();
+            }}
+            >send</Button>
           </DialogActions>
         </Dialog>
       </div>
