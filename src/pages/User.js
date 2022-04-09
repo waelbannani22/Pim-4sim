@@ -134,6 +134,7 @@ export default function User() {
 
   useEffect(() => {
     add()
+    
 
   }, [])
 
@@ -281,6 +282,39 @@ export default function User() {
       console.log("failure")
     }
   }
+  const fetch = async () => {
+    try {
+      var data = {
+        "idClasse": sessionStorage.getItem("classid")
+      }
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/admin/class/getteacherinclass',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        data: data
+
+      };
+      axios(config2)
+        .then(function (response1) {
+
+          alert(response1.data.data)
+          window.location.reload()
+          // console.log("users",re)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  }
   var b;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
@@ -300,9 +334,7 @@ export default function User() {
           <Button variant="contained" endIcon={<PieChartOutlineIcon />} onClick={(e) => navigate('/dashboard/chart', { replace: true })}>
             check the statistics
           </Button>
-          <Button onClick={(e) => console.log(selected)}>
-            show selected
-          </Button>
+          
         </Stack>
 
         <Card>

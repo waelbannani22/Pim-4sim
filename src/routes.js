@@ -32,6 +32,9 @@ import ClassCard from './pages/classesCard';
 import StudentsTeacher from './pages/StudentTeacher';
 import ClassAffect from './pages/classAfect';
 import Drag from './pages/Drag';
+import TeacherClasses from './pages/teacherClasses';
+import StudentClass from './pages/studentClass';
+import Todo from './pages/todo';
 
 
 
@@ -89,6 +92,9 @@ export default function Router() {
         { path: 'classes', element: <ClassCard /> },
         { path: 'classesTeacher', element: <StudentsTeacher /> },
         { path: 'classesAffect', element: <ClassAffect /> },
+        { path: 'teacherClasses', element: <TeacherClasses /> },
+        { path: 'StudentClass', element: <StudentClass /> },
+        { path: 'todo', element: <Todo /> },
       ]
     },
     

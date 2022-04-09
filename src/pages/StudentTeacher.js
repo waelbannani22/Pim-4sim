@@ -81,8 +81,10 @@ export default function StudentsTeacher() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
+  const [selectedteacher, setSelectedTeacher] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
+  const [filterNameTeacher, setFilterNameTeacher] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -111,7 +113,7 @@ export default function StudentsTeacher() {
         .then(function (response1) {
           var i = 1;
           var result = response1.data.data
-          setTeachers(result)
+          
           const userss = result.map((e) => ({
             id: e._id,
             name: e.firstname + " " + e.lastname,
@@ -133,15 +135,65 @@ export default function StudentsTeacher() {
       console.log("failure")
     }
   }
+  const fetchTeachers = async () => {
+    try {
+      var data = {
+        "idClasse": sessionStorage.getItem("classid")
+      }
+      var list = [];
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/admin/class/getteacherinclass',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        data: data
+        
+
+      };
+      await axios(config2)
+        .then(function (response1) {
+          var i = 1;
+          var result = response1.data.data
+          
+          const userss = result.map((e) => ({
+            id: e._id,
+            name: e.firstname + " " + e.lastname,
+            avatarUrl: mockImgAvatar(i++),
+            email: e.email,
+            company: "ESPRIT",
+           
+
+
+          }));
+          //console.log(userss)
+          setTeachers(userss)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  }
 
   useEffect(() => {
-    add()
+    add(),
+    fetchTeachers()
 
   }, [])
 
 
 
   const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+  
+  const handleRequestSortteacher = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -210,6 +262,9 @@ export default function StudentsTeacher() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
+  };
+  const handleFilterByNameTeacher = (event) => {
+    setFilterNameTeacher(event.target.value);
   };
   //accept 
   const accept = async (id) => {
@@ -316,10 +371,14 @@ export default function StudentsTeacher() {
     }
   var b;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+  const emptyRowsteacher = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - teachers.length) : 0;
 
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
+  
+  const filteredteachers = applySortFilter(teachers, getComparator(order, orderBy), filterNameTeacher);
 
   const isUserNotFound = filteredUsers.length === 0;
+  const isUserNotFoundTeacher = filteredteachers.length === 0;
 //
   /*
    <TableCell align="left">
@@ -349,7 +408,97 @@ export default function StudentsTeacher() {
             add more student 
           </Button>
         </Stack>
+        <Card>
+          
 
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <UserListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={teachers.length}
+                  numSelected={selectedteacher.length}
+                  onRequestSort={handleRequestSortteacher}
+                  onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
+                  {filteredteachers
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      const { id, name, email,  company, avatarUrl, status } = row;
+                      const isItemSelected = selectedteacher.indexOf(id) !== -1;
+
+                      return (
+                        <TableRow
+                          hover
+                          key={id}
+                          tabIndex={-1}
+                          role="checkbox"
+                          selected={isItemSelected}
+                          aria-checked={isItemSelected}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={isItemSelected}
+                              onChange={(event) => handleClick(event, id)}
+                            />
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              <Avatar alt={name} src={avatarUrl} />
+                              <Typography variant="subtitle2" noWrap>
+                                {name}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
+                          <TableCell align="left">{company}</TableCell>
+                          <TableCell align="left">{email}</TableCell>
+                          <TableCell align="left">{status}</TableCell>
+
+                          <TableCell align="left">
+
+                           
+
+
+                          </TableCell>
+
+                          <TableCell align="right">
+                            <UserMoreMenu />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRowsteacher > 0 && (
+                    <TableRow style={{ height: 53 * emptyRowsteacher }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+                {isUserNotFoundTeacher && (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <SearchNotFound searchQuery={filterNameTeacher} />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                )}
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={teachers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Card>
         <Card>
           <UserListToolbar
             numSelected={selected.length}

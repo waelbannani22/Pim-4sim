@@ -94,7 +94,7 @@ export default function Compilator() {
   const [res, setRes] = useState('');
 
 
-  
+  const[name,setname]=useState('')
   const [file, setFile] = useState('');
   const [path, setPath] = useState('');
   const [read, setRead] = useState(false);
@@ -102,7 +102,28 @@ export default function Compilator() {
   const [sidebar, setSidebar] = useState('Collapse')
   useEffect(()=>{
     if ( sessionStorage.getItem("role") == "teacher"){
-   setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work') 
+     
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/getna',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response.data.name);
+
+setname(response.data.name)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+ 
+   setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work/'+name) 
   }
   }
   )
@@ -482,7 +503,33 @@ export default function Compilator() {
 
 
 
-
+}
+async function invite()
+{
+  const { value: fruit } = await Swal.fire({
+    title: 'Select field validation',
+    input: 'select',
+    inputOptions: {
+      'Teachers': {
+        apples: 'Apples',
+        bananas: 'Bananas',
+        grapes: 'Grapes',
+        oranges: 'Oranges'
+      },
+  
+    },
+    inputPlaceholder: 'Select a Teacher',
+    showCancelButton: true,
+ 
+  })
+  
+  if (fruit) {
+    Swal.fire(`You selected: ${fruit}`)
+  }
+}
+function summary()
+{
+  
 }
 /*
    <button className="butt" onClick={() => handleOpenPicker()}>
@@ -517,6 +564,15 @@ return (
         <button className="butt" onClick={upback}>
           {' '}
           Upload To Server {' '}
+        </button>
+
+        <button className="butt" onClick={invite}>
+          {' '}
+          Invite(+) {' '}
+        </button>
+        <button className="butt" onClick={summary}>
+          {' '}
+          Summary {' '}
         </button>
 
 

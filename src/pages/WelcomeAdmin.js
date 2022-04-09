@@ -17,7 +17,7 @@ const images = [
     url: student,
     title: 'Student',
     width: '50%',
-    direction:'Student'
+    direction:'classes'
   },
   
 ];

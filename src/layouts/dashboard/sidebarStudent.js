@@ -8,30 +8,19 @@ import personAddFill from '@iconify/icons-eva/person-add-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
 import heart from '@iconify/icons-eva/heart-fill';
 import code from '@iconify/icons-eva/code-outline';
-import wel from '@iconify/icons-eva/globe-2-fill';
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
 
-  const sidebarConfig = [
-    {
-      title: 'welcome',
-      path: '/dashboard/welcomeadmin',
-      icon: getIcon(wel)
-    },
+  const sidebarConfigStudent = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
     icon: getIcon(pieChart2Fill)
   },
-  
  
-  {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: getIcon(peopleFill)
-  },
+ 
   {
     title: 'product',
     path: '/dashboard/products',
@@ -67,4 +56,4 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
 
 
-export default sidebarConfig;
+export default sidebarConfigStudent;
