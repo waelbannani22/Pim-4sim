@@ -35,6 +35,7 @@ import Drag from './pages/Drag';
 import TeacherClasses from './pages/teacherClasses';
 import StudentClass from './pages/studentClass';
 import Todo from './pages/todo';
+import DetailLesson from './pages/detailLesson';
 
 
 
@@ -95,6 +96,7 @@ export default function Router() {
         { path: 'teacherClasses', element: <TeacherClasses /> },
         { path: 'StudentClass', element: <StudentClass /> },
         { path: 'todo', element: <Todo /> },
+        { path: 'detailLesson', element: <DetailLesson /> },
       ]
     },
     

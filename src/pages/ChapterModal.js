@@ -28,7 +28,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 700,
+  width: 1000,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -163,6 +163,15 @@ export default function ChapterModal() {
   const addChapterHandler = async (e) => {
 
     try {
+      const formData = new FormData()
+      formData.append('pdfname', selected)
+      formData.append('name', name)
+      
+      formData.append('description', description)
+      
+      formData.append('course',JSON.parse(sessionStorage.getItem("class"))._id)
+      
+      
       var data2 = JSON.stringify({
         course: '6224ca73caf9570b7c3b8243',
         name: name,
@@ -174,9 +183,9 @@ export default function ChapterModal() {
         method: 'post',
         url: 'http://localhost:5000/api/resource/add',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'multipart/form-data'
         },
-        data: data2
+        data: formData
       };
       console.log(config2);
       axios(config2)
@@ -268,8 +277,9 @@ export default function ChapterModal() {
             <Button onClick={toggleModal}>Cancel</Button>
             <Button 
             onClick={() => {
+               
               addChapterHandler();
-              upload();
+             
             }}
             >send</Button>
           </DialogActions>

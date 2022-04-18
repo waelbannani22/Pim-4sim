@@ -88,7 +88,7 @@ console.log("fefefefefe")
         >
           
           <CardProf/>
-          <CardStudent/>
+         
          
         </Stack>
      

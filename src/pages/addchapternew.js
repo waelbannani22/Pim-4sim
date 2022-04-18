@@ -16,13 +16,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button, Container, Modal, Stack } from '@mui/material';
 import { ChapterModal } from '../pages';
-
+import { PdfViewer } from '../pages';
 import axios from 'axios';
-
-
+import PDFViewer from 'pdf-viewer-reactjs';
 import { Link as RouterLink } from 'react-router-dom';
 import HomeWork from './HomeWork';
-import PdfViewer from './PdfViewer';
+import { PDFReader } from 'reactjs-pdf-reader';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,9 +34,11 @@ const ExpandMore = styled((props) => {
   })
 }));
 
-export default class AddChapter extends React.Component {
+export default class AddChapterNew extends React.Component {
   state = {
-    prop: []
+    prop: [],
+    c : ''
+    
   };
 
   componentDidMount() {
@@ -56,16 +57,14 @@ export default class AddChapter extends React.Component {
       this.setState({ prop });
     });
   }
+
   render() {
     return (
       <Container>
         <Container>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Stack direction="row" justifyContent="space-between" mb={5}>
             <ChapterModal />
-            <HomeWork />
-            <Button variant="contained" component={RouterLink} to="/dashboard/addComment">
-              Send FeedBack
-            </Button>
+
           </Stack>
         </Container>
         <br />
@@ -80,7 +79,7 @@ export default class AddChapter extends React.Component {
             sx={{ mb: 5 }}
           >
             {this.state.prop.map((resource) => (
-              <Card sx={{ maxWidth: 1200, my: 3 }} direction="row" spacing={1}>
+              <Card sx={{ maxWidth: 1200 }} direction="row" spacing={1}>
                 <Stack
                   direction="row"
                   flexWrap="wrap"
@@ -90,7 +89,7 @@ export default class AddChapter extends React.Component {
                   sx={{ mb: 5 }}
                 >
                   <CardHeader title={resource.name} />
-                
+
                   <Button
                     onClick={(e) => this.deleteRow(resource._id, e)}
                     variant="outlined"
@@ -98,12 +97,18 @@ export default class AddChapter extends React.Component {
                   >
                     Delete
                   </Button>
-                  </Stack>
-                
-                <CardContent>
+                </Stack>
+
+                <CardContent  >
                   <Typography paragraph>{resource.description}</Typography>
-                  {console.log(resource.pdfname)}
-                  <PdfViewer/>
+                  <PDFViewer 
+                 
+
+                    document={{
+                      url : "http://localhost:5000/uploads/1649651456499.pdf",
+                    }}
+
+                  />
                 </CardContent>
               </Card>
             ))}

@@ -92,50 +92,134 @@ export default function Compilator() {
   const [def, setDef] = useState('');
   const [dis, setDif] = useState('true');
   const [res, setRes] = useState('');
-
-
-  const[name,setname]=useState('')
+ const [sol,setSol] = useState('')
   const [file, setFile] = useState('');
   const [path, setPath] = useState('');
   const [read, setRead] = useState(false);
+const[soltT,setSoltT] = useState('');
   const [col, setCol] = useState('uncol')
   const [sidebar, setSidebar] = useState('Collapse')
+  const [saveSt,setsaveSt] = useState()
+  const [upSt,setupSt] =useState()
+  const [conST,setconSt] =useState()
+  const [conT,setconT] =useState()
+  const[wrt,setwrt]=useState()
+  const[sucT,setsucT] =useState()
+
+
+console.log("pathhh",path)
+
   useEffect(()=>{
     if ( sessionStorage.getItem("role") == "teacher"){
-     
-    var config = {
-      method: 'get',
-      url: 'http://localhost:5000/getna',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
-
-    axios(config)
-
-      .then(function (response) {
-        console.log(response.data.name);
-
-setname(response.data.name)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
- 
-   setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work/'+name) 
+   setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work') 
+   setsaveSt(true)
+   setupSt(true)
+   setconSt(true)
+   setconSt(true)
+   setconT(false)
+   setwrt(false)
+   setsucT(false)
   }
+  if ( sessionStorage.getItem("role") == "student")
+  {
+setsaveSt(false)
+setupSt(false)
+setconSt(false)
+setconSt(false)
+setconT(true)
+setwrt(true)
+setsucT(true)
+   }
   }
   )
-  
-  function payment() {
-    setRead(true)
-  }
-
   socket.on('receive-message', (message) => {
     setDef(message);
     setMode(detectLang(message))
   });
+  const MINUTE_MS = 10000;
+
+  useEffect(() => {
+   
+    const interval = setInterval(() => {
+      console.log("role",sessionStorage.getItem("role"))
+      console.log("path",path)
+   if (( sessionStorage.getItem("role") == "student")&&(path!=''))
+    {
+      var data = JSON.stringify({
+        "data": file
+      });
+  
+      var config = {
+        method: 'post',
+        url: 'http://localhost:5000/upbackend',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+  
+      axios(config)
+  
+        .then(function (response) {
+          console.log(response);
+          
+        var data2 = JSON.stringify({
+          "path": path,
+          "data": def
+        });
+    
+        var config = {
+          method: 'post',
+          url: 'http://localhost:5000/write',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: data2
+        };
+    
+        axios(config)
+    
+          .then(function (response) {
+            console.log(response);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'center-end',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+    
+            Toast.fire({
+              icon: 'success',
+              title: 'Saving file and uploading to server'
+            })
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    
+  
+
+  
+         
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  
+
+
+      console.log('save every minute'); 
+      }
+    }, MINUTE_MS);
+   
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, [])
+  
   const [openPicker, data, authResponse] = useDrivePoicker();
   const handleOpenPicker = () => {
     // if (dis == 'true') {
@@ -165,12 +249,73 @@ setname(response.data.name)
     }
 
 
-  };
+  }; 
+  if  (sessionStorage.getItem("role") == "teacher")
+    {
+      var config = {
+        method: 'get',
+        url: 'http://localhost:5000/statusS',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      };
+       axios(config)
+    
+        .then(function (response) {
+          console.log(response.data.dataT);
+          var x = response.data.dataT
+    setRead(x)
+    console.log("valchan",read)
+    console.log("read t ",x)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+    if  (sessionStorage.getItem("role") == "student")
+    {
+      var config = {
+        method: 'get',
+        url: 'http://localhost:5000/statusST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      };
+       axios(config)
+    
+        .then(function (response) {
+          console.log(response.data.dataTT);
+          var x = response.data.dataTT
+    setRead(x)
+    console.log("valchan",read)
+    console.log("read t ",x)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+  
+  
   function onChange(newValue) {
+   
     console.log('change', newValue);
     var message = newValue;
-    socket.emit('send-message', message);
+    if ((sol=="true")||(soltT=="true"))
+
+    {
+       socket.emit('send-message', message);
+    setDef(message)
+    }
+    setDef(message)
+
+   
+    if ((sol=="true")||(soltT=="true"))
+    {
+       socket.emit('send-message', message);
     setDef(message);
+    }
+    setDef(message);
+
     var lang = detectLang(message);
     var lang2 = lang.toLowerCase();
     if (lang2 == 'unknown') {
@@ -300,9 +445,15 @@ setname(response.data.name)
       .then(function (response) {
         console.log("data", response.data.text)
         var message = response.data.text;
-        socket.emit('send-message', message);
+        if ((sol=="true")||(soltT=="true"))
+        { 
+           socket.emit('send-message', message);
 
         setDef(message)
+
+        }
+        setDef(message)
+
         var lang = detectLang(message);
         var lang2 = lang.toLowerCase();
         if (lang2 == 'unknown') {
@@ -388,6 +539,9 @@ setname(response.data.name)
 
   }
   function save() {
+    console.log("âth save",path)
+    console.log("âth save",def)
+
     var data = JSON.stringify({
       "path": path,
       "data": def
@@ -503,34 +657,323 @@ setname(response.data.name)
 
 
 
+
 }
+
 async function invite()
 {
-  const { value: fruit } = await Swal.fire({
+  var config = {
+    method: 'get',
+    url: 'http://localhost:5000/teachers',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+
+  axios(config)
+
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  const { value: Teachers } = await Swal.fire({
     title: 'Select field validation',
     input: 'select',
     inputOptions: {
-      'Teachers': {
+      Teachers: {
         apples: 'Apples',
         bananas: 'Bananas',
         grapes: 'Grapes',
         oranges: 'Oranges'
       },
-  
+   
     },
     inputPlaceholder: 'Select a Teacher',
     showCancelButton: true,
- 
+   
   })
   
   if (fruit) {
     Swal.fire(`You selected: ${fruit}`)
   }
 }
-function summary()
+function wrong_files()
 {
-  
+  var config = {
+    method: 'get',
+    url: 'http://localhost:5000/filef',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+
+  axios(config)
+
+    .then(function (response) {
+      console.log(response.data.fileContent);
+      var x = response.data.fileContent.toString()
+      Swal.fire({
+        icon: 'error',
+        title: 'These Files Failed',
+        text: x
+        })
+
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+
+   
 }
+async function success_files()
+{
+   var config = {
+    method: 'get',
+    url: 'http://localhost:5000/filet',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+
+  await axios(config)
+
+    .then(function (response) {
+      console.log(response.data.fileContent);
+      var x = response.data.fileContent.toString()
+      Swal.fire({
+        icon: 'success',
+        title: 'These Files Successed',
+        text: x
+        })
+
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+ 
+ 
+   
+}
+function connect()
+{
+  var config = {
+    method: 'get',
+    url: 'http://localhost:5000/listaw',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+
+   axios(config)
+
+    .then(function (response) {
+      var x = response.data.x
+setSol(x)
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Are you sure?',
+  text: "the teacher will be able to modify your work !",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes, i agree!',
+  cancelButtonText: 'No, i dont !',
+  reverseButtons: true
+}).then((result) => {
+
+  if (result.isConfirmed) {
+    var data = JSON.stringify({
+      "data": false
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/statusT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+  
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  
+
+
+    swalWithBootstrapButtons.fire(
+      'Sccess!',
+      'The teacher has access',
+      'success'
+    )
+  } else if (
+
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    var data = JSON.stringify({
+      "data": true
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/statusT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+  
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  
+    swalWithBootstrapButtons.fire(
+      'Cancelled',
+      'The teacher dosent have access',
+      'error'
+    )
+  }
+})
+})
+   
+ 
+
+}
+
+function connectT()
+{
+  var config = {
+    method: 'get',
+    url: 'http://localhost:5000/listawT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+
+   axios(config)
+
+    .then(function (response) {
+      var x = response.data.x
+setSoltT(x)
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Are you sure?',
+  text: "the student will be able to modify your work!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes,i agree t!',
+  cancelButtonText: 'No, i dont !',
+  reverseButtons: true
+}).then((result) => {
+
+  if (result.isConfirmed) {
+    var data = JSON.stringify({
+      "data": false
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/statusTT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+  
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  
+
+
+    swalWithBootstrapButtons.fire(
+      'Success!',
+      'The student has access.',
+      'success'
+    )
+  } else if (
+
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    var data = JSON.stringify({
+      "data": true
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:5000/statusTT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response);
+
+  
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  
+    swalWithBootstrapButtons.fire(
+      'Cancelled',
+      'The student dosent have access',
+      'error'
+    )
+  }
+})
+})
+   
+ 
+
+}
+
+function trigger()
+{}
+
+
 /*
    <button className="butt" onClick={() => handleOpenPicker()}>
             Upload To Drive
@@ -557,24 +1000,31 @@ return (
           {' '}
           Open Directory{' '}
         </button>
-        <button className="butt" onClick={save}>
+        <button className="butt" onClick={save}hidden={saveSt}>
           {' '}
           Save File{' '}
         </button>
-        <button className="butt" onClick={upback}>
+        <button className="butt" onClick={upback}hidden={upSt}>
           {' '}
           Upload To Server {' '}
         </button>
-
-        <button className="butt" onClick={invite}>
+        <button className="butt" onClick={connect}hidden={conST}>
           {' '}
-          Invite(+) {' '}
+          Connect{' '}
         </button>
-        <button className="butt" onClick={summary}>
+        <button className="butt" onClick={connectT} hidden={conT}>
           {' '}
-          Summary {' '}
+          Connect{' '}
         </button>
-
+        <button className="butt" onClick={success_files} hidden={sucT}>
+          {' '}
+          Success files {' '}
+        </button>
+        <button className="butt" onClick={wrong_files}  hidden={wrt}>
+          {' '}
+          Wrong files {' '}
+        </button>
+    
 
 
 
