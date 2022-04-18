@@ -40,7 +40,7 @@ export default class HomeWorkList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/work/').then((res) => {
+    axios.get('http://localhost:5000/api/exercice/').then((res) => {
       const prop = res.data.response;
       this.setState({ prop });
     });
@@ -48,7 +48,7 @@ export default class HomeWorkList extends React.Component {
   deleteRow(id, e) {
     e.preventDefault();
     const resourceID = id;
-    axios.post('http://localhost:5000/api/work/delete', { workID: id }).then((res) => {
+    axios.post('http://localhost:5000/api/exercice/delete', { exerciceID: id }).then((res) => {
       console.log(res);
       console.log(res.data);
       const prop = this.state.prop.filter((item) => item._id !== id);
@@ -67,19 +67,19 @@ export default class HomeWorkList extends React.Component {
        
         <Container >
           <Stack>
-            {this.state.prop.map((work) => (
+            {this.state.prop.map((exercice) => (
               <Card sx={{ maxWidth: 1000 }}>
-                <CardHeader title={work.exercice} />
+                <CardHeader title={exercice.exercice} />
                 <CardContent>
-                  <Typography paragraph>{work.description}</Typography>
+                  <Typography paragraph>{exercice.description}</Typography>
                   <PDFViewer
                     document={{
-                      url: 'http://localhost:5000/uploads\\' + work.pdfexercicename
+                      url: 'http://localhost:5000/uploads\\' + exercice.pdfexcercicename
                     }}
                   />
                 </CardContent>
                 <Button
-                  onClick={(e) => this.deleteRow(work._id, e)}
+                  onClick={(e) => this.deleteRow(exercice._id, e)}
                   variant="outlined"
                   color="error"
                 >

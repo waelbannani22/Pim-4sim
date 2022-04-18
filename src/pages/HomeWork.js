@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
+import { TextField, Input } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import axios from 'axios';
@@ -20,7 +20,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { FileUploader } from "react-drag-drop-files";
+
+import DateTimePicker from 'react-datetime-picker';
 
 
 const style = {
@@ -38,16 +39,91 @@ const style2 = {
   overflow: 'scroll'
 };
 
-
-
 export default function HomeWork() {
+  const [filename, setFileName] = React.useState(null);
+  const [value, onChange] = useState(new Date());
+
+  const upload = () => {
+    try {
+      const formData = new FormData();
+      console.log(pdfFile);
+      formData.append('photo', selected);
+
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/upload',
+        headers: {
+          'Content-Type': '/'
+        },
+        data: formData
+      };
+      console.log(config2);
+      axios(config2)
+        .then(function (response1) {
+          console.log('ssucess added');
+
+          navigate('/dashboard/homeworklist', { replace: true });
+          //window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      console.log(data);
+    } catch (error) {
+      console.log('failure');
+    }
+  };
+  // Create new plugin instance
+  //const defaultLayoutPluginInstance = defaultLayoutPlugin('');
+
+  // for onchange event
+  const [pdfFile, setPdfFile] = useState(null);
+  const [pdfFileError, setPdfFileError] = useState('');
+
+  // for submit event
+  const [viewPdf, setViewPdf] = useState(null);
+  const [selected, setselected] = useState(null);
+
+  // onchange event
+  const fileType = ['application/pdf'];
+  const handlePdfFileChange = (e) => {
+    let selectedFile = e.target.files[0];
+    setselected(selectedFile);
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        setFileName(selectedFile.name);
+
+        localStorage.setItem('pdfexcercicename', selectedFile.name);
+        reader.onloadend = (e) => {
+          setPdfFile(e.target.result);
+          setPdfFileError('');
+        };
+      } else {
+        setPdfFile(null);
+        setPdfFileError('Please select valid pdf file');
+      }
+    } else {
+      console.log('select your file');
+    }
+  };
+
+  // form submit
+  const handlePdfFileSubmit = (e) => {
+    e.preventDefault();
+    if (pdfFile !== null) {
+      setViewPdf(pdfFile);
+    } else {
+      setViewPdf(null);
+    }
+  };
+
   const [file, setFile] = useState(null);
-  
+
   const [exercice, setExercice] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-
-
 
   const navigate = useNavigate();
 
@@ -63,7 +139,7 @@ export default function HomeWork() {
   const RegisterSchema = Yup.object().shape({});
 
   const formik = useFormik({
-    initialValues: { exercice: '', description: '',date:'' },
+    initialValues: { exercice: '', description: '' },
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard', { replace: true });
@@ -72,20 +148,17 @@ export default function HomeWork() {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   const addChapterHandler = async (e) => {
-    e.preventDefault();
-
     try {
       var data2 = JSON.stringify({
         course: '6224ca73caf9570b7c3b8243',
         exercice: exercice,
         description: description,
-        date: date,
-        pdfexercicename: localStorage.getItem('pdfexercicename')
+        pdfexcercicename: localStorage.getItem('pdfexcercicename')
       });
       console.log(data2);
       var config2 = {
         method: 'post',
-        url: 'http://localhost:5000/api/work/add',
+        url: 'http://localhost:5000/api/exercice/add',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -96,7 +169,7 @@ export default function HomeWork() {
         .then(function (response1) {
           console.log('ssucess added');
 
-          // navigate('/dashboard/app', { replace: false });
+          navigate('/dashboard/homeworklist', { replace: false });
           window.location.reload();
         })
         .catch(function (error) {
@@ -108,19 +181,16 @@ export default function HomeWork() {
       console.log('failure');
     }
   };
-  
-   
-
 
   return (
     <div align="end">
       <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
-        Add homework
+        Add HomeWork
       </Button>
 
       <div>
         <Dialog open={isOpen} onClose={toggleModal}>
-          <DialogTitle>Add homework</DialogTitle>
+          <DialogTitle>Add HomeWork</DialogTitle>
           <DialogContent>
             <DialogContentText>Please insert your exercice</DialogContentText>
             <TextField
@@ -143,13 +213,51 @@ export default function HomeWork() {
               variant="standard"
               onChange={(e) => setDescription(e.target.value)}
             />
+           <div>
+      <DateTimePicker onChange={onChange} value={value} />
+    </div>
             <DialogContentText>Please insert your file</DialogContentText>
-            <PdfUpload />
-         
+            <div className="container">
+              <br></br>
+
+              <form className="form-group" onSubmit={handlePdfFileSubmit}>
+                <Input
+                  type="file"
+                  className="form-control"
+                  required
+                  onChange={handlePdfFileChange}
+                />
+                {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
+                <br></br>
+
+                <br></br>
+              </form>
+
+              <br></br>
+              <div className="pdf-container">
+                {/* show pdf conditionally (if we have one)  */}
+                {viewPdf && (
+                  <>
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+                      <Viewer fileUrl={viewPdf} plugins={[defaultLayoutPluginInstance]} />
+                    </Worker>
+                  </>
+                )}
+
+                {/* if we dont have pdf or viewPdf state is null */}
+              </div>
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={toggleModal}>Cancel</Button>
-            <Button onClick={addChapterHandler}>send</Button>
+            <Button
+              onClick={() => {
+                addChapterHandler();
+                upload();
+              }}
+            >
+              send
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
