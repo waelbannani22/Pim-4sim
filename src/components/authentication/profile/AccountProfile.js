@@ -35,6 +35,9 @@ export const AccountProfile = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
+  
+  const [info, setInfo] = useState([]);
+  
   const [progressPercent, setProgressPercent] = useState(0);
   const [error, setError] = useState({
     found: false,
@@ -158,7 +161,7 @@ export const AccountProfile = (props) => {
               </DialogContent>
               <DialogActions>
                 <Button onClick={toggleModal}>Cancel</Button>
-                <Button onClick={toggleModal}>Subscribe</Button>
+                <Button onClick={handleSubmit}>Subscribe</Button>
               </DialogActions>
             </Dialog>
           </div>

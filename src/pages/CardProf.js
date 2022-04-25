@@ -31,13 +31,19 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest
   })
 }));
+function parsi(id,e) {
+  return JSON.parse(id)
+ }
 
 export default class CardProf extends React.Component {
+  
   state = {
     prop: [],
     isOpen : false,
     title: "",
-    description: ""
+    description: "",
+    classNames : []
+    
   };
 
   
@@ -46,20 +52,39 @@ export default class CardProf extends React.Component {
     this.setState({isOpen:!this.state.isOpen});
   
   }
-  componentDidMount() {
-    axios.get('http://localhost:5000/api/cour/').then((res) => {
-      const prop = res.data.response;
-      this.setState({ prop });
+   componentDidMount() {
+     const cl = []
+     var data2 = JSON.stringify({
+      "idTeacher": sessionStorage.getItem("id")
+     
+
     });
+    const headers = { 
+      'Content-Type': 'application/json',
+  };
+    axios.post('http://localhost:5000/api/cour/getLessonsbyTeacher',data2,{headers}).then((res) => {
+      const  prop=res.data.data;
+      
+      this.setState({ prop });
+      // this.state.prop.forEach((el)=>{
+      //   console.log(el.class)
+      //   cl.push(this.getclassnamee(el.class))
+        
+      // })
+      
+     
+      
+    });
+    
   }
+  
   update(id, e) {
     e.preventDefault();
     const courseID = id;
     axios.post('http://localhost:5000/api/cour/update', 
     {"courseID":courseID,"title":this.state.title,"description":this.state.description})
     .then((res) => {
-      console.log(res);
-      console.log(res.data);
+      
       
     });
   }
@@ -74,6 +99,22 @@ export default class CardProf extends React.Component {
     });
   }
 
+  async getclassnamee(id,e) {
+   const c = []
+    const courseID = id;
+    await axios.post('http://localhost:5000/admin/class/getclass', {"idClasse":id}).then((res) => {
+     
+      try {
+        console.log(res.data.data)
+        this.setState({classNames : res.data.data})
+        console.log(this.state.classNames)
+      } catch (error) {
+        console.log(error)
+      }
+   
+    });
+  }
+  
 
   render() {
     return (
@@ -93,20 +134,24 @@ export default class CardProf extends React.Component {
                   <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
                     R
                   </Avatar>
+                  
                 }
                 action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
+                  <Typography variant="body2" color="text.secondary">
+                    {JSON.parse(course.class).classeName}
+                </Typography>
+                   
+                
                 }
                 title={course.title}
-                subheader="September 14, 2021"
+                subheader={course.created}
               />
-              <CardActionArea component={RouterLink} to="/dashboard/addChapter">
+              <CardActionArea component={RouterLink} to="/dashboard/detailLesson">
                 <CardMedia
                   component="img"
                   sx={{ width: 345, height: 200 }}
                   image={'http://localhost:5000/' + course.idPhoto}
+                  onClick={(e)=>sessionStorage.setItem("class",JSON.stringify(course))}
                 />
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">

@@ -1,0 +1,59 @@
+section{
+    height: 100vh;
+    background-image:url('../téléchargement.jpg');
+    min-width: 100%;
+    min-height: 100%;
+    background-size:cover;
+    background-position: center;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    animation-name:back;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear;
+
+
+}
+footer
+form
+{
+width:500px;
+background-color:rgba(130, 128, 128, 0.4);
+padding:60px;
+box-sizing: border-box;
+border-radius: 20px;
+}
+input {
+    display:block;
+    margin :10px auto ;
+    width : 300px ;
+    padding : 6px 10px ;
+    outline:none;
+    border:none;
+    box-sizing:border-box;
+    border-radius: 6px;
+
+
+}
+input[type="submit"]{
+    background-color:#0E0;
+    font-weight:bold;
+    cursor:pointer;
+}
+@keyframes back {
+    0%{
+        filter:hue-rotate(0deg);
+
+    }
+    100%{
+        filter:hue-rotate(360deg);
+    }
+}
+h1{
+    font-size: 2em;
+    font-family: sans-serif;
+    background:linear-gradient(to right,#f32170,#ffeb07,#2196f3,#ff00eb);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

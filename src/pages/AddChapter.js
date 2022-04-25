@@ -16,11 +16,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button, Container, Modal, Stack } from '@mui/material';
 import { ChapterModal } from '../pages';
-import { PdfViewer } from '../pages';
+
 import axios from 'axios';
-import PDFViewer from 'pdf-viewer-reactjs';
+
+
 import { Link as RouterLink } from 'react-router-dom';
 import HomeWork from './HomeWork';
+import PdfViewer from './PdfViewer';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -100,11 +102,8 @@ export default class AddChapter extends React.Component {
                 
                 <CardContent>
                   <Typography paragraph>{resource.description}</Typography>
-                  <PDFViewer
-                    document={{
-                      url: 'http://localhost:5000/uploads\\' + resource.pdfname
-                    }}
-                  />
+                  {console.log(resource.pdfname)}
+                  <PdfViewer/>
                 </CardContent>
               </Card>
             ))}

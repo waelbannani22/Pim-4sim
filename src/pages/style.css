@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+}
+
+.header {
+  background: #2d2d2d;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #a4a4a4;
+  padding: 0px;
+  font-family: sans-serif;
+}
+
+.panel {
+  background: #2d2d2d;
+  text-align: left;
+  font-family: sans-serif;
+  padding: 5px;
+}
+.butt {
+  background-color: #2d2d2d;
+  color: #a4a4a4;
+  border: 0px solid #2d2d2d;
+  padding: 5px;
+  font-family: sans-serif;
+}
+
+#ace_scrollbar ace_scrollbar-v {
+  background: #2d2d2d;
+}
+.mode {
+  color: #a4a4a4;
+  float: right;
+  font-family: sans-serif;
+}
+.out {
+  padding: 5px;
+  color: #a4a4a4;
+  float: left;
+  font-family: sans-serif;
+}
+ [contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text)
+
+ }
+.output {
+  background: #2d2d2d;
+  padding: 4px;
+  border: 0px solid #2d2d2d;
+  width: 50%;
+  height: 100px;
+  color:#a4a4a4;
+  float: right;
+
+
+}
+.inputs {
+  background: #2d2d2d;
+  padding: 4px;
+  border: 0px solid #2d2d2d;
+  width: 50%;
+  height: 100px;
+  color:#a4a4a4;
+  float: left;
+  position:sticky;
+
+
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  width: 120px;
+}
+
+
+.sidebar {
+
+width: 320px;
+position:absolute;
+background-color: #d1cfcfde;
+
+
+}
+
+
+div.content {
+margin-left: 320px;
+padding: 0px 0px;
+height: 100px;
+}

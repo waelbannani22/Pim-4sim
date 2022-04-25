@@ -70,11 +70,16 @@ export default function AddCommentModal() {
 
   const addChapterHandler = async (e) => {
     e.preventDefault();
+    var today = new Date(),
 
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     try {
       var data2 = JSON.stringify({
      //   course: '6224ca73caf9570b7c3b8243',
-        commantaire: commantaire
+        commantaire: commantaire,
+        created : date,
+        user : sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname"),
+        lesson : JSON.parse(sessionStorage.getItem("class"))._id
       });
       console.log(data2);
       var config2 = {

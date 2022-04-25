@@ -21,6 +21,14 @@ import axios from 'axios';
 import PDFViewer from 'pdf-viewer-reactjs';
 import { Link as RouterLink } from 'react-router-dom';
 import HomeWork from './HomeWork';
+import { Viewer } from '@react-pdf-viewer/core'; // install this library
+// Plugins
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'; // install this library
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+// Worker
+import { Worker } from '@react-pdf-viewer/core'; // install this library
 
 
 const ExpandMore = styled((props) => {
@@ -72,11 +80,12 @@ export default class HomeWorkList extends React.Component {
                 <CardHeader title={exercice.exercice} />
                 <CardContent>
                   <Typography paragraph>{exercice.description}</Typography>
-                  <PDFViewer
-                    document={{
-                      url: 'http://localhost:5000/uploads\\' + exercice.pdfexcercicename
-                    }}
-                  />
+                  <div>
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+          <Viewer fileUrl= {"http://localhost:5000/"+ exercice.pdfexercicename}  
+            />
+      </Worker>
+      </div>
                 </CardContent>
                 <Button
                   onClick={(e) => this.deleteRow(exercice._id, e)}

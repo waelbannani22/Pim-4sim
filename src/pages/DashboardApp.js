@@ -1,5 +1,5 @@
 // material
-import { Link as RouterLink } from 'react-router-dom';
+
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import {
@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 // components
+import { Link as RouterLink,Navigate,useNavigate } from 'react-router-dom';
 
 import Page from '../components/Page';
 import {
@@ -29,14 +30,32 @@ import {
   AppCurrentSubject,
   AppConversionRates
 } from '../components/_dashboard/app';
+
 import { useEffect } from 'react';
 import { CardProf, CardStudent } from '.';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  
+     const navigate = useNavigate();
 
+  var c;
+
+  c=sessionStorage.getItem("firstname")
+
+console.log(c)
+if (c ==null)
+{
+console.log("fefefefefe")
+  //navigate('/login',{replace:true});
+  return(
+    <Navigate replace to ="/login" />
+  )
+}
+  
  
+
   
   return (
    
@@ -69,7 +88,7 @@ export default function DashboardApp() {
         >
           
           <CardProf/>
-          <CardStudent/>
+         
          
         </Stack>
      

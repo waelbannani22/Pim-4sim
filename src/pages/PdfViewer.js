@@ -4,11 +4,11 @@ import PDFViewer from 'pdf-viewer-reactjs'
 
 
 
-const PdfViewer = () => {
+const PdfViewer = (id) => {
     return (
         <PDFViewer
             document={{
-                url: 'https://arxiv.org/pdf/quant-ph/0410100.pdf',
+                url: 'http://localhost:5000/uploads\\1649639905482.pdf',
             }}
         />
     )

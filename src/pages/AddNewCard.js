@@ -1,12 +1,12 @@
 import * as Yup from 'yup';
-import React,{ useState ,useRef} from 'react';
+import React,{ useState ,useRef, useEffect} from 'react';
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, label, Input,  IconButton, InputAdornment, Container,Avatar} from '@mui/material';
+import { Stack, TextField, label, Input,  IconButton, InputAdornment, Container,Avatar,Select,MenuItem,InputLabel,FormControl} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {ImageUpload} from '../pages';
 import axios from "axios";
@@ -20,11 +20,17 @@ import PropTypes from "prop-types";
 export default function AddNewCard(props) {
   const [title, setTitle] = useState('');
   const [description, SetDescription] = useState('');
+  const [classes, SetClasse]= useState([]);
   const [image, setImage] = useState(null);
+  const [selected, setSelected]= useState([]);
+  
   const [file, setFile] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
     props.avatar ? defaultAvatar : defaultImage
   );
+  useEffect(()=>{
+    getclasses()
+  },[])
   const fileInput = React.useRef(null);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +50,31 @@ export default function AddNewCard(props) {
   };
   const handleClick = () => {
     fileInput.current.click();
+  };
+  const getclasses = () => {
+    var data2 = JSON.stringify({
+      "idTeacher": sessionStorage.getItem("id")
+   });
+    var config2 = {
+      method: 'post',
+      url: 'http://localhost:5000/admin/class/getclassesteacher',
+      headers: { 
+          'Content-Type': 'application/json',
+        
+      },
+      data: data2
+    };
+    axios(config2)
+  .then(function (response1) {
+   
+    
+    SetClasse(response1.data.data)
+    console.log(response1.data.data)
+   
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   };
   const handleRemove = () => {
     setFile(null);
@@ -72,11 +103,16 @@ export default function AddNewCard(props) {
     //console.log(file[0])
     try {
      
+      var today = new Date(),
+
+      date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       const formData = new FormData()
       formData.append('idPhoto', file)
-      formData.append('user', "6216c15c354ac14af06f63c6")
+      formData.append('user', sessionStorage.getItem("id"))
       formData.append('title', title)
       formData.append('description', description)
+      formData.append('created',date)
+      formData.append('classes',JSON.stringify(selected))
    
       var config2 = {
         method: 'post',
@@ -140,8 +176,8 @@ export default function AddNewCard(props) {
   return (
     <FormikProvider value={formik}>
       <Form   onSubmit={editHandler}>
-      <Container>
-        <Stack direction="column" alignItems="center" justifyContent="space-between" mb={5}>
+      
+        <Stack direction="column" alignItems="center"  mb={5} spacing={3}>
           
           
        
@@ -179,7 +215,7 @@ export default function AddNewCard(props) {
           
         </Stack>
 
-      </Container>
+      
         <Stack spacing={3}>
           <TextField
             
@@ -196,14 +232,27 @@ export default function AddNewCard(props) {
             value={description}
             onChange={(e)=>SetDescription(e.target.value)}
           />
-          
+           <FormControl fullWidth>
+           <InputLabel id="demo-simple-select-label">className</InputLabel>
+          <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+             
+              label="className"
+              
+              onChange={(e) => setSelected(e.target.value)}
+            >
+              {classes.map((el)=>(<MenuItem  value={el}>{el.classeName}</MenuItem>))}
+              
+
+            </Select>
+            </FormControl>
           
           <LoadingButton
             size="large"
             type="submit"
             variant="contained"
-           
-           
+       
           >
             Add
           </LoadingButton>

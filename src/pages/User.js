@@ -3,9 +3,11 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { mockImgAvatar } from '../utils/mockImages';
 import axios from "axios";
+import Swal from 'sweetalert2'
+
 // material
 import {
   Card,
@@ -31,7 +33,8 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
-
+import PieChartOutlineIcon from '@mui/icons-material/PieChartOutline';
+import { nb } from 'date-fns/locale';
 
 
 // ----------------------------------------------------------------------
@@ -40,7 +43,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'company', label: 'Company', alignRight: false },
   { id: 'email', label: 'email', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
@@ -85,6 +88,9 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
   const [teachers, setTeachers] = useState([]);
+  const [selectedId, setSelectedId] = useState([]);
+
+  const navigate = useNavigate();
 
   const add = async () => {
     try {
@@ -106,11 +112,11 @@ export default function User() {
           setTeachers(result)
           const userss = result.map((e) => ({
             id: e._id,
-            name: e.firstname +" "+e.lastname,
+            name: e.firstname + " " + e.lastname,
             avatarUrl: mockImgAvatar(i++),
             email: e.email,
             company: "ESPRIT",
-            isVerified : e.verified.toString()
+            status: e.status
 
 
           }));
@@ -128,6 +134,7 @@ export default function User() {
 
   useEffect(() => {
     add()
+    
 
   }, [])
 
@@ -141,18 +148,18 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = users.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -165,7 +172,27 @@ export default function User() {
     }
     setSelected(newSelected);
   };
-
+  const handleSelectId = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+  };
+  const aba = (nb)=> {
+    sessionStorage.setItem("idT",nb)
+    navigate('/dashboard/classesAffect', { replace: true })
+  }
   const handleChangePage = (event, newPage) => {
 
     setPage(newPage);
@@ -179,16 +206,16 @@ export default function User() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const show = (id) => {
+  const disable = (id) => {
     console.log(id)
   };
-  
+
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
   //accept 
-  const accept = async ( id) => {
+  const accept = async (id) => {
     try {
       var data = {
         "idTeacher": id
@@ -200,7 +227,7 @@ export default function User() {
           'Content-Type': 'application/json',
 
         },
-        data:data
+        data: data
 
       };
       axios(config2)
@@ -222,7 +249,7 @@ export default function User() {
     }
   }
   //decline
-  const decline = async ( id) => {
+  const decline = async (id) => {
     try {
       var data = {
         "idTeacher": id
@@ -234,7 +261,7 @@ export default function User() {
           'Content-Type': 'application/json',
 
         },
-        data:data
+        data: data
 
       };
       axios(config2)
@@ -255,30 +282,59 @@ export default function User() {
       console.log("failure")
     }
   }
- var b ;
+  const fetch = async () => {
+    try {
+      var data = {
+        "idClasse": sessionStorage.getItem("classid")
+      }
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/admin/class/getteacherinclass',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        data: data
+
+      };
+      axios(config2)
+        .then(function (response1) {
+
+          alert(response1.data.data)
+          window.location.reload()
+          // console.log("users",re)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+  }
+  var b;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  
- 
- 
+  //
+
+  // 
   return (
     <Page title="User | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Teacher's application list
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New User
+          <Button variant="contained" endIcon={<PieChartOutlineIcon />} onClick={(e) => navigate('/dashboard/chart', { replace: true })}>
+            check the statistics
           </Button>
+          
         </Stack>
 
         <Card>
@@ -304,8 +360,8 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, email, status, company, avatarUrl, isVerified } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const { id, name, email, company, avatarUrl, status } = row;
+                      const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
                         <TableRow
@@ -315,14 +371,21 @@ export default function User() {
                           role="checkbox"
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
+
                         >
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
+                          <TableCell component="th" scope="row" padding="none" onClick={(e) => status == "accepted" ?aba(id)   :
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Oops...',
+                              text: 'the  status of the teacher must be accepted',
+                             
+                            })}>
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
@@ -332,25 +395,23 @@ export default function User() {
                           </TableCell>
                           <TableCell align="left">{company}</TableCell>
                           <TableCell align="left">{email}</TableCell>
-                          <TableCell align="left">{isVerified}</TableCell>
-                          
+                          <TableCell align="left">{status}</TableCell>
+
                           <TableCell align="left">
-                          
-                               <Stack direction="row" alignItems="center" spacing={2}>
-                              <Button variant="contained" color="success"   onClick={() => accept( id)}>
+
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              <Button variant="contained" color="success" onClick={() => accept(id)} disabled={row.status == "accepted" || row.status == "refused" ? true : false}>
                                 Accept
                               </Button>
-                              <Button variant="outlined" color="error" onClick={() => decline( id)}>
+                              <Button variant="outlined" color="error" onClick={() => decline(id)} disabled={row.status == "accepted" || row.status == "refused" ? true : false}>
                                 Refuse
                               </Button>
                             </Stack>
-                            
-                           
+
+
                           </TableCell>
 
-                          <TableCell align="right">
-                            <UserMoreMenu />
-                          </TableCell>
+
                         </TableRow>
                       );
                     })}
@@ -383,7 +444,7 @@ export default function User() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        
+
       </Container>
     </Page>
   );

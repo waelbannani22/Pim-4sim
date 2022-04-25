@@ -41,7 +41,8 @@ export default class AddComment extends React.Component {
 
     try {
       var data2 = JSON.stringify({
-        commantaire: commantaire
+        commantaire: commantaire,
+        user : sessionStorage.getItem("id")
       });
 
       var config2 = {
@@ -71,8 +72,16 @@ export default class AddComment extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/commantaire/').then((res) => {
-      const prop = res.data.response;
+    var data2 = JSON.stringify({
+      "lessons": JSON.parse(sessionStorage.getItem("class"))._id
+     
+
+    });
+    const headers = { 
+      'Content-Type': 'application/json',
+  };
+    axios.post('http://localhost:5000/api/commantaire/findbylesson',data2,{headers}).then((res) => {
+      const prop = res.data.data;
       this.setState({ prop });
     });
   }
@@ -90,8 +99,8 @@ export default class AddComment extends React.Component {
   }
   render() {
     return (
-      <Container>
-        <Container>
+     
+      <Stack spacing={3}>
           <AddCommentModal />
           <Stack direction="column" alignItems="" justifyContent="space-around" mb={5} spacing={3}>
             {this.state.prop.map((commantaire) => (
@@ -107,8 +116,8 @@ export default class AddComment extends React.Component {
                     <MoreVertIcon />
                   </IconButton>
                 }
-                title="rami"
-                subheader="September 14, 2021"
+                title={commantaire.user}
+                subheader={commantaire.created}
               />
                 <CardContent >
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0} spacing={3}>
@@ -125,8 +134,8 @@ export default class AddComment extends React.Component {
               </Card>
             ))}
           </Stack>
-        </Container>
-      </Container>
+          </Stack>
+      
     );
   }
 }

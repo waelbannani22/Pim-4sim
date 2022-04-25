@@ -11,6 +11,8 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
+import sidebarConfigTeacher from './SidebarTeacher';
+import sidebarConfigStudent from './sidebarStudent';
 import account from '../../_mocks_/account';
 
 // ----------------------------------------------------------------------
@@ -77,8 +79,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           </AccountStyle>
         </Link>
       </Box>
-
-      <NavSection navConfig={sidebarConfig} />
+      
+      
+    
+      <NavSection navConfig={sessionStorage.getItem("role")== "teacher"?sidebarConfigTeacher:sessionStorage.getItem("role")=="admin"?sidebarConfig:sidebarConfigStudent} />
 
       <Box sx={{ flexGrow: 1 }} />
 

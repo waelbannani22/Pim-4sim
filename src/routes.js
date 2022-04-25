@@ -14,6 +14,13 @@ import Profile from './pages/profile';
 import Reset from './pages/resetpassword';
 import ConfirmpasswordPage from './pages/confirmpasswordpage';
 import TeacherChart from './pages/TeachersStatChart';
+import AffectStudent from './pages/AffectStudent';
+import UserProfile from './components/authentication/profile/FullProfile';
+import WelcomeAdmin from './pages/WelcomeAdmin';
+import Students from './pages/Student';
+import Compilator from './pages/compilator';
+import Payment from'./pages/payment';
+import LoginGoogle from './pages/LoginGoogle';
 import AddNewCard from './pages/AddNewCard';
 import SeeAllChapter from './pages/SeeAllChapter';
 import AddChapter from './pages/AddChapter';
@@ -21,7 +28,14 @@ import { AddCommentModal, PdfUpload, PdfViewer } from './pages';
 import AddComment from './pages/AddComment';
 import HomeWork from './pages/HomeWork';
 import HomeWorkList from './pages/HomeWorkList';
+import ClassCard from './pages/classesCard';
+import StudentsTeacher from './pages/StudentTeacher';
+import ClassAffect from './pages/classAfect';
 import Drag from './pages/Drag';
+import TeacherClasses from './pages/teacherClasses';
+import StudentClass from './pages/studentClass';
+import Todo from './pages/todo';
+import DetailLesson from './pages/detailLesson';
 
 
 
@@ -46,7 +60,8 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> },
         { path: 'resetpassword', element: <Reset /> },
-        { path: 'confirmpassword', element: <ConfirmpasswordPage /> }
+        { path: 'confirmpassword', element: <ConfirmpasswordPage /> },
+        { path: 'loginGoogle', element: <LoginGoogle /> }
         
       ]
     },
@@ -61,6 +76,12 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: 'profile', element: <Profile /> },
         { path: 'chart', element: <TeacherChart /> },
+        { path: 'AffectStudent', element: <AffectStudent /> },
+        { path: 'Student', element: <Students /> },
+        { path: 'see', element: <SeeAllChapter /> },
+        { path: 'Compilator', element: <Compilator /> },
+          { path: 'Payment', element: <Payment /> },
+        { path: 'welcomeadmin', element: <WelcomeAdmin /> },
         { path: 'card', element: <AddNewCard /> },
         { path: 'allChapter', element: <SeeAllChapter /> },
         { path: 'addChapter', element: <AddChapter /> },
@@ -69,10 +90,14 @@ export default function Router() {
         { path: 'commentModal', element: <AddCommentModal /> },
         { path: 'homework', element: <HomeWork /> },
         { path: 'homeworklist', element: <HomeWorkList /> },
-        
-
-        { path: 'addComment', element: <AddComment /> }
-      
+        { path: 'addComment', element: <AddComment /> },
+        { path: 'classes', element: <ClassCard /> },
+        { path: 'classesTeacher', element: <StudentsTeacher /> },
+        { path: 'classesAffect', element: <ClassAffect /> },
+        { path: 'teacherClasses', element: <TeacherClasses /> },
+        { path: 'StudentClass', element: <StudentClass /> },
+        { path: 'todo', element: <Todo /> },
+        { path: 'detailLesson', element: <DetailLesson /> },
       ]
     },
     

@@ -41,6 +41,7 @@ export default class CardStudent extends React.Component {
       this.setState({ prop });
     });
   }
+  
   render() {
     return (
       <Container>

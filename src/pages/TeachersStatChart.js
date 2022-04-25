@@ -44,6 +44,7 @@ import axios from "axios";
 export default function TeacherChart() {
     const [nbRefused, setRefused] = useState(0);
     const [nbAccepted, setAccepted] = useState(0);
+    const [nbPending, setPending] = useState(0);
     const [name, setName] = useState('');
     const accept = async () => {
         try {
@@ -51,7 +52,7 @@ export default function TeacherChart() {
 
             var config2 = {
                 method: 'get',
-                url: 'http://localhost:5000/admin/fetchChart',
+                url: 'http://localhost:5000/admin/fetchStat',
                 headers: {
                     'Content-Type': 'application/json',
 
@@ -61,10 +62,10 @@ export default function TeacherChart() {
             await axios(config2)
                 .then(function (response1) {
 
-                    var result = response1.data.data.nbAccepted
-                    setAccepted(response1.data.data.nbAccepted)
-                    setRefused(response1.data.data.nbRefused)
-
+                    
+                    setAccepted(response1.data.data[0].nbAccepted)
+                    setRefused(response1.data.data[0].nbRefused)
+                    setPending(response1.data.data[0].nbPending)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -83,6 +84,7 @@ export default function TeacherChart() {
     const data = [
         { name: 'Teacher refused', value: nbRefused },
         { name: 'Teacher accepted', value: nbAccepted },
+        { name: 'Teacher status is pending', value: nbPending },
         
     ];
     const data1 = [
