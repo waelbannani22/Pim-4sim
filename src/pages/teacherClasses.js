@@ -64,9 +64,9 @@ export default class TeacherClasses extends React.Component {
                     sx={{ mb: 5 }}
                 >
                     {this.state.prop.map((course) => (
-                        <Card sx={{ maxWidth: 500, my: 3 }}   >
+                        <Card sx={{ maxWidth: 500, my: 3 }} key={course.id} >
                             <CardHeader
-
+                              
                                 action={
                                     <IconButton aria-label="settings">
                                         <MoreVertIcon />

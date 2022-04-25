@@ -12,7 +12,7 @@
   font-family: sans-serif;
 }
 
-.panel {
+.panelcomp {
   background: #2d2d2d;
   text-align: left;
   font-family: sans-serif;
@@ -81,7 +81,7 @@
 width: 320px;
 position:absolute;
 background-color: #d1cfcfde;
-
+height: 720px;
 
 }
 

@@ -136,7 +136,7 @@ async function shownotification (title,description,id){
 function renderContent(notification) {
   const title = (
     <Typography variant="subtitle2">
-      {notification.title}
+        &nbsp;{notification.title}
       <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
         &nbsp; {noCase(notification.description)}
       </Typography>
@@ -254,7 +254,7 @@ export default function NotificationsPopover() {
             description: e.description,
             type: e.type,
             avatar: null,
-            createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
+            createdAt: e.updatedAt?e.updatedAt:sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
             isUnRead : e.isUnRead
           
            

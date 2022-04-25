@@ -7,11 +7,13 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // components
 import { MHidden } from '../../components/@material-extend';
 //
+
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
 import Binance from './binance';
+import PaymentWeb from '../../pages/donation';
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +63,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           <Binance/>
           <NotificationsPopover />
           <AccountPopover />
+          <PaymentWeb/>
         </Stack>
       </ToolbarStyle>
     </RootStyle>

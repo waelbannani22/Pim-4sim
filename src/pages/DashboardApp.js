@@ -86,8 +86,12 @@ console.log("fefefefefe")
           sx={{ mb: 5 }}
           spacing={1} flexShrink={0}
         >
+          {sessionStorage.getItem("role")=="teacher"?(
+            <CardProf/>
+          ):(
+            <CardStudent/>
+          )}
           
-          <CardProf/>
          
          
         </Stack>

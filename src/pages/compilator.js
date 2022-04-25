@@ -105,12 +105,64 @@ const[soltT,setSoltT] = useState('');
   const [conT,setconT] =useState()
   const[wrt,setwrt]=useState()
   const[sucT,setsucT] =useState()
+  const[pathy,setPathy]  = useState('')
+  const[locpath,setLocpath] = useState('')
+  const[locfile,setLocfile] = useState('')
+  const[drop,setDrop]=useState('')
+  const[direr,setdirer]=useState('')
 
+ 
+  useEffect(() => { 
+    
+  if((sessionStorage.getItem("role")=="student")&&(localStorage.getItem("lastwork")!='')&&(file==''))
+  {
+      setFile(localStorage.getItem("lastwork"))
+  }
 
-console.log("pathhh",path)
+     }, [file]);
+  useEffect(() => { 
+    if((sessionStorage.getItem("role")=="student")&&(path!=''))    
+    {   
+    localStorage.setItem("lastfile",path)
+    }
+
+ if((sessionStorage.getItem("role")=="student")&&(localStorage.getItem("lastfile")!='')&&(path==''))    
+{   
+  
+
+    setLocpath(localStorage.getItem("lastfile"))
+       console.log("local file variable ",locfile)
+       var data = JSON.stringify({
+        "data": localStorage.getItem("lastfile")
+      });
+  
+      var config = {
+        method: 'post',
+        url: 'http://localhost:5000/readsingle',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+  
+      axios(config)
+  
+        .then(function (response) {
+          console.log(response);
+          setDef(response.data.fileContent)
+  
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  
+}
+  }, [path]);
+
 
   useEffect(()=>{
     if ( sessionStorage.getItem("role") == "teacher"){
+
    setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work') 
    setsaveSt(true)
    setupSt(true)
@@ -136,89 +188,108 @@ setsucT(true)
     setDef(message);
     setMode(detectLang(message))
   });
-  const MINUTE_MS = 10000;
 
-  useEffect(() => {
-   
-    const interval = setInterval(() => {
-      console.log("role",sessionStorage.getItem("role"))
-      console.log("path",path)
-   if (( sessionStorage.getItem("role") == "student")&&(path!=''))
+  useEffect(()=>
+  {
+    if (sessionStorage.getItem("role")=="student")
     {
-      var data = JSON.stringify({
-        "data": file
-      });
-  
-      var config = {
-        method: 'post',
-        url: 'http://localhost:5000/upbackend',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-  
-      axios(config)
-  
-        .then(function (response) {
-          console.log(response);
-          
-        var data2 = JSON.stringify({
-          "path": path,
-          "data": def
-        });
-    
-        var config = {
-          method: 'post',
-          url: 'http://localhost:5000/write',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: data2
-        };
-    
-        axios(config)
-    
-          .then(function (response) {
-            console.log(response);
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'center-end',
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
-    
-            Toast.fire({
-              icon: 'success',
-              title: 'Saving file and uploading to server'
-            })
-          })
-          .catch(function (error) {
-            console.log(error);
+    var y="";
+    var x =""
+          var data = JSON.stringify({
+            "data": def
           });
-    
+        
+          var config = {
+            method: 'post',
+            url: 'http://localhost:5000/def',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            data: data
+          };
+        
+          axios(config)
+        
+            .then(function (response) {
+              y= response.data.def
+              var config = {
+                method: 'get',
+                url: 'http://localhost:5000/pathy',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+              };
+            
+              axios(config)
+            
+                .then(function (response) {
+                  console.log("pathy",data)
+             x = localStorage.getItem("lastfile")
+            
+            console.log("role",sessionStorage.getItem("role"))
+          
+          if (( sessionStorage.getItem("role") == "student")&&(x!=''))
+          {
+            console.log("pag",x)
+            console.log("datax",y)
+            var data = JSON.stringify({
+              "path": x,
+              "data": y
+            });
+          
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/write',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
+          
+            axios(config)
+          
+              .then(function (response) {
+                console.log(response);
+                var data = JSON.stringify({
+                  "data": file
+                });
+            
+                var config = {
+                  method: 'post',
+                  url: 'http://localhost:5000/upbackend',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  data: data
+                };
+            
+                axios(config)
+            
+                  .then(function (response) {
+                    console.log(response);
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+              
+            
+            
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+  },[def])
   
-
-  
-         
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-  
-
-
-      console.log('save every minute'); 
-      }
-    }, MINUTE_MS);
-   
-    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-  }, [])
   
   const [openPicker, data, authResponse] = useDrivePoicker();
   const handleOpenPicker = () => {
@@ -298,8 +369,9 @@ setsucT(true)
   
   function onChange(newValue) {
    
-    console.log('change', newValue);
     var message = newValue;
+
+
     if ((sol=="true")||(soltT=="true"))
 
     {
@@ -324,10 +396,101 @@ setsucT(true)
 
     setMode(lang2);
     var x = message.split(/\r\n|\r|\n/).length;
-    //if(x>5)
-    //{
-    //payment()
-    //}
+    /*
+    var y="";
+    var x =""
+          var data = JSON.stringify({
+            "data": newValue
+          });
+        
+          var config = {
+            method: 'post',
+            url: 'http://localhost:5000/def',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            data: data
+          };
+        
+          axios(config)
+        
+            .then(function (response) {
+              y= response.data.def
+              var config = {
+                method: 'get',
+                url: 'http://localhost:5000/pathy',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+              };
+            
+              axios(config)
+            
+                .then(function (response) {
+             x = response.data.pathdir
+            console.log("role",sessionStorage.getItem("role"))
+          
+          if (( sessionStorage.getItem("role") == "student")&&(x!=''))
+          {
+            var data = JSON.stringify({
+              "path": x,
+              "data": y
+            });
+          
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/write',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
+          
+            axios(config)
+          
+              .then(function (response) {
+                console.log(response);
+                var data = JSON.stringify({
+                  "data": file
+                });
+            
+                var config = {
+                  method: 'post',
+                  url: 'http://localhost:5000/upbackend',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  data: data
+                };
+            
+                axios(config)
+            
+                  .then(function (response) {
+                    console.log(response);
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+              
+            
+            
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+      
+         
+       
+    */
 
   }
   function run() {
@@ -428,8 +591,10 @@ setsucT(true)
     setPath(replaced)
     var result = replaced.substring(replaced.lastIndexOf("/") + 1);
     var filename = result.split('.')[0]
+    console.log("sesss",sessionStorage.getItem("lastwork"))
     var data = JSON.stringify({
-      "path": replaced
+      "path": replaced,
+      "path2":sessionStorage.getItem("lastwork")
     });
     var config = {
       method: 'post',
@@ -514,6 +679,9 @@ setsucT(true)
       var replaced = ipAddress.replace(/\\/g, '/');
 
       setFile(replaced);
+      localStorage.setItem("lastwork",replaced)
+      setDef('')
+
     }
 
 
@@ -539,8 +707,7 @@ setsucT(true)
 
   }
   function save() {
-    console.log("âth save",path)
-    console.log("âth save",def)
+
 
     var data = JSON.stringify({
       "path": path,
@@ -586,8 +753,9 @@ setsucT(true)
 
 
   function App() {
-    return (
 
+
+    return (
       <Tree
         className="sidebar"
         disableContextMenu={false}
@@ -609,12 +777,6 @@ setsucT(true)
 
   }
   function upback() {
-
-
-
-
-
-
     var data = JSON.stringify({
       "data": file
     });
@@ -969,10 +1131,132 @@ swalWithBootstrapButtons.fire({
  
 
 }
+/*
+const MINUTE_MS = 20000;
 
-function trigger()
-{}
+  useEffect(() => {
+    const interval = setInterval(() => {  
+var y="";
+var x =""
+      var data = JSON.stringify({
+        "data": def
+      });
+    
+      var config = {
+        method: 'post',
+        url: 'http://localhost:5000/def',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+    
+      axios(config)
+    
+        .then(function (response) {
+          y= response.data.def
+          var config = {
+            method: 'get',
+            url: 'http://localhost:5000/pathy',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          };
+        
+          axios(config)
+        
+            .then(function (response) {
+         x = response.data.pathdir
+        console.log("role",sessionStorage.getItem("role"))
+      console.log("x=====",x)
+      console.log("y=====",y)
+      
+      if (( sessionStorage.getItem("role") == "student")&&(x!=''))
+      {
+        var data = JSON.stringify({
+          "path": x,
+          "data": y
+        });
+      
+        var config = {
+          method: 'post',
+          url: 'http://localhost:5000/write',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: data
+        };
+      
+        axios(config)
+      
+          .then(function (response) {
+            console.log(response);
+            var data = JSON.stringify({
+              "data": file
+            });
+        
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/upbackend',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
+        
+            axios(config)
+        
+              .then(function (response) {
+                console.log(response);
+        
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'center-end',
+                  showConfirmButton: false,
+                  timer: 2000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+        
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Saving And Uploading  file To the Server'
+                })
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          
+        
+        
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  
+     
+   
+  
 
+      console.log('save every minute'); 
+      
+    }, MINUTE_MS);
+   
+    return () => clearInterval(interval);
+  }, [def])
+*/
 
 /*
    <button className="butt" onClick={() => handleOpenPicker()}>
@@ -995,7 +1279,7 @@ return (
           <img src={logo} width="95px"></img>
         </center>
       </div>
-      <div className="panel">
+      <div className="panelcomp">
         <button className="butt" onClick={open}>
           {' '}
           Open Directory{' '}

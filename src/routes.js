@@ -36,6 +36,7 @@ import TeacherClasses from './pages/teacherClasses';
 import StudentClass from './pages/studentClass';
 import Todo from './pages/todo';
 import DetailLesson from './pages/detailLesson';
+import VideoChat from './pages/videochat';
 
 
 
@@ -67,7 +68,7 @@ export default function Router() {
     },
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
@@ -97,6 +98,7 @@ export default function Router() {
         { path: 'StudentClass', element: <StudentClass /> },
         { path: 'todo', element: <Todo /> },
         { path: 'detailLesson', element: <DetailLesson /> },
+        { path: 'videochat', element: <VideoChat /> },
       ]
     },
     

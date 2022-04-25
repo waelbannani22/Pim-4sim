@@ -105,7 +105,7 @@ export default class AddChapterNew extends React.Component {
                  
 
                     document={{
-                      url : "http://localhost:5000/uploads/1649651456499.pdf",
+                      url : "http://localhost:5000/uploads/"+resource.pdfname,
                     }}
 
                   />
