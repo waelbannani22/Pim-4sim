@@ -113,6 +113,7 @@ export default function AddNewCard(props) {
       formData.append('description', description)
       formData.append('created',date)
       formData.append('classes',JSON.stringify(selected))
+      
    
       var config2 = {
         method: 'post',
@@ -127,7 +128,7 @@ export default function AddNewCard(props) {
       axios(config2)
         .then(function (response1) {
           console.log("ssucess added")
-
+          
          
 
           navigate('/dashboard/app', { replace: false });

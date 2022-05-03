@@ -42,8 +42,9 @@ export default class AddChapterNew extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/resource/').then((res) => {
-      const prop = res.data.response;
+    var da =JSON.parse(sessionStorage.getItem("class"))._id;
+    axios.post('http://localhost:5000/api/resource/findbylesson',{lesson : da}).then((res) => {
+      const prop = res.data.data;
       this.setState({ prop });
     });
   }
@@ -62,7 +63,7 @@ export default class AddChapterNew extends React.Component {
     return (
       <Container>
         <Container>
-          <Stack direction="row" justifyContent="space-between" mb={5}>
+          <Stack direction="row" justifyContent="space-between" mb={5} >
             <ChapterModal />
 
           </Stack>
@@ -105,7 +106,7 @@ export default class AddChapterNew extends React.Component {
                  
 
                     document={{
-                      url : "http://localhost:5000/uploads/"+resource.pdfname,
+                      url : "http://localhost:5000/"+resource.pdfname,
                     }}
 
                   />

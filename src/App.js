@@ -7,10 +7,14 @@ import GlobalStyles from './theme/globalStyles';
 import ScrollToTop from './components/ScrollToTop';
 import { BaseOptionChartStyle } from './components/charts/BaseOptionChart';
 
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import Notifications from './components/notificationss';
 import ReactNotificationComponent from './components/Reactnotifications';
-import { onMessageListener } from './firebaseInit';
+import { getToken, onMessageListener } from './firebaseInit';
+import firebase from 'firebase/compat/app';
+import "firebase/messaging";
+import { getMessaging } from "firebase/messaging/sw";
+
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +22,13 @@ export default function App() {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: "", body: "" });
   
-  onMessageListener()
+  
+  //***********************sign to topic******************************//
+ 
+  //*********************listner on noti*********************************//
+  useEffect(()=>{
+    
+     onMessageListener()
   .then((payload) => {
     console.log("payload",payload)
     setShow(true);
@@ -28,6 +38,8 @@ export default function App() {
     });
   })
   .catch((err) => console.log("failed: ", err));
+  })
+ 
   return (
     <div>
     {

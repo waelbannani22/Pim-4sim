@@ -94,7 +94,36 @@ export default function AddCommentModal() {
       axios(config2)
         .then(function (response1) {
           console.log('ssucess added');
-
+          try {
+            var data = {
+              "title": "new comment",
+              "bdan": "new comment added ",
+              "class":"4sim2"
+              // "class":sessionStorage.getItem("className").toString()
+            }
+            // console.log("token i app",getToken())
+            var config2 = {
+              method: 'post',
+              url: 'http://localhost:5000/api/fcm/send',
+              headers: {
+                'Content-Type': 'application/json',
+        
+              },
+              data: data
+        
+        
+            };
+             axios(config2)
+              .then(function (response1) {
+                    
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            //console.log(data);
+          } catch (error) {
+            console.log("failure")
+          }
           // navigate('/dashboard/app', { replace: false });
           window.location.reload();
         })

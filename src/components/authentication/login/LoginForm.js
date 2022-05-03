@@ -196,7 +196,35 @@ export default function LoginForm({ history }) {
                   axios(config2)
                     .then(function (response1) {
                       console.log(response1.data.data)
-
+                      try {
+                        var data = {
+                          "token": sessionStorage.getItem("tokenfirebase"),
+                          "class":"SIM"
+                          // "class":sessionStorage.getItem("className").toString()
+                        }
+                        // console.log("token i app",getToken())
+                        var config2 = {
+                          method: 'post',
+                          url: 'http://localhost:5000/api/fcm/sub',
+                          headers: {
+                            'Content-Type': 'application/json',
+                    
+                          },
+                          data: data
+                    
+                    
+                        };
+                         axios(config2)
+                          .then(function (response1) {
+                                console.log("signed to"+sessionStorage.getItem("className"))
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                          });
+                        //console.log(data);
+                      } catch (error) {
+                        console.log("failure")
+                      }
                       sessionStorage.setItem("email", response1.data.data.email);
                       sessionStorage.setItem("role", response1.data.data.role);
                       sessionStorage.setItem("firstname", response1.data.data.firstname);
@@ -204,6 +232,7 @@ export default function LoginForm({ history }) {
                       sessionStorage.setItem("id", response1.data.data._id);
                       sessionStorage.setItem("phone", response1.data.data.phone);
                       sessionStorage.setItem("image", response1.data.data.image);
+                      sessionStorage.setItem("className", response1.data.data.claaseName);
                       if (response1.data.data.role == "admin") {
 
                       }

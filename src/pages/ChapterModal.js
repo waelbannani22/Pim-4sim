@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
+import firebase from 'firebase/compat/app';
 
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
@@ -8,6 +9,7 @@ import { TextField, Input } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+
 import { PdfUpload } from '../pages';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -24,7 +26,7 @@ import { FileUploader } from "react-drag-drop-files";
 
 import Notifications from 'src/components/notificationss';
 import ReactNotificationComponent from 'src/components/Reactnotifications';
-import { onMessageListener } from '../firebaseInit';
+import { getToken, onMessageListener } from '../firebaseInit';
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -56,6 +58,9 @@ function Display() {
 
 export default function ChapterModal() {
   const [filename, setFileName] = React.useState(null);
+  
+  
+
   var allid = []
 
   const add = async () => {
@@ -213,9 +218,24 @@ export default function ChapterModal() {
       };
       console.log(config2);
       axios(config2)
-        .then(function (response1) {
+        .then(function   (response1) {
           console.log('ssucess added');
-
+          
+//           const message = {
+//             data: {
+//               title: "New episodes aired recently!",
+//               body: "",
+             
+//             },
+//             tokens: getToken(),
+//           }
+  
+        
+  
+//           // https://firebase.google.com/docs/cloud-messaging/send-message#send-messages-to-multiple-devices
+          
+//           const responsexx =  messaging.onMessage(message)
+// console.log("resoinse firebas",responsexx)
           // navigate('/dashboard/app', { replace: false });
           //window.location.reload();
 
@@ -289,7 +309,7 @@ export default function ChapterModal() {
 
 
   return (
-    <div align="end">
+    <div align="center">
       <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
         Add new chapter
       </Button>

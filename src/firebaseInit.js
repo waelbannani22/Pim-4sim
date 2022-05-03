@@ -1,6 +1,7 @@
 import { getMessaging } from "firebase/compat/messaging";
 import { initializeApp } from "firebase/app";
-import firebase from 'firebase/compat/app';
+ import firebase from 'firebase/compat/app';
+ 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyD5aD0XvP6lWzD5suVLO54m05RaSngJtLM",
@@ -15,6 +16,7 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging()
 
+
 const { REACT_APP_KEYFIRE} = process.env;
 const publicKey = REACT_APP_KEYFIRE;
 
@@ -23,15 +25,17 @@ export const getToken = async (setTokenFound) => {
 
   try {
     currentToken = await messaging.getToken({ vapidKey: "BHiNFgHzNKC202rF7Lvx8_B4vzKtElVM40jMDeT_fl4TxVTcqd7cKqEAgcVW3_Og8zf9V0x2vzwz94SRRa2gUaA" });
+  
     if (currentToken) {
       setTokenFound(true);
+      sessionStorage.setItem("tokenfirebase",currentToken)
     } else {
       setTokenFound(false);
     }
   } catch (error) {
     console.log("An error occurred while retrieving token. ", error);
   }
-
+  
   return currentToken;
 };
 

@@ -8,6 +8,7 @@ import personAddFill from '@iconify/icons-eva/person-add-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
 import heart from '@iconify/icons-eva/heart-fill';
 import code from '@iconify/icons-eva/code-outline';
+import video from '@iconify/icons-eva/video-fill';
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
@@ -16,6 +17,11 @@ const sidebarConfigTeacher = [
       title: 'dashboard',
       path: '/dashboard/app',
       icon: getIcon(pieChart2Fill)
+    },
+    {
+      title: 'videochat',
+      path: '/dashboard/videochat',
+      icon: getIcon(video)
     },
    
     {

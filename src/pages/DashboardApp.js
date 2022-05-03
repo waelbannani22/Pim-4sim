@@ -71,7 +71,7 @@ console.log("fefefefefe")
             to="/dashboard/card"
             startIcon={<Icon icon={plusFill} />}
           >
-            Add new card
+            Add new lesson
           </Button>
         </Stack>
       </Container>

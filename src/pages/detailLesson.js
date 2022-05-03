@@ -76,6 +76,7 @@ export default function DetailLesson() {
           <Tab label="Chapters" {...a11yProps(0)} />
           <Tab label="members" {...a11yProps(1)} />
           <Tab label="Feedbacks" {...a11yProps(2)} />
+       
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -93,6 +94,7 @@ export default function DetailLesson() {
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Commentaire/>
         </TabPanel>
+      
       </SwipeableViews>
     </Box>
     </Stack>
