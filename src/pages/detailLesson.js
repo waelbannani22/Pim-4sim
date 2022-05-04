@@ -15,6 +15,7 @@ import { AddComment } from '@mui/icons-material';
 import AddChapterNew from './addchapternew';
 import Commentaire from './Comment';
 import LessonStudents from './lessonStudent';
+import HomeWork from './HomeWork';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,13 +52,14 @@ function a11yProps(index) {
 
 export default function DetailLesson() {
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const handleChangeIndex = (index) => {
+    
     setValue(index);
   };
 
@@ -76,7 +78,7 @@ export default function DetailLesson() {
           <Tab label="Chapters" {...a11yProps(0)} />
           <Tab label="members" {...a11yProps(1)} />
           <Tab label="Feedbacks" {...a11yProps(2)} />
-       
+          <Tab label="Homework" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -86,6 +88,7 @@ export default function DetailLesson() {
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <AddChapterNew/>
+         
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <LessonStudents/>
@@ -94,7 +97,10 @@ export default function DetailLesson() {
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Commentaire/>
         </TabPanel>
-      
+
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          <HomeWork/>
+        </TabPanel>
       </SwipeableViews>
     </Box>
     </Stack>
