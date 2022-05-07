@@ -30,6 +30,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
 //pdf
+var moment = require('moment'); 
 import { Viewer } from '@react-pdf-viewer/core'; // install this library
 // Plugins
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'; // install this library
@@ -144,9 +145,38 @@ export default function HomeWork() {
       console.log('select your file');
     }
   };
+  const handlePdfFileChange1 = (e) => {
+    let selectedFile = e.target.files[0];
+    setselected(selectedFile);
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        setFileName(selectedFile.name);
 
+        localStorage.setItem('pdfexcercicename', selectedFile.name);
+        reader.onloadend = (e) => {
+          setPdfFile(e.target.result);
+          setPdfFileError('');
+        };
+      } else {
+        setPdfFile(null);
+        setPdfFileError('Please select valid pdf file');
+      }
+    } else {
+      console.log('select your file');
+    }
+  };
   // form submit
   const handlePdfFileSubmit = (e) => {
+    e.preventDefault();
+    if (pdfFile !== null) {
+      setViewPdf(pdfFile);
+    } else {
+      setViewPdf(null);
+    }
+  };
+  const handlePdfFileSubmit1 = (e) => {
     e.preventDefault();
     if (pdfFile !== null) {
       setViewPdf(pdfFile);
@@ -198,9 +228,12 @@ export default function HomeWork() {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpenstudent, setIsOpenstudent] = useState(false);
   function toggleModal() {
     setIsOpen(!isOpen);
+  }
+  function toggleModalstudent() {
+    setIsOpenstudent(!isOpenstudent);
   }
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -216,7 +249,21 @@ export default function HomeWork() {
     }
   });
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  //*********************check date */
+  const checkdate =  (datereg) => {
+    var today = new Date(),
 
+      date = today.getFullYear() + '-' + (today.getMonth()+1 ) + '-' + today.getDate()+" "+today.getHours()+":"+today.getMinutes();
+      var future = moment(datereg, "YYYY/MM/DD");
+      var SpecialTo = moment(date, "YYYY/MM/DD");
+      //SpecialTo.diff(future)
+      console.log(  "today",SpecialTo)
+      console.log( "date to compare",future.calendar())
+      console.log(  SpecialTo.isBefore(future))
+      return  SpecialTo.isBefore(future)
+  }
+  //**********add */
+  
   const addChapterHandler = async (e) => {
     try {
       const formData = new FormData();
@@ -268,6 +315,50 @@ export default function HomeWork() {
       console.log('failure');
     }
   };
+  //add homework student
+    
+  const addChapterHandlerstudent = async (ex) => {
+    try {
+      const formData = new FormData();
+      formData.append('rendu', selected);
+      formData.append('exercice', ex);
+      
+      formData.append('idstudent', sessionStorage.getItem("id"));
+      
+
+      formData.append('idhomework', sessionStorage.getItem("idcourse"));
+      // var data2 = JSON.stringify({
+      //   course: '6224ca73caf9570b7c3b8243',
+      //   exercice: exercice,
+      //   description: description,
+      //   pdfexcercicename: selected
+      // });
+      // console.log(data2);
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/api/work/addrendu',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: formData
+      };
+      console.log(config2);
+     await  axios(config2)
+        .then(function (response1) {
+          console.log('ssucess added');
+          window.location.reload();
+
+          setIsOpenstudent(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      //console.log(data);
+    } catch (error) {
+      console.log('failure');
+    }
+  };
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   return (
     <div align="center">
@@ -275,6 +366,11 @@ export default function HomeWork() {
         {sessionStorage.getItem('role') == 'teacher' ? (
           <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
             Add HomeWork
+          </Button>
+        ) : null}
+        {sessionStorage.getItem('role') == 'student' ? (
+          <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={()=>navigate('/dashboard/StudentRendu', { replace: false })}>
+            Check my homeworks
           </Button>
         ) : null}
       </div>
@@ -346,6 +442,7 @@ export default function HomeWork() {
           </Dialog>
         </div>
       </div>
+     
       <Container>
         <br />
         {HomeWorks.map((r) => (
@@ -355,14 +452,31 @@ export default function HomeWork() {
               <div></div>
               <Typography color="green">{r.date}</Typography>
             </Stack>
-            <CardActions key={r._id} disableSpacing>
+            <CardActions key={r._id} disableSpacing   >
+            <Stack direction="row"  justifyContent="space-around" >
               <div>
+                
                 {sessionStorage.getItem('role') == 'teacher' ? (
                   <Button onClick={(e) => deleterow(r._id)} variant="outlined" color="error">
                     Delete
                   </Button>
+                  
+                ) : null}
+                {sessionStorage.getItem('role') == 'teacher' ? (
+                  <Button onClick={(e) =>   navigate('/dashboard/StudentCards', { replace: false }) } variant="outlined" color="success">
+                    Check
+                  </Button>
+                  
+                ) : null}
+                {sessionStorage.getItem('role') == 'student' && checkdate(r.date)=== true ? (
+                
+                  <Button onClick={(e) => toggleModalstudent()  } variant="outlined" color="success">
+                    add your homework
+                  </Button>
+                  
                 ) : null}
               </div>
+              </Stack>
               <ExpandMore
                 //expand={expanded}
                 onClick={(e) => {
@@ -382,7 +496,7 @@ export default function HomeWork() {
             >
               <CardContent>
                 <Typography paragraph>{r.description}</Typography>
-
+                  
                 <div>
                   <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
                     <Viewer
@@ -394,6 +508,52 @@ export default function HomeWork() {
                 </div>
               </CardContent>
             </Collapse>
+            <div>
+        <div>
+          <Dialog open={isOpenstudent} onClose={toggleModalstudent}>
+            <DialogTitle>Add HomeWork</DialogTitle>
+            <DialogContent>
+              
+             
+              <TextField
+                autoFocus
+                margin="dense"
+                id="exercice"
+                contentEditable={false}
+                type="text"
+                fullWidth
+                variant="standard"
+                value={r.exercice}
+                
+              />
+             
+
+              <DialogContentText>Please insert your file</DialogContentText>
+
+              <form className="form-group" onSubmit={handlePdfFileSubmit1}>
+                <Input
+                  type="file"
+                  className="form-control"
+                  required
+                  onChange={handlePdfFileChange1}
+                />
+                {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
+              </form>
+            </DialogContent>
+
+            <DialogActions>
+              <Button onClick={toggleModalstudent}>Cancel</Button>
+              <Button
+                onClick={() => {
+                  addChapterHandlerstudent(r.exercice);
+                }}
+              >
+                send
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      </div>
           </Card>
         ))}
       </Container>

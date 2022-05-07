@@ -75,7 +75,7 @@ export default function DetailLesson() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Chapters" {...a11yProps(0)} />
+          <Tab  label="Chapters" {...a11yProps(0)} />
           <Tab label="members" {...a11yProps(1)} />
           <Tab label="Feedbacks" {...a11yProps(2)} />
           <Tab label="Homework" {...a11yProps(3)} />
@@ -101,6 +101,7 @@ export default function DetailLesson() {
         <TabPanel value={value} index={3} dir={theme.direction}>
           <HomeWork/>
         </TabPanel>
+        
       </SwipeableViews>
     </Box>
     </Stack>

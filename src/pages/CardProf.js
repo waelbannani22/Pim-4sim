@@ -42,7 +42,8 @@ export default class CardProf extends React.Component {
     isOpen : false,
     title: "",
     description: "",
-    classNames : []
+    classNames : [],
+    id:""
     
   };
 
@@ -79,12 +80,20 @@ export default class CardProf extends React.Component {
   }
   
   update(id, e) {
-    e.preventDefault();
+    
     const courseID = id;
-    axios.post('http://localhost:5000/api/cour/update', 
-    {"courseID":courseID,"title":this.state.title,"description":this.state.description})
+    var data2 = JSON.stringify({
+      "courseID": id,
+      "title":this.state.title,
+      "description":this.state.description
+ 
+    });
+    const headers = { 
+      'Content-Type': 'application/json',
+  };
+    axios.post('http://localhost:5000/api/cour/update', data2,{headers})
     .then((res) => {
-      
+         window.location.reload()
       
     });
   }
@@ -128,7 +137,7 @@ export default class CardProf extends React.Component {
           sx={{ mb: 5 }}
         >
           {this.state.prop.map((course) => (
-            <Card sx={{ maxWidth: 345 ,  my: 3}} direction="row" spacing={1} >
+            <Card key={course._id} sx={{ maxWidth: 345 ,  my: 3}} direction="row" spacing={1} >
               <CardHeader
                 avatar={
                   <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
@@ -163,7 +172,7 @@ export default class CardProf extends React.Component {
               <Stack direction="row" alignItems="center" justifyContent="space-around" mb={5}>
                 <div>
                   <Dialog open={this.state.isOpen} onClose={this.toggleModal}>
-                    <DialogTitle>Add new chapter</DialogTitle>
+                    <DialogTitle>update the lesson</DialogTitle>
                     <DialogContent>
                       <DialogContentText>Please insert your title</DialogContentText>
                       <TextField
@@ -173,7 +182,7 @@ export default class CardProf extends React.Component {
                         label="title"
                         type="text"
                         fullWidth
-                        value={course.title}
+                        
                         variant="standard"
                         onChange={(e) => this.setState({title:e.target.value})}
                       />
@@ -184,7 +193,7 @@ export default class CardProf extends React.Component {
                         label="description"
                         type="text"
                         fullWidth
-                        value={course.description}
+                        
                         variant="standard"
                         onChange={(e) => this.setState({description:e.target.value})}
                       />
@@ -193,7 +202,7 @@ export default class CardProf extends React.Component {
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={this.toggleModal}>Cancel</Button>
-                      <Button onClick={(e)=>this.update(course._id,e)}>update</Button>
+                      <Button onClick={(e)=> this.update(this.state.id,e)}>update</Button>
                     </DialogActions>
                   </Dialog>
                 </div>
@@ -201,7 +210,7 @@ export default class CardProf extends React.Component {
 
                 <Button
                 
-                  onClick={this.toggleModal}
+                  onClick={ ()=>{ this.setState({id:course._id});this.toggleModal() }}
                   variant="outlined"
                   color="success"
                 >

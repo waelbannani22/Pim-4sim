@@ -386,8 +386,8 @@ export default function LoginForm({ history }) {
             type="email"
             label="Email address"
             {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            
+            
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -413,8 +413,8 @@ export default function LoginForm({ history }) {
               )
             }}
             tabIndex={2}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
+            
+          
           />
         </Stack>
 

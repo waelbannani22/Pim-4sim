@@ -37,6 +37,8 @@ import StudentClass from './pages/studentClass';
 import Todo from './pages/todo';
 import DetailLesson from './pages/detailLesson';
 import VideoChat from './pages/videochat';
+import StudentCards from './pages/StudentCards';
+import { StudentRendu } from './pages/StudentRendu';
 
 
 
@@ -99,6 +101,8 @@ export default function Router() {
         { path: 'todo', element: <Todo /> },
         { path: 'detailLesson', element: <DetailLesson /> },
         { path: 'videochat', element: <VideoChat /> },
+        { path: 'StudentCards', element: <StudentCards /> },
+        { path: 'StudentRendu', element: <StudentRendu /> },
       ]
     },
     
