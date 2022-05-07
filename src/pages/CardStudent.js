@@ -36,8 +36,16 @@ export default class CardStudent extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/cour/').then((res) => {
-      const prop = res.data.response;
+    var data2 = JSON.stringify({
+      "classn": sessionStorage.getItem("className").toString()
+     
+
+    });
+    const headers = { 
+      'Content-Type': 'application/json',
+  };
+    axios.post('http://localhost:5000/api/cour/getLessonsbyStudent',data2,{headers}).then((res) => {
+      const prop = res.data.data;
       this.setState({ prop });
     });
   }
@@ -61,19 +69,16 @@ export default class CardStudent extends React.Component {
                     R
                   </Avatar>
                 }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
-                }
+               
                 title={course.title}
-                subheader="September 14, 2016"
+                subheader={course.created}
               />
-              <CardActionArea component={RouterLink} to="/dashboard/allChapter">
+              <CardActionArea component={RouterLink} to="/dashboard/detailLesson">
                 <CardMedia
                  component="img"
               sx={{ width:345, height: 200 }} 
               image={"http://localhost:5000/"+course.idPhoto}
+              onClick={(e)=>{sessionStorage.setItem("class",JSON.stringify(course)) ;sessionStorage.setItem("idcourse",course._id)}}
                 />
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">{course.description}</Typography>

@@ -151,7 +151,7 @@ export default class CardProf extends React.Component {
                   component="img"
                   sx={{ width: 345, height: 200 }}
                   image={'http://localhost:5000/' + course.idPhoto}
-                  onClick={(e)=>sessionStorage.setItem("class",JSON.stringify(course))}
+                  onClick={(e)=>{sessionStorage.setItem("class",JSON.stringify(course)) ;sessionStorage.setItem("idcourse",course._id)}}
                 />
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">

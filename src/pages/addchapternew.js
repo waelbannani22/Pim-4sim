@@ -36,8 +36,16 @@ export default class AddChapterNew extends React.Component {
   };
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/resource/').then((res) => {
-      const prop = res.data.response;
+    var data2 = JSON.stringify({
+      "lesson": sessionStorage.getItem("idcourse").toString()
+     
+
+    });
+    const headers = { 
+      'Content-Type': 'application/json',
+  };
+    axios.post('http://localhost:5000/api/resource/findbylesson',data2,{headers}).then((res) => {
+      const prop = res.data.data;
       this.setState({ prop });
     });
   }
@@ -57,7 +65,11 @@ export default class AddChapterNew extends React.Component {
       <div>
         <Container>
           <Stack>
-            <ChapterModal />
+          {sessionStorage.getItem("role")=="teacher"?(
+           <ChapterModal />
+          ):(null
+          )}
+           
           </Stack>
         </Container>
         <br />

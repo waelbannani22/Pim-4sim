@@ -65,6 +65,7 @@ console.log("fefefefefe")
           <Typography variant="h4" gutterBottom>
             Lessons
           </Typography>
+          {sessionStorage.getItem("role")=="teacher"?(
           <Button
             variant="contained"
             component={RouterLink}
@@ -73,6 +74,8 @@ console.log("fefefefefe")
           >
             Add new lesson
           </Button>
+          ):(null
+          )}
         </Stack>
       </Container>
 
