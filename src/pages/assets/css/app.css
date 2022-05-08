@@ -1,3 +1,7 @@
+nav{
+    margin-top: 100px;
+
+}
 
 .chat-col{
     right: -100vw;
@@ -9,6 +13,8 @@
 }
 
 .chat-col.chat-opened {
+    margin-top: 100px;
+
 right:0vw;
 position: fixed;
 top: 0;
@@ -18,7 +24,7 @@ padding-top: 50px;
 }
 
 #chat-messages{
-    height: 70vh;
+    height: 55vh;
     margin-bottom: 20px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -114,7 +120,7 @@ padding-top: 50px;
 .msg{
     font-weight: 400;
     font-size: 12px;
-    color: #50ef75;
+    color: #0d0d0d;
     background-color: wheat;
 }
 
@@ -161,7 +167,7 @@ padding-top: 50px;
 
 .custom-modal {
     display: none;
-    position: fixed;
+    position: relative;
     z-index: 10000;
     left: 0;
     top: 0;
@@ -226,3 +232,4 @@ padding-top: 50px;
         z-index: 1000;
     }
 }
+

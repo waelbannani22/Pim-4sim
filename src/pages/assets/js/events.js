@@ -1,4 +1,6 @@
 import helpers from './helpers.js';
+import Swal from 'sweetalert2'
+var axios = require('axios');
 
 window.addEventListener( 'load', () => {
     //When the chat icon is clicked
@@ -54,7 +56,7 @@ window.addEventListener( 'load', () => {
         e.preventDefault();
 
         let roomName = document.querySelector( '#room-name' ).value;
-        let yourName =  sessionStorage.getItem( 'firstname' );
+        let yourName =  localStorage.getItem( 'username' );
 
         if ( roomName && yourName ) {
             //remove error message, if any
@@ -63,7 +65,7 @@ window.addEventListener( 'load', () => {
             //save the user's name in sessionStorage
 
             //create room link
-            let roomLink = `${ location.origin }/dashboard/videochat?room=${ roomName.trim().replace( ' ', '_' ) }_${ helpers.generateRandomString() }`;
+            let roomLink = `${ location.origin }/dashboard/app?room=${ roomName.trim().replace( ' ', '_' ) }_${ helpers.generateRandomString() }`;
 console.log(roomLink)
 localStorage.setItem("linkchat",roomLink)
             //show message with link to room
@@ -91,6 +93,7 @@ localStorage.setItem("linkchat",roomLink)
             document.querySelector('#err-msg-username').innerText = "";
 
             //save the user's name in sessionStorage
+            localStorage.setItem( 'username', name );
 
             //reload room
             location.reload();
@@ -100,6 +103,11 @@ localStorage.setItem("linkchat",roomLink)
             document.querySelector('#err-msg-username').innerText = "Please input your name";
         }
     } );
+ //When the 'Enter room' button is clicked.
+ document.getElementById( 'drive' ).addEventListener( 'click', ( e ) => {
+   helpers.open()
+     
+} );
 
 
     document.addEventListener( 'click', ( e ) => {
@@ -117,3 +125,4 @@ localStorage.setItem("linkchat",roomLink)
         helpers.toggleModal( 'recording-options-modal', false );
     } );
 } );
+

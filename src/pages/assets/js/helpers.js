@@ -1,6 +1,62 @@
 const moment= require('moment')
-var xssFilters = require('xss-filters');
+const xssFilters= require('xss-filters')
+import { saveAs } from 'file-saver';
+import Swal from 'sweetalert2'
+var axios = require('axios');
+
 export default {
+
+    async  open() {
+   
+        const { value: ipAddress } = await Swal.fire({
+          title: 'Enter your Directory',
+          input: 'text',
+          inputLabel: 'Your Directory',
+          showCancelButton: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return 'You need to put your work directory !'
+            }
+          }
+        })
+   
+        if (ipAddress) {
+            var result = ipAddress.substring(ipAddress.lastIndexOf("\\") + 1);
+            console.log(result)
+          Swal.fire(`Your Directory is ${ipAddress}`)    
+                  var replaced = ipAddress.replace(/\\/g, '/');
+console.log("ipAddress",replaced);
+console.log("result",result)
+          var data = JSON.stringify({
+
+            "data":replaced ,
+            "data2":result
+               });
+           
+            var config = {
+            method: 'post',
+            url: 'http://localhost:5000/pap',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            data : data
+            };
+           
+            axios(config)
+           
+                .then(function (response) {
+                  console.log(response);
+                 
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+           
+        }
+       
+     
+   
+       },
     generateRandomString() {
         const crypto = window.crypto || window.msCrypto;
         let array = new Uint32Array(1);
@@ -148,7 +204,7 @@ export default {
 
         let colDiv = document.createElement( 'div' );
         colDiv.className = `col-10 card chat-card msg ${ msgBg }`;
-        colDiv.innerHTML = xssFilters.inHTMLData(data.msg).autoLink( {target: "_blank",rel: "nofollow"});
+        colDiv.innerHTML = xssFilters.inHTMLData( data.msg ).autoLink( { target: "_blank", rel: "nofollow"});
 
         let rowDiv = document.createElement( 'div' );
         rowDiv.className = `row ${ contentAlign } mb-2`;
@@ -235,12 +291,16 @@ export default {
 
 
     saveRecordedStream( stream, user ) {
+        var FileSaver = require('file-saver');
+
         let blob = new Blob( stream, { type: 'video/webm' } );
 
         let file = new File( [blob], `${ user }-${ moment().unix() }-record.webm` );
 
-        saveAs( file );
-    },
+        FileSaver.saveAs(file);
+    console.log(file)
+},
+
 
 
     toggleModal( id, show ) {

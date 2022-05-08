@@ -235,9 +235,42 @@ export default function LoginForm({ history }) {
                       sessionStorage.setItem("className", response1.data.data.claaseName);
                       if (response1.data.data.role == "admin") {
 
+                      } try {
+                        var data = {
+                          "id": response1.data.data._id
+                        }
+                        var config2 = {
+                          method: 'post',
+                          url: 'http://localhost:5000/api/auth/isonline',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            
+                          },
+                          data: data
+                  
+                        };
+                        axios(config2)
+                          .then(function (response1) {
+                  
+                         
+                            //is online 
+                            //
+                           navigate('/dashboard/app', { replace: true });
+                           window.location.reload(false)
+                            // console.log("users",re)
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                          });
+                  
+                  
+                  
+                        //console.log(data);
+                      } catch (error) {
+                        console.log("failure")
                       }
-                      navigate('/dashboard', { replace: true });
-                      window.location.reload(false)
+                     
+                     
 
                     })
                     .catch(function (error) {
@@ -335,8 +368,10 @@ export default function LoginForm({ history }) {
                     sessionStorage.setItem("role",response1.data.data.role)
                     sessionStorage.setItem("phone",response1.data.data.phone)
                     sessionStorage.setItem("id",response1.data.data._id)
-                    
-                    navigate('/dashboard', { replace: true });
+                    //is online 
+                    navigate('/dashboard/app', { replace: true });
+                    //
+                   
                     // console.log("users",re)
                   })
                   .catch(function (error) {

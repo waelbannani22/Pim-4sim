@@ -5,7 +5,7 @@ import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 import { Link as RouterLink ,useNavigate,usena} from 'react-router-dom';
 //import {useNavigation} from '@react-navigation/native';
-
+import axios from "axios";
 // material
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
@@ -49,11 +49,56 @@ export default function AccountPopover() {
     setOpen(false);
   };
   const onlogout=  ()=>{
+   if (sessionStorage.getItem("role")!="admin"){
+      try {
+      var data = {
+        "id": sessionStorage.getItem("id")
+      }
+      var config2 = {
+        method: 'post',
+        url: 'http://localhost:5000/api/auth/isoffline',
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+        data: data
+
+      };
+     
+      axios(config2)
+        .then(function (response1) {
+
+       
+          //is online 
+          console.log("here")
+          localStorage.removeItem("authToken")
+          localStorage.removeItem("idUser")
+          sessionStorage.clear();
+          navigate('/login',{reset: true});
+          //
+      
+          // console.log("users",re)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      //console.log(data);
+    } catch (error) {
+      console.log("failure")
+    }
+   }else{
+   
     localStorage.removeItem("authToken")
     localStorage.removeItem("idUser")
     sessionStorage.clear();
-    
     navigate('/login',{reset: true});
+   }
+   
+    
+   
   }
 
   return (
@@ -121,7 +166,7 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button onClick={onlogout} fullWidth color="inherit" variant="outlined">
+          <Button onClick={()=>onlogout()} fullWidth color="inherit" variant="outlined">
             Logout
             
           </Button>

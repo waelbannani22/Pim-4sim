@@ -29,11 +29,7 @@ const sidebarConfigTeacher = [
       path: '/dashboard/teacherClasses',
       icon: getIcon(peopleFill)
     },
-    {
-      title: 'product',
-      path: '/dashboard/products',
-      icon: getIcon(shoppingBagFill)
-    },
+   
     {
       title: 'Compilator',
       path: '/dashboard/Compilator',
@@ -44,16 +40,8 @@ const sidebarConfigTeacher = [
       path: '/dashboard/Payment',
       icon: getIcon(heart)
     },
-    {
-      title: 'blog',
-      path: '/dashboard/blog',
-      icon: getIcon(fileTextFill)
-    },
-    {
-      title: 'card',
-      path: '/dashboard/card',
-      icon: getIcon(fileTextFill)
-    },
+   
+  
     
    
   ];

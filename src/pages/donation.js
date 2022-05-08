@@ -25,7 +25,7 @@ import {
   AppConversionRates
 } from '../components/_dashboard/app';
 import { useRef, useState } from 'react';
-import bin from '../../src/assets/img/binance-coin-bnb-logo-freelogovectors.net_.png'
+import bin from '../../src/assets/img/dollar-black-circle-icon-28.png'
 import { ethers } from "ethers";
 import ErrorMessage from "../ErrorMessage";
 import { alpha } from '@mui/material/styles';

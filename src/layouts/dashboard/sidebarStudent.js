@@ -21,11 +21,7 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
   },
  
  
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon(shoppingBagFill)
-  },
+ 
   {
     title: 'Compilator',
     path: '/dashboard/Compilator',
@@ -36,22 +32,10 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
     path: '/dashboard/Payment',
     icon: getIcon(heart)
   },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon(fileTextFill)
-  },
-  {
-    title: 'card',
-    path: '/dashboard/card',
-    icon: getIcon(fileTextFill)
-  },
+ 
+ 
   
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
-  }
+ 
 ];
 
 

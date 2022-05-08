@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton,Chip } from '@mui/material';
 // components
 import { MHidden } from '../../components/@material-extend';
 //
@@ -59,11 +59,13 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
+          <Chip  label="online" color="success" />
           <LanguagePopover />
           <Binance/>
           <NotificationsPopover />
-          <AccountPopover />
+         
           <PaymentWeb/>
+          <AccountPopover />
         </Stack>
       </ToolbarStyle>
     </RootStyle>
