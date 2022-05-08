@@ -115,7 +115,7 @@ export default function StudentClass() {
                     const userss = result.map((e) => ({
                         id: e._id,
                         name: e.firstname + " " + e.lastname,
-                        avatarUrl: mockImgAvatar(i++),
+                        avatarUrl: e.image?"http://localhost:5000/"+e.image:"http://localhost:5000/uploads/avatarw.png",
                         email: e.email,
                         company: "ESPRIT",
                         phone: e.phone
@@ -307,7 +307,7 @@ export default function StudentClass() {
                 .catch(function (error) {
                     console.log(error);
                 });
-              
+
 
 
             //console.log(data);
@@ -338,32 +338,31 @@ export default function StudentClass() {
                             </TableCell>
     */
     // 
-    function sendname(nb)
-    {
+    function sendname(nb) {
         var name = nb
         var data = JSON.stringify({
             "data": name
-          });
-      
-          var config = {
+        });
+
+        var config = {
             method: 'post',
             url: 'http://localhost:5000/getname',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             data: data
-          };
-      
-          axios(config)
-      
+        };
+
+        axios(config)
+
             .then(function (response) {
-              console.log(response);
-              navigate('/dashboard/Compilator', { replace: true })
+                console.log(response);
+                navigate('/dashboard/Compilator', { replace: true })
             })
             .catch(function (error) {
-              console.log(error);
+                console.log(error);
             });
-            
+
     }
     return (
         <Page title="User | Minimal-UI">
@@ -372,7 +371,7 @@ export default function StudentClass() {
                     <Typography variant="h4" gutterBottom>
                         {sessionStorage.getItem("class")}
                     </Typography>
-
+                    
 
                 </Stack>
 
@@ -417,7 +416,7 @@ export default function StudentClass() {
                                                             onChange={(event) => handleClick(event, id)}
                                                         />
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row" padding="none"onClick={()=>sendname(name)}>
+                                                    <TableCell component="th" scope="row" padding="none" onClick={() => sendname(name)}>
                                                         <Stack direction="row" alignItems="center" spacing={2}>
                                                             <Avatar alt={name} src={avatarUrl} />
                                                             <Typography variant="subtitle2" noWrap>
@@ -428,7 +427,7 @@ export default function StudentClass() {
                                                     <TableCell align="left">{company}</TableCell>
                                                     <TableCell align="left">{email}</TableCell>
                                                     <TableCell align="left">{phone}</TableCell>
-                                                    
+
 
 
 

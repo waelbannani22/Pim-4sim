@@ -49,14 +49,12 @@ stream(socket)
 
 // ----------------------------------------------------------------------
 export default function VideoChat() { 
-  useEffect(()=>{
- if (localStorage.getItem("linkchat")!='')
-  {
-    console.log("fro");
-    <Navigate to={localStorage.getItem("linkchat")}replace={true} />
+  // useEffect(()=>{
+ 
+  //  // window.location.reload()
 
-  }
-  },[])
+  
+  // },[])
  
 
   return (

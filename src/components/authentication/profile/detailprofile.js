@@ -374,7 +374,7 @@ export const AccountProfileDetails = (props) => {
           }}
         >
           <Button
-            onClick={toggleModal}
+            onClick={sessionStorage.getItem("role")=="admin"?null: toggleModal}
             color="primary"
             variant="contained"
           >

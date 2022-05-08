@@ -111,7 +111,7 @@ export default function AffectStudent() {
           const userss = result.map((e) => ({
             id: e._id,
             name: e.firstname + " " + e.lastname,
-            avatarUrl: mockImgAvatar(i++),
+            avatarUrl: e.image?"http://localhost:5000/"+e.image:"http://localhost:5000/uploads/avatarw.png",
             email: e.email,
             company: "ESPRIT",
             status: e.status

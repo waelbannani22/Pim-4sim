@@ -202,7 +202,7 @@ export default function ChapterModal() {
 
 
       var data2 = JSON.stringify({
-        course: '6224ca73caf9570b7c3b8243',
+        course: sessionStorage.getItem("idcourse"),
         name: name,
         description: description,
         pdfname: selected
@@ -262,11 +262,11 @@ export default function ChapterModal() {
          // lisst.map((e)=>listnew.push(e))
           var data3 = ({
             title:  u,
-            description: "new cahpter has been added",
+            description: "new chapter has been added",
             type: "mail",
             users: JSON.parse(sessionStorage.getItem("listid")),
             
-            motif : "new champter added to "
+            motif : "new chapter added to "
           });
           console.log(data3);
           var config2 = {
@@ -310,7 +310,7 @@ export default function ChapterModal() {
 
   return (
     <div align="center">
-      <Button variant="contained" startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
+      <Button variant="contained"  startIcon={<Icon icon={plusFill} />} onClick={toggleModal}>
         Add new chapter
       </Button>
       {/* <ReactNotificationComponent/> */}

@@ -18,11 +18,6 @@ const sidebarConfigTeacher = [
       path: '/dashboard/app',
       icon: getIcon(pieChart2Fill)
     },
-    {
-      title: 'videochat',
-      path: '/dashboard/videochat',
-      icon: getIcon(video)
-    },
    
     {
       title: 'my classes',

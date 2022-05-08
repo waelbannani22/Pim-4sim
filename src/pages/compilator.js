@@ -77,6 +77,7 @@ import { findClosestEnabledDate } from '@mui/lab/internal/pickers/date-utils';
 import { string } from 'prop-types';
 import "./styles.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { ConstructionOutlined } from '@mui/icons-material';
 const socket = io('http://localhost:2001');
 socket.on('connect', () => {
   console.log('you connected');
@@ -90,206 +91,206 @@ export default function Compilator() {
   const [def, setDef] = useState('');
   const [dis, setDif] = useState('true');
   const [res, setRes] = useState('');
- const [sol,setSol] = useState('')
+  const [sol, setSol] = useState('')
   const [file, setFile] = useState('');
   const [path, setPath] = useState('');
   const [read, setRead] = useState(false);
-const[soltT,setSoltT] = useState('');
+  const [soltT, setSoltT] = useState('');
   const [col, setCol] = useState('uncol')
   const [sidebar, setSidebar] = useState('Collapse')
-  const [saveSt,setsaveSt] = useState()
-  const [upSt,setupSt] =useState()
-  const [conST,setconSt] =useState()
-  const [conT,setconT] =useState()
-  const[wrt,setwrt]=useState()
-  const[sucT,setsucT] =useState()
-  const[pathy,setPathy]  = useState('')
-  const[locpath,setLocpath] = useState('')
-  const[locfile,setLocfile] = useState('')
-  const[drop,setDrop]=useState('')
-  const[direr,setdirer]=useState('')
-  const[invt,setinvt]=useState('')
-  const[invs,setinvs]=useState('')
- const [teacbn,setteacbn] = useState(false)
- const [studbn,setstudbn] = useState(false)
-const [sostud,setsostud]= useState('')
-const [sotea,setsotea]= useState('')
-
-      var pol= sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname")
-      console.log("feferf",pol)
-     var data = JSON.stringify({
-       "data": pol
-     });
- 
-     var config = {
-       method: 'post',
-       url: 'http://localhost:5000/checkteacher',
-       headers: {
-         'Content-Type': 'application/json'
-       },
-       data: data
-     };
- 
-     axios(config)
- 
-       .then(function (response) {
-         var x = response.data.x
-         console.log("solt",response.data.x);
-
- setSoltT(x)    
-     console.log("soltT",soltT);
-
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
-
-       var data = JSON.stringify({
-        "data": soltT
-      });
-  
-      var config = {
-        method: 'post',
-        url: 'http://localhost:5000/socketteacher',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-  
-      axios(config)
-  
-        .then(function (response) {
-
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
- 
-    
- 
-      var pol2= sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname")
-      console.log("feferf2",pol2)
-     var data = JSON.stringify({
-       "data": pol2
-     });
- 
-     var config = {
-       method: 'post',
-       url: 'http://localhost:5000/checkstudent',
-       headers: {
-         'Content-Type': 'application/json'
-       },
-       data: data
-     };
- 
-     axios(config)
- 
-       .then(function (response) {
-        console.log("sol",response.data.x);
-
-         var y = response.data.x
-         
-     setSol(y)     
-     console.log("sol",sol);
-
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
+  const [saveSt, setsaveSt] = useState()
+  const [upSt, setupSt] = useState()
+  const [conST, setconSt] = useState()
+  const [conT, setconT] = useState()
+  const [wrt, setwrt] = useState()
+  const [sucT, setsucT] = useState()
+  const [pathy, setPathy] = useState('')
+  const [locpath, setLocpath] = useState('')
+  const [locfile, setLocfile] = useState('')
+  const [drop, setDrop] = useState('')
+  const [direr, setdirer] = useState('')
+  const [invt, setinvt] = useState('')
+  const [invs, setinvs] = useState('')
+  const [teacbn, setteacbn] = useState(false)
+  const [studbn, setstudbn] = useState(false)
+  const [sostud, setsostud] = useState('')
+  const [sotea, setsotea] = useState('')
+  const [students, setStudent] = useState([])
+  const [teachers, setteacher] = useState([])
+  const [filename, setfilename] = useState('')
 
 
-     var data = JSON.stringify({
-       "data": sol
-     });
- 
-     var config = {
-       method: 'post',
-       url: 'http://localhost:5000/socketstudent',
-       headers: {
-         'Content-Type': 'application/json'
-       },
-       data: data
-     };
- 
-     axios(config)
- 
-       .then(function (response) {
+  var pol = sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname")
+  console.log("feferf", pol)
+  var data = JSON.stringify({
+    "data": pol
+  });
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost:5000/checkteacher',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+
+  axios(config)
+
+    .then(function (response) {
+      var x = response.data.x
+      console.log("solt", response.data.x);
+
+      setSoltT(x)
+      console.log("soltT", soltT);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  var data = JSON.stringify({
+    "data": soltT
+  });
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost:5000/socketteacher',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+
+  axios(config)
+
+    .then(function (response) {
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
 
 
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
-    
-    var config = {
-      method: 'get',
-      url: 'http://localhost:5000/getsocketteacher',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
-     axios(config)
-  
-      .then(function (response) {
-        console.log(response.data.dataTeacher);
-        var x = response.data.dataTeacher
-  setsotea(x)
-  console.log("sostea",x);
-  console.log("soltT",soltT)
+  var pol2 = sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname")
+  console.log("feferf2", pol2)
+  var data = JSON.stringify({
+    "data": pol2
+  });
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost:5000/checkstudent',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+
+  axios(config)
+
+    .then(function (response) {
+      console.log("sol", response.data.x);
+
+      var y = response.data.x
+
+      setSol(y)
+      console.log("sol", sol);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
 
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      var config = {
-        method: 'get',
-        url: 'http://localhost:5000/getsocketstudent',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      };
-       axios(config)
-    
-        .then(function (response) {
-          console.log(response.data.dataStudent);
-          var x = response.data.dataStudent
-    setsostud(x)
-    console.log("sostud",x);
-    console.log("sol",sol)
+  var data = JSON.stringify({
+    "data": sol
+  });
 
-  
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-  useEffect(() => { 
-    
-  if((sessionStorage.getItem("role")=="student")&&(localStorage.getItem("lastwork")!='')&&(file==''))
-  
-  {
+  var config = {
+    method: 'post',
+    url: 'http://localhost:5000/socketstudent',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+
+  axios(config)
+
+    .then(function (response) {
+
+
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  var config = {
+    method: 'get',
+    url: 'http://localhost:5000/getsocketteacher',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+  axios(config)
+
+    .then(function (response) {
+      console.log(response.data.dataTeacher);
+      var x = response.data.dataTeacher
+      setsotea(x)
+      console.log("sostea", x);
+      console.log("soltT", soltT)
+
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  var config = {
+    method: 'get',
+    url: 'http://localhost:5000/getsocketstudent',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+  axios(config)
+
+    .then(function (response) {
+      console.log(response.data.dataStudent);
+      var x = response.data.dataStudent
+      setsostud(x)
+      console.log("sostud", x);
+      console.log("sol", sol)
+
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  useEffect(() => {
+
+    if ((sessionStorage.getItem("role") == "student") && (localStorage.getItem("lastwork") != '') && (file == '')) {
       setFile(localStorage.getItem("lastwork"))
-  }
-
-     }, [file]);
-  useEffect(() => { 
-    if((sessionStorage.getItem("role")=="student")&&(path!=''))    
-    {   
-    localStorage.setItem("lastfile",path)
     }
 
- if((sessionStorage.getItem("role")=="student")&&(localStorage.getItem("lastfile")!='')&&(path==''))    
-{   
-  
+  }, [file]);
+  useEffect(() => {
+    if ((sessionStorage.getItem("role") == "student") && (path != '')) {
+      localStorage.setItem("lastfile", path)
+    }
 
-    setLocpath(localStorage.getItem("lastfile"))
-       console.log("local file variable ",locfile)
-       var data = JSON.stringify({
+    if ((sessionStorage.getItem("role") == "student") && (localStorage.getItem("lastfile") != '') && (path == '')) {
+
+
+      setLocpath(localStorage.getItem("lastfile"))
+      console.log("local file variable ", locfile)
+      var data = JSON.stringify({
         "data": localStorage.getItem("lastfile")
       });
-  
+
       var config = {
         method: 'post',
         url: 'http://localhost:5000/readsingle',
@@ -298,167 +299,177 @@ const [sotea,setsotea]= useState('')
         },
         data: data
       };
-  
+
       axios(config)
-  
+
         .then(function (response) {
           console.log(response);
           setDef(response.data.fileContent)
-  
+
         })
         .catch(function (error) {
           console.log(error);
         });
-  
-}
+
+    }
   }, [path]);
 
 
-  useEffect(()=>{
-    if ( sessionStorage.getItem("role") == "teacher"){
+  useEffect(() => {
+    if (sessionStorage.getItem("role") == "teacher") {
+      var config = {
+        method: 'get',
+        url: 'http://localhost:5000/getna',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      };
+      axios(config)
 
-   setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work') 
-   setsaveSt(true)
-   setupSt(true)
-   setconSt(true)
-   setconSt(false)
-   setconT(true)
-   setwrt(false)
-   setsucT(false)
-   setinvt(true)
-   setinvs(false)
+        .then(function (response) {
+          console.log(response.data.name);
+          setFile('C:/Users/leowa/Downloads/Compressed/AdvancedNodeAuth-master/AdvancedNodeAuth-master/uploads/work/' + response.data.name)
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      setsaveSt(true)
+      setupSt(true)
+      setconSt(true)
+      setconSt(false)
+      setconT(true)
+      setwrt(false)
+      setsucT(false)
+      setinvt(true)
+      setinvs(false)
+    }
+    if (sessionStorage.getItem("role") == "student") {
+      setsaveSt(false)
+      setupSt(false)
+      setconSt(false)
+      setconSt(true)
+      setconT(false)
+      setwrt(true)
+      setsucT(true)
+      setinvt(false)
+      setinvs(true)
+    }
   }
-  if ( sessionStorage.getItem("role") == "student")
-  {
-    setsaveSt(false)
-    setupSt(false)
-    setconSt(false)
-    setconSt(true)
-    setconT(false)
-    setwrt(true)
-    setsucT(true)
-    setinvt(false)
-    setinvs(true)
-   }
+  )
+
+
+
+
+  if (((sotea == "true" && sessionStorage.getItem("role") == "teacher")) || ((sostud == "true" && sessionStorage.getItem("role") == "student"))) {
+    socket.on('receive-message', (message) => {
+      setDef(message);
+      setMode(detectLang(message))
+    });
   }
-  ) 
- 
 
- 
 
-  if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="true"&& sessionStorage.getItem("role") == "student")))
-  {
-   socket.on('receive-message', (message) => {
-    setDef(message);
-    setMode(detectLang(message))
-  });
-}
 
-   
-   
-  useEffect(()=>
-  {
-    if (sessionStorage.getItem("role")=="student")
-    {
-    var y="";
-    var x =""
-          var data = JSON.stringify({
-            "data": def
-          });
-        
+  useEffect(() => {
+    if (sessionStorage.getItem("role") == "student") {
+      var y = "";
+      var x = ""
+      var data = JSON.stringify({
+        "data": def
+      });
+
+      var config = {
+        method: 'post',
+        url: 'http://localhost:5000/def',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+
+      axios(config)
+
+        .then(function (response) {
+          y = response.data.def
           var config = {
-            method: 'post',
-            url: 'http://localhost:5000/def',
+            method: 'get',
+            url: 'http://localhost:5000/pathy',
             headers: {
               'Content-Type': 'application/json'
             },
-            data: data
           };
-        
+
           axios(config)
-        
+
             .then(function (response) {
-              y= response.data.def
-              var config = {
-                method: 'get',
-                url: 'http://localhost:5000/pathy',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-              };
-            
-              axios(config)
-            
-                .then(function (response) {
-                  console.log("pathy",data)
-             x = localStorage.getItem("lastfile")
-            
-            console.log("role",sessionStorage.getItem("role"))
-          
-          if (( sessionStorage.getItem("role") == "student")&&(x!=''))
-          {
-            console.log("pag",x)
-            console.log("datax",y)
-            var data = JSON.stringify({
-              "path": x,
-              "data": y
-            });
-          
-            var config = {
-              method: 'post',
-              url: 'http://localhost:5000/write',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              data: data
-            };
-          
-            axios(config)
-          
-              .then(function (response) {
-                console.log(response);
+              console.log("pathy", data)
+              x = localStorage.getItem("lastfile")
+
+              console.log("role", sessionStorage.getItem("role"))
+
+              if ((sessionStorage.getItem("role") == "student") && (x != '')) {
+                console.log("pag", x)
+                console.log("datax", y)
                 var data = JSON.stringify({
-                  "data": file
+                  "path": x,
+                  "data": y
                 });
-            
+
                 var config = {
                   method: 'post',
-                  url: 'http://localhost:5000/upbackend',
+                  url: 'http://localhost:5000/write',
                   headers: {
                     'Content-Type': 'application/json'
                   },
                   data: data
                 };
-            
+
                 axios(config)
-            
+
                   .then(function (response) {
                     console.log(response);
+                    var data = JSON.stringify({
+                      "data": file
+                    });
+
+                    var config = {
+                      method: 'post',
+                      url: 'http://localhost:5000/upbackend',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      data: data
+                    };
+
+                    axios(config)
+
+                      .then(function (response) {
+                        console.log(response);
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
+
+
+
                   })
                   .catch(function (error) {
                     console.log(error);
                   });
-              
-            
-            
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-          }
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
+              }
             })
             .catch(function (error) {
               console.log(error);
             });
-          }
-  },[def])
-  
-  
- 
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [def])
+
+
+
   window.onbeforeunload = function (e) {
     e = e || window.event;
 
@@ -467,72 +478,68 @@ const [sotea,setsotea]= useState('')
     }
 
 
-  }; 
-  if  (sessionStorage.getItem("role") == "teacher")
-    {
-      var config = {
-        method: 'get',
-        url: 'http://localhost:5000/statusS',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      };
-       axios(config)
-    
-        .then(function (response) {
-          console.log(response.data.dataT);
-          var x = response.data.dataT
-    setRead(x)
-    console.log("valchan",read)
-    console.log("read t ",x)
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-    }
-    if  (sessionStorage.getItem("role") == "student")
-    {
-      var config = {
-        method: 'get',
-        url: 'http://localhost:5000/statusST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      };
-       axios(config)
-    
-        .then(function (response) {
-          console.log(response.data.dataTT);
-          var x = response.data.dataTT
-    setRead(x)
-    console.log("valchan",read)
-    console.log("read t ",x)
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-    }
-  
-  
+  };
+  if (sessionStorage.getItem("role") == "teacher") {
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/statusS',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    axios(config)
+
+      .then(function (response) {
+        console.log(response.data.dataT);
+        var x = response.data.dataT
+        setRead(x)
+        console.log("valchan", read)
+        console.log("read t ", x)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+  if (sessionStorage.getItem("role") == "student") {
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/statusST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    axios(config)
+
+      .then(function (response) {
+        console.log(response.data.dataTT);
+        var x = response.data.dataTT
+        setRead(x)
+        console.log("valchan", read)
+        console.log("read t ", x)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
+
   function onChange(newValue) {
-   
+
     var message = newValue;
 
-console.log('sol',sol)
-if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="true"&& sessionStorage.getItem("role") == "student")))
-{
-    
-       socket.emit('send-message', message);
-    setDef(message)
-    
+    console.log('sol', sol)
+    if (((sotea == "true" && sessionStorage.getItem("role") == "teacher")) || ((sostud == "true" && sessionStorage.getItem("role") == "student"))) {
+
+      socket.emit('send-message', message);
+      setDef(message)
+
     }
     setDef(message)
 
-   
-    if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="true"&& sessionStorage.getItem("role") == "student")))
-    {
-       socket.emit('send-message', message);
-    setDef(message);
+
+    if (((sotea == "true" && sessionStorage.getItem("role") == "teacher")) || ((sostud == "true" && sessionStorage.getItem("role") == "student"))) {
+      socket.emit('send-message', message);
+      setDef(message);
 
     }
     setDef(message);
@@ -732,6 +739,32 @@ if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="
       .catch(function (error) {
         console.log(error);
       })
+      var data = JSON.stringify({
+        "data": filename
+      });
+  
+      var config = {
+        method: 'post',
+        url: 'http://localhost:5000/readcomp',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+  
+      axios(config)
+  
+        .then(function (response) {
+          console.log(response);
+          setRes(response.data.fileContent)
+  
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  
+  
+  
 
   }
   function openbypath(path) {
@@ -740,10 +773,11 @@ if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="
     setPath(replaced)
     var result = replaced.substring(replaced.lastIndexOf("/") + 1);
     var filename = result.split('.')[0]
-    console.log("sesss",sessionStorage.getItem("lastwork"))
+    setfilename(filename)
+    console.log("sesss", sessionStorage.getItem("lastwork"))
     var data = JSON.stringify({
       "path": replaced,
-      "path2":sessionStorage.getItem("lastwork")
+      "path2": sessionStorage.getItem("lastwork")
     });
     var config = {
       method: 'post',
@@ -759,13 +793,12 @@ if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="
       .then(function (response) {
         console.log("data", response.data.text)
         var message = response.data.text;
-        if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="true"&& sessionStorage.getItem("role") == "student")))
-        { 
-     
-           socket.emit('send-message', message);
+        if (((sotea == "true" && sessionStorage.getItem("role") == "teacher")) || ((sostud == "true" && sessionStorage.getItem("role") == "student"))) {
 
-        setDef(message)
-          
+          socket.emit('send-message', message);
+
+          setDef(message)
+
         }
         setDef(message)
 
@@ -829,7 +862,7 @@ if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="
       var replaced = ipAddress.replace(/\\/g, '/');
 
       setFile(replaced);
-      localStorage.setItem("lastwork",replaced)
+      localStorage.setItem("lastwork", replaced)
       setDef('')
 
     }
@@ -965,123 +998,120 @@ if (((sotea=="true"&& sessionStorage.getItem("role") == "teacher"))||((sostud=="
       .catch(function (error) {
         console.log(error);
       });
-  
 
 
 
 
-}
 
-async function invite()
-{
-  var config = {
-    method: 'get',
-    url: 'http://localhost:5000/teachers',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
-
-  axios(config)
-
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  const { value: Teachers } = await Swal.fire({
-    title: 'Select field validation',
-    input: 'select',
-    inputOptions: {
-      Teachers: {
-        apples: 'Apples',
-        bananas: 'Bananas',
-        grapes: 'Grapes',
-        oranges: 'Oranges'
-      },
-   
-    },
-    inputPlaceholder: 'Select a Teacher',
-    showCancelButton: true,
-   
-  })
-  
-  if (fruit) {
-    Swal.fire(`You selected: ${fruit}`)
   }
-}
-function wrong_files()
-{
-  var config = {
-    method: 'get',
-    url: 'http://localhost:5000/filef',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
 
-  axios(config)
+  async function invite() {
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/teachers',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
 
-    .then(function (response) {
-      console.log(response.data.fileContent);
-      var x = response.data.fileContent.toString()
-      Swal.fire({
-        icon: 'error',
-        title: 'These Files Failed',
-        text: x
+    axios(config)
+
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    const { value: Teachers } = await Swal.fire({
+      title: 'Select field validation',
+      input: 'select',
+      inputOptions: {
+        Teachers: {
+          apples: 'Apples',
+          bananas: 'Bananas',
+          grapes: 'Grapes',
+          oranges: 'Oranges'
+        },
+
+      },
+      inputPlaceholder: 'Select a Teacher',
+      showCancelButton: true,
+
+    })
+
+    if (fruit) {
+      Swal.fire(`You selected: ${fruit}`)
+    }
+  }
+  function wrong_files() {
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/filef',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response.data.fileContent);
+        var x = response.data.fileContent.toString()
+        Swal.fire({
+          icon: 'error',
+          title: 'These Files Failed',
+          text: x
         })
 
 
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
 
-   
-}
-async function success_files()
-{
-   var config = {
-    method: 'get',
-    url: 'http://localhost:5000/filet',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
 
-  await axios(config)
+  }
+  async function success_files() {
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/filet',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
 
-    .then(function (response) {
-      console.log(response.data.fileContent);
-      var x = response.data.fileContent.toString()
-      Swal.fire({
-        icon: 'success',
-        title: 'These Files Successed',
-        text: x
+    await axios(config)
+
+      .then(function (response) {
+        console.log(response.data.fileContent);
+        var x = response.data.fileContent.toString()
+        Swal.fire({
+          icon: 'success',
+          title: 'These Files Successed',
+          text: x
         })
 
 
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
- 
- 
-   
-}
-function connect()
-{
-  
-  var e = document.getElementById("framework");
-  var strUser = e.options[e.selectedIndex].text;
-  
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
 
+
+
+  }
+  function connect() {
+    var e = document.getElementById("framework");
+    var strUser2 = e.options[e.selectedIndex].text;
+    var e = document.getElementById("framework");
+    var strUser = e.options[e.selectedIndex].value;
+    console.log("useeeeeeeeeeeeeeeeee", strUser)
+console.log("useeeeeeeeeeeeeeeeee", students[strUser].toString())
     var data = JSON.stringify({
-      "data": strUser
-    
+      "data": strUser2
+
     });
-  console.log("im student")
+    console.log("im student")
     var config = {
       method: 'post',
       url: 'http://localhost:5000/listaw',
@@ -1090,117 +1120,140 @@ function connect()
       },
       data: data
     };
-  
+
     axios(config)
-  
-  
+
+
       .then(function (response) {
         var x = response.data.x
-setSol(x)
+        setSol(x)
+        var data3 = JSON.stringify({
+          "title": "call for editor ",
+          "description":"teacher :"+sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname") ,
+          "type": "mail",
+          "users": students[strUser].toString(),
+          "motif": "new videochat "
+        });
+        var config2 = {
+          method: 'post',
+          url: 'http://localhost:5000/api/notifications/createnotification',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: data3
+        };
+       
+        axios(config2).then(function(res){
+            console.log("noti sent")
+        }) .catch(function (error) {
+          console.log(error);
+        });
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
 
-const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: 'btn btn-success',
-    cancelButton: 'btn btn-danger'
-  },
-  buttonsStyling: false
-})
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "the teacher will be able to modify your work !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, i agree!',
+          cancelButtonText: 'No, i dont !',
+          reverseButtons: true
+        }).then((result) => {
 
-swalWithBootstrapButtons.fire({
-  title: 'Are you sure?',
-  text: "the teacher will be able to modify your work !",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonText: 'Yes, i agree!',
-  cancelButtonText: 'No, i dont !',
-  reverseButtons: true
-}).then((result) => {
+          if (result.isConfirmed) {
+            var data = JSON.stringify({
+              "data": false
+            });
 
-  if (result.isConfirmed) {
-    var data = JSON.stringify({
-      "data": false
-    });
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/statusT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
 
-    var config = {
-      method: 'post',
-      url: 'http://localhost:5000/statusT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
+            axios(config)
 
-    axios(config)
+              .then(function (response) {
+                console.log(response);
 
-      .then(function (response) {
-        console.log(response);
 
-  
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+
+
+            swalWithBootstrapButtons.fire(
+              'Sccess!',
+              'The teacher has access',
+              'success'
+            )
+          } else if (
+
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            var data = JSON.stringify({
+              "data": true
+            });
+
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/statusT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
+
+            axios(config)
+
+              .then(function (response) {
+                console.log(response);
+
+
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'The teacher dosent have access',
+              'error'
+            )
+          }
+        })
       })
-      .catch(function (error) {
-        console.log(error);
-      });
-  
 
 
-    swalWithBootstrapButtons.fire(
-      'Sccess!',
-      'The teacher has access',
-      'success'
-    )
-  } else if (
-
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    var data = JSON.stringify({
-      "data": true
-    });
-
-    var config = {
-      method: 'post',
-      url: 'http://localhost:5000/statusT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
-
-    axios(config)
-
-      .then(function (response) {
-        console.log(response);
-
-  
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  
-    swalWithBootstrapButtons.fire(
-      'Cancelled',
-      'The teacher dosent have access',
-      'error'
-    )
   }
-})
-})
- 
 
-}
+  function connectT() {
+    
 
-function connectT()
-{
-  
- 
-  var e = document.getElementById("framework");
-  var strUser = e.options[e.selectedIndex].text;
-  
+    var e = document.getElementById("framework");
+    var strUser = e.options[e.selectedIndex].value;
+    console.log("struser",strUser)
+
+    var e = document.getElementById("framework");
+    var strUser2 = e.options[e.selectedIndex].text;
+
 
     var data = JSON.stringify({
-      "data": strUser
-    
+      "data": strUser2
+
     });
-  console.log("im teacher")
+    console.log("im teacher")
     var config = {
       method: 'post',
       url: 'http://localhost:5000/listawT',
@@ -1209,232 +1262,216 @@ function connectT()
       },
       data: data
     };
-  
+
     axios(config)
-  
-  
+
+
       .then(function (response) {
         var x = response.data.x
-setSol(x)
+        setSoltT(x)
+        var data3 = JSON.stringify({
+          "title": "call for editor ",
+          "description":"student :"+sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname") ,
+          "type": "mail",
+          "users": teachers[strUser].toString(),
+          "motif": "new videochat "
+        });
+        var config2 = {
+          method: 'post',
+          url: 'http://localhost:5000/api/notifications/createnotification',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: data3
+        };
+       
+        axios(config2).then(function(res){
+            console.log("noti sent")
+        }) .catch(function (error) {
+          console.log(error);
+        });
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
 
-const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: 'btn btn-success',
-    cancelButton: 'btn btn-danger'
-  },
-  buttonsStyling: false
-})
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "the teacher will be able to modify your work !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, i agree!',
+          cancelButtonText: 'No, i dont !',
+          reverseButtons: true
+        }).then((result) => {
 
-swalWithBootstrapButtons.fire({
-  title: 'Are you sure?',
-  text: "the teacher will be able to modify your work !",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonText: 'Yes, i agree!',
-  cancelButtonText: 'No, i dont !',
-  reverseButtons: true
-}).then((result) => {
+          if (result.isConfirmed) {
+            var data = JSON.stringify({
+              "data": false
+            });
 
-  if (result.isConfirmed) {
-    var data = JSON.stringify({
-      "data": false
-    });
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/statusTT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
 
-    var config = {
-      method: 'post',
-      url: 'http://localhost:5000/statusTT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
+            axios(config)
 
-    axios(config)
+              .then(function (response) {
+                console.log(response);
 
-      .then(function (response) {
-        console.log(response);
 
-  
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+
+
+            swalWithBootstrapButtons.fire(
+              'Sccess!',
+              'The teacher has access',
+              'success'
+            )
+          } else if (
+
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            var data = JSON.stringify({
+              "data": true
+            });
+
+            var config = {
+              method: 'post',
+              url: 'http://localhost:5000/statusTT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: data
+            };
+
+            axios(config)
+
+              .then(function (response) {
+                console.log(response);
+
+
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'The teacher dosent have access',
+              'error'
+            )
+          }
+        })
       })
-      .catch(function (error) {
-        console.log(error);
-      });
-  
 
 
-    swalWithBootstrapButtons.fire(
-      'Sccess!',
-      'The teacher has access',
-      'success'
-    )
-  } else if (
-
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    var data = JSON.stringify({
-      "data": true
-    });
-
-    var config = {
-      method: 'post',
-      url: 'http://localhost:5000/statusTT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
-
-    axios(config)
-
-      .then(function (response) {
-        console.log(response);
-
-  
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  
-    swalWithBootstrapButtons.fire(
-      'Cancelled',
-      'The teacher dosent have access',
-      'error'
-    )
   }
-})
-})
- 
+  async function inviteS() {
 
-}
-async function inviteS()
-{
-  
+console.log(students)
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/getstud',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
 
-  var config = {
-    method: 'get',
-    url: 'http://localhost:5000/getstud',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
+    axios(config)
 
-  axios(config)
+      .then(function (response) {
+        console.log(response.data.data);
+        var test = document.getElementById("framework");
+        var arr = response.data.data;
+          setStudent(response.data.ii)
+         console.log("res",response.data.ii)
+        for (var i = test.options.length - 1; i >= 0; i--) { test.remove(i); }
+        for (i in arr) { test.add(new Option(arr[i], i)); }
 
-    .then(function (response) {
-      console.log(response.data.data);
-      var test = document.getElementById("framework");
-var arr = response.data.data;  
-for(var i=test.options.length- 1;i>= 0;i--) {test.remove(i);}        
-for(i in arr) {test.add(new Option(arr[i],i));}
-      
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+  }
+
+  async function inviteT() {
+
+
+    var config = {
+      method: 'get',
+      url: 'http://localhost:5000/getteach',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios(config)
+
+      .then(function (response) {
+        console.log(response.data.data);
+        var test = document.getElementById("framework");
+        var arr = response.data.data;
+        setteacher(response.data.ii)
+        for (var i = test.options.length - 1; i >= 0; i--) { test.remove(i); }
+        for (i in arr) { test.add(new Option(arr[i], i)); }
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+  }
+  function Disconnect() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#30D643',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, disconnect it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket.emit('forceDisconnect');
+
+        Swal.fire(
+
+          'Disconenct!',
+          'Your are now Disconnected.',
+          'success'
+        )
+      }
     })
-    .catch(function (error) {
-      console.log(error);
-    })
+
+  }
+  /*
+  const MINUTE_MS = 20000;
   
-}
-
-async function inviteT()
-{
-  
-
-  var config = {
-    method: 'get',
-    url: 'http://localhost:5000/getteach',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
-
-  axios(config)
-
-    .then(function (response) {
-      console.log(response.data.data);
-      var test = document.getElementById("framework");
-var arr = response.data.data;  
-for(var i=test.options.length- 1;i>= 0;i--) {test.remove(i);}        
-for(i in arr) {test.add(new Option(arr[i],i));}
-      
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  
-}
-function Disconnect()
-{
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#30D643',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, disconnect it!'
-  }).then((result) => {
-    if (result.isConfirmed) { 
-               socket.emit('forceDisconnect');
-
-      Swal.fire(
-
-        'Disconenct!',
-        'Your are now Disconnected.',
-        'success'
-      )
-    }
-  })
-
-}
-/*
-const MINUTE_MS = 20000;
-
-  useEffect(() => {
-    const interval = setInterval(() => {  
-var y="";
-var x =""
-      var data = JSON.stringify({
-        "data": def
-      });
-    
-      var config = {
-        method: 'post',
-        url: 'http://localhost:5000/def',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-    
-      axios(config)
-    
-        .then(function (response) {
-          y= response.data.def
-          var config = {
-            method: 'get',
-            url: 'http://localhost:5000/pathy',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          };
-        
-          axios(config)
-        
-            .then(function (response) {
-         x = response.data.pathdir
-        console.log("role",sessionStorage.getItem("role"))
-      console.log("x=====",x)
-      console.log("y=====",y)
-      
-      if (( sessionStorage.getItem("role") == "student")&&(x!=''))
-      {
+    useEffect(() => {
+      const interval = setInterval(() => {  
+  var y="";
+  var x =""
         var data = JSON.stringify({
-          "path": x,
-          "data": y
+          "data": def
         });
       
         var config = {
           method: 'post',
-          url: 'http://localhost:5000/write',
+          url: 'http://localhost:5000/def',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -1444,196 +1481,232 @@ var x =""
         axios(config)
       
           .then(function (response) {
-            console.log(response);
-            var data = JSON.stringify({
-              "data": file
-            });
-        
+            y= response.data.def
             var config = {
-              method: 'post',
-              url: 'http://localhost:5000/upbackend',
+              method: 'get',
+              url: 'http://localhost:5000/pathy',
               headers: {
                 'Content-Type': 'application/json'
               },
-              data: data
             };
-        
+          
             axios(config)
-        
+          
               .then(function (response) {
-                console.log(response);
+           x = response.data.pathdir
+          console.log("role",sessionStorage.getItem("role"))
+        console.log("x=====",x)
+        console.log("y=====",y)
         
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'center-end',
-                  showConfirmButton: false,
-                  timer: 2000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
+        if (( sessionStorage.getItem("role") == "student")&&(x!=''))
+        {
+          var data = JSON.stringify({
+            "path": x,
+            "data": y
+          });
         
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Saving And Uploading  file To the Server'
-                })
-              })
-              .catch(function (error) {
-                console.log(error);
+          var config = {
+            method: 'post',
+            url: 'http://localhost:5000/write',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            data: data
+          };
+        
+          axios(config)
+        
+            .then(function (response) {
+              console.log(response);
+              var data = JSON.stringify({
+                "data": file
               });
           
-        
-        
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
+              var config = {
+                method: 'post',
+                url: 'http://localhost:5000/upbackend',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                data: data
+              };
+          
+              axios(config)
+          
+                .then(function (response) {
+                  console.log(response);
+          
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'center-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+          
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'Saving And Uploading  file To the Server'
+                  })
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            
+          
+          
             })
             .catch(function (error) {
               console.log(error);
             });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-  
+        }
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    
+       
      
-   
+    
   
+        console.log('save every minute'); 
+        
+      }, MINUTE_MS);
+     
+      return () => clearInterval(interval);
+    }, [def])
+  */
 
-      console.log('save every minute'); 
-      
-    }, MINUTE_MS);
-   
-    return () => clearInterval(interval);
-  }, [def])
-*/
+  /*
+     <button className="butt" onClick={() => handleOpenPicker()}>
+              Upload To Drive
+            </button>
+            */
+  return (
+    <Page title="Dashboard | Minimal-UI">
+      <Container maxWidth="xl">
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
 
-/*
-   <button className="butt" onClick={() => handleOpenPicker()}>
-            Upload To Drive
+        </Stack>
+
+
+        <div className="header">
+
+
+
+          <center>
+            <img src={logo} width="95px"></img>
+          </center>
+        </div>
+        <div className="panelcomp">
+          <button className="butt" onClick={open}>
+            {' '}
+            Open Directory{' '}
           </button>
-          */
-return (
-  <Page title="Dashboard | Minimal-UI">
-    <Container maxWidth="xl">
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <button className="butt" onClick={save} hidden={saveSt}>
+            {' '}
+            Save File{' '}
+          </button>
+          <button className="butt" onClick={upback} hidden={upSt}>
+            {' '}
+            Upload To Server {' '}
+          </button>
+          <button className="butt" onClick={connect} hidden={conST}>
+            {' '}
+            Connect{' '}
+          </button>
+          <button className="butt" onClick={connectT} hidden={conT}>
+            {' '}
+            Connect{' '}
+          </button>
+          <button className="butt" onClick={success_files} hidden={sucT}>
+            {' '}
+            Success files {' '}
+          </button>
+          <button className="butt" onClick={wrong_files} hidden={wrt}>
+            {' '}
+            Wrong files {' '}
+          </button>
+          <button className="butt" onClick={inviteT} hidden={invt} >
+            {' '}
+            invite {' '}
+          </button>
+          <button className="butt" onClick={inviteS} hidden={invs} >
+            {' '}
+            invite {' '}
+          </button>
+          <select className="butt " id="framework">
 
-      </Stack>
-
-
-      <div className="header">
-
-
-
-        <center>
-          <img src={logo} width="95px"></img>
-        </center>
-      </div>
-      <div className="panelcomp">
-        <button className="butt" onClick={open}>
-          {' '}
-          Open Directory{' '}
-        </button>
-        <button className="butt" onClick={save}hidden={saveSt}>
-          {' '}
-          Save File{' '}
-        </button>
-        <button className="butt" onClick={upback}hidden={upSt}>
-          {' '}
-          Upload To Server {' '}
-        </button>
-        <button className="butt" onClick={connect}hidden={conST}>
-          {' '}
-          Connect{' '}
-        </button>
-        <button className="butt" onClick={connectT} hidden={conT}>
-          {' '}
-          Connect{' '}
-        </button>
-        <button className="butt" onClick={success_files} hidden={sucT}>
-          {' '}
-          Success files {' '}
-        </button>
-        <button className="butt" onClick={wrong_files}  hidden={wrt}>
-          {' '}
-          Wrong files {' '}
-        </button>
-        <button className="butt" onClick={inviteT} hidden={invt} >
-          {' '}
-          invite {' '}
-        </button>
-        <button className="butt" onClick={inviteS} hidden={invs} >
-          {' '}
-          invite {' '}
-        </button>
-        <select className="butt "id="framework">
-
-</select>
-<button className="butt" onClick={Disconnect}  >
-          {' '}
-          Disconnect {' '}
-        </button>
+          </select>
+          <button className="butt" onClick={Disconnect}  >
+            {' '}
+            Disconnect {' '}
+          </button>
 
 
 
 
-        <But />
-        <button className="butt" onClick={run} >Run</button>
+          <But />
+          <button className="butt" onClick={run} >Run</button>
 
-        <div className="mode">
-          {'Language: '}
-          {Mode}
+          <div className="mode">
+            {'Language: '}
+            {Mode}
+          </div>
+
+
+        </div>
+        <div id="mySidebar"   >
+          <App />
         </div>
 
+        <div className="content" id="main">
+          <AceEditor
 
-      </div>
-      <div id="mySidebar"   >
-        <App />
-      </div>
+            name="editor"
+            theme="monokai"
+            onChange={onChange}
+            mode={Mode}
+            value={def}
+            enableBasicAutocompletion={true}
+            enableLiveAutocompletion={true}
+            enableSnippets={true}
+            width="100%"
+            height="620px"
+            placeholder=""
+            fontSize={17}
+            showPrintMargin={false}
+            showGutter={true}
+            highlightActiveLine={true}
+            readOnly={read}
+            wrapEnabled={true}
+            editorProps={{ $blockScrolling: true }}
+          />
+          <div className="button-container">
+          </div>
 
-      <div className="content" id="main">
-        <AceEditor
 
-          name="editor"
-          theme="monokai"
-          onChange={onChange}
-          mode={Mode}
-          value={def}
-          enableBasicAutocompletion={true}
-          enableLiveAutocompletion={true}
-          enableSnippets={true}
-          width="100%"
-          height="620px"
-          placeholder=""
-          fontSize={17}
-          showPrintMargin={false}
-          showGutter={true}
-          highlightActiveLine={true}
-          readOnly={read}
-          wrapEnabled={true}
-          editorProps={{ $blockScrolling: true }}
-        />
-        <div className="button-container">
+
+          <textarea className="output" placeholder="Output:" value={res}>
+
+
+          </textarea>
+          <textarea id="inputs" className="inputs" placeholder="Write Your inputs here: ">
+
+
+          </textarea>
+
         </div>
 
-
-
-        <textarea className="output" placeholder="Output:" value={res}>
-
-
-        </textarea>
-        <textarea id="inputs" className="inputs" placeholder="Write Your inputs here: ">
-
-
-        </textarea>
-
-      </div>
-
-    </Container>
-  </Page>
-);
+      </Container>
+    </Page>
+  );
 }

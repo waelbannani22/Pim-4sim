@@ -168,41 +168,9 @@ export default function TeacherChart() {
                             <legend> teachers</legend>
                             <title text="teachers"/>
                         </PieChart>
-                        <PieChart width={300} height={400}>
-                        <Legend/>
-                            <Pie
-                                data={data1}
-                                cx="50%"
-                                cy="50%"
-                                labelLine={true}
-                                label={renderCustomizedLabel2}
-                                outerRadius={80}
-                                fill="#8884d1"
-                                dataKey="value"
-                            >
-                                {data.map((entry, index) => (
-                                    <Cell key={`cell-${index+1}`} fill={COLORS[index % COLORS.length+1]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
+                       
                         </Stack>
-                        <PieChart width={300} height={400} >
-                        <Legend/>
-                            <Pie
-                                data={data2}
-                                cx="50%"
-                                cy="50%"
-                                labelLine={false}
-                                label={renderCustomizedLabel3}
-                                outerRadius={80}
-                                fill="#8F84d1"
-                                dataKey="value"
-                            >
-                                {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length+1]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
+                        
                    
             </Container>
         </Page>

@@ -16,7 +16,10 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 // Worker
 import { Worker } from '@react-pdf-viewer/core'; // install this library
-
+import { Link as RouterLink } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+import plusFill from '@iconify/icons-eva/plus-fill';
+import data from '@iconify/icons-eva/menu-2-fill';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -38,13 +41,13 @@ export default class AddChapterNew extends React.Component {
   componentDidMount() {
     var data2 = JSON.stringify({
       "lesson": sessionStorage.getItem("idcourse").toString()
-     
+
 
     });
-    const headers = { 
+    const headers = {
       'Content-Type': 'application/json',
-  };
-    axios.post('http://localhost:5000/api/resource/findbylesson',data2,{headers}).then((res) => {
+    };
+    axios.post('http://localhost:5000/api/resource/findbylesson', data2, { headers }).then((res) => {
       const prop = res.data.data;
       this.setState({ prop });
     });
@@ -59,17 +62,48 @@ export default class AddChapterNew extends React.Component {
       this.setState({ prop });
     });
   }
+  sendnoti(){
+    var data3 = ({
+      "title": "videochat added to "+ JSON.parse(sessionStorage.getItem("class")).title,
+      "description": localStorage.getItem("linkchat"),
+      "type": "mail",
+      "users": JSON.parse(sessionStorage.getItem("listid")),
+      
+      "motif" : "new videochat "
+    });
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    axios.post('http://localhost:5000/api/notifications/createnotification', data3,{headers}).then((res) => {
+      console.log(res);
+      console.log(res.data);
+      
+    });
+  }
 
   render() {
     return (
       <div>
         <Container>
-          <Stack>
-          {sessionStorage.getItem("role")=="teacher"?(
-           <ChapterModal />
-          ):(null
-          )}
-           
+          <Stack direction="column" justifyContent="space-between" >
+            {sessionStorage.getItem("role") == "teacher" ? (
+              <div>
+                <ChapterModal />
+
+                <Button
+                  variant="contained"
+                  component={RouterLink}
+                  onClick={console.log("hiii")}
+                  to="/dashboard/videochat"
+                  startIcon={<Icon icon={plusFill} />}
+                >
+                  Create new video call
+                </Button>
+
+              </div>
+            ) : (null
+            )}
+
           </Stack>
         </Container>
         <br />
@@ -81,7 +115,7 @@ export default class AddChapterNew extends React.Component {
             // alignItems="center"
             // justifyContent="space-around"
             paddingTop={2}
-            // sx={{ mb: 5 }}
+          // sx={{ mb: 5 }}
           >
             {this.state.prop.map((resource) => (
               <Card paddingTop={2} sx={{ mb: 5 }} spacing={1}>
