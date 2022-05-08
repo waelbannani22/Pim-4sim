@@ -52,7 +52,7 @@ export default function VideoChat() {
   useEffect(()=>{
  if (localStorage.getItem("linkchat")!='')
   {
-    console.log("fro");
+    console.log("hello team");
     <Navigate to={localStorage.getItem("linkchat")}replace={true} />
 
   }
