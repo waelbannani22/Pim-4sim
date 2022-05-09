@@ -1043,7 +1043,7 @@ export default function Compilator() {
       Swal.fire(`You selected: ${fruit}`)
     }
   }
-  function wrong_files() {
+  async function wrong_files() {
     var config = {
       method: 'get',
       url: 'http://localhost:5000/filef',
@@ -1052,7 +1052,7 @@ export default function Compilator() {
       },
     };
 
-    axios(config)
+   await axios(config)
 
       .then(function (response) {
         console.log(response.data.fileContent);
@@ -1148,21 +1148,17 @@ console.log("useeeeeeeeeeeeeeeeee", students[strUser].toString())
         }) .catch(function (error) {
           console.log(error);
         });
-        const swalWithBootstrapButtons = Swal.mixin({
-          customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-          },
-          buttonsStyling: false
-        })
+     
 
-        swalWithBootstrapButtons.fire({
+        Swal.fire({
           title: 'Are you sure?',
-          text: "the teacher will be able to modify your work !",
+          text: "the teacher wil be readonly !",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, i agree!',
           cancelButtonText: 'No, i dont !',
+          confirmButtonColor: '#30D643',
+          cancelButtonColor: '#d33',
           reverseButtons: true
         }).then((result) => {
 
@@ -1290,21 +1286,17 @@ console.log("useeeeeeeeeeeeeeeeee", students[strUser].toString())
         }) .catch(function (error) {
           console.log(error);
         });
-        const swalWithBootstrapButtons = Swal.mixin({
-          customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-          },
-          buttonsStyling: false
-        })
+    
 
-        swalWithBootstrapButtons.fire({
+        Swal.fire({
           title: 'Are you sure?',
-          text: "the teacher will be able to modify your work !",
+          text: "the student wil be readonly !",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, i agree!',
           cancelButtonText: 'No, i dont !',
+          confirmButtonColor: '#30D643',
+          cancelButtonColor: '#d33',
           reverseButtons: true
         }).then((result) => {
 

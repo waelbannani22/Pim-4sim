@@ -485,7 +485,7 @@ export default function StudentClass() {
                     />
                 </Card>
                 <div>
-                  <Dialog open={!isopen} onClose={()=>toggleModalmotif()}>
+                  <Dialog open={isopen} onClose={()=>toggleModalmotif()}>
                     <DialogTitle>update the lesson</DialogTitle>
                     <DialogContent>
                       <DialogContentText>Please insert your motif</DialogContentText>
