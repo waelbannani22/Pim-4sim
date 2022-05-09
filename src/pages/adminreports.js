@@ -44,9 +44,9 @@ import PieChartOutlineIcon from '@mui/icons-material/PieChartOutline';
 
 const TABLE_HEAD = [
     { id: 'name', label: 'Name', alignRight: false },
-    { id: 'company', label: 'Company', alignRight: false },
-    { id: 'email', label: 'email', alignRight: false },
-    { id: 'phone', label: 'phone', alignRight: false },
+    { id: 'student', label: 'Student', alignRight: false },
+    { id: 'motif', label: 'motif', alignRight: false },
+    { id: 'classe', label: 'classe', alignRight: false },
 
     { id: '' }
 ];
@@ -82,7 +82,7 @@ function applySortFilter(array, comparator, query) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-export default function StudentClass() {
+export default function AdminReport() {
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState('asc');
     const [selected, setSelected] = useState([]);
@@ -102,18 +102,16 @@ export default function StudentClass() {
 
     const add = async () => {
         try {
-            var data = {
-                "idClasse": sessionStorage.getItem("classid")
-            }
+            
             var list = [];
             var config2 = {
                 method: 'post',
-                url: 'http://localhost:5000/admin/fetchStudentsInX',
+                url: 'http://localhost:5000/api/exercice/allreports',
                 headers: {
                     'Content-Type': 'application/json',
 
                 },
-                data: data
+               
 
 
             };
@@ -124,11 +122,11 @@ export default function StudentClass() {
                     setTeachers(result)
                     const userss = result.map((e) => ({
                         id: e._id,
-                        name: e.firstname + " " + e.lastname,
-                        avatarUrl: e.image ? "http://localhost:5000/" + e.image : "http://localhost:5000/uploads/avatarw.png",
-                        email: e.email,
-                        company: "ESPRIT",
-                        phone: e.phone
+                        name: e.idteacher,
+                        
+                        email: e.emailS,
+                        classe:e.class,
+                        motif: e.motif
 
 
 
@@ -294,7 +292,7 @@ export default function StudentClass() {
     const report = async () => {
         try {
             var data = {
-                "idteacher": sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("firstname"),
+                "idteacher": sessionStorage.getItem("id"),
                 "classe": sessionStorage.getItem("class"),
                 "emailStudent": selectedId,
                 "motif": motif
@@ -379,10 +377,7 @@ export default function StudentClass() {
         <Page title="User | Minimal-UI">
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography variant="h4" gutterBottom>
-                        {sessionStorage.getItem("class")}
-                    </Typography>
-
+                   
 
                 </Stack>
 
@@ -409,7 +404,7 @@ export default function StudentClass() {
                                     {filteredUsers
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => {
-                                            const { id, name, email, company, avatarUrl, status, phone } = row;
+                                            const { id, name,email, classe, motif, avatarUrl, status, phone } = row;
                                             const isItemSelected = selected.indexOf(id) !== -1;
 
                                             return (
@@ -429,26 +424,16 @@ export default function StudentClass() {
                                                     </TableCell>
                                                     <TableCell component="th" scope="row" padding="none" onClick={() => sendname(name)}>
                                                         <Stack direction="row" alignItems="center" spacing={2}>
-                                                            <Avatar alt={name} src={avatarUrl} />
+                                                            
                                                             <Typography variant="subtitle2" noWrap>
                                                                 {name}
                                                             </Typography>
                                                         </Stack>
                                                     </TableCell>
-                                                    <TableCell align="left">{company}</TableCell>
                                                     <TableCell align="left">{email}</TableCell>
-                                                    <TableCell align="left">{phone}</TableCell>
-                                                    <TableCell align="left">
-
-                                                        <Stack direction="row" alignItems="center" spacing={2}>
-                                                            <Button variant="contained" color="error" onClick={() =>{ setSelectedId(email); toggleModalmotif()}}>
-                                                                report
-                                                            </Button>
-
-                                                        </Stack>
-
-
-                                                    </TableCell>
+                                                    <TableCell align="left">{motif}</TableCell>
+                                                    <TableCell align="left">{classe}</TableCell>
+                                                  
 
 
 
@@ -485,7 +470,7 @@ export default function StudentClass() {
                     />
                 </Card>
                 <div>
-                  <Dialog open={!isopen} onClose={()=>toggleModalmotif()}>
+                  <Dialog open={isopen} onClose={()=>toggleModalmotif()}>
                     <DialogTitle>update the lesson</DialogTitle>
                     <DialogContent>
                       <DialogContentText>Please insert your motif</DialogContentText>

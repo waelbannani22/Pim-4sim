@@ -39,6 +39,7 @@ import DetailLesson from './pages/detailLesson';
 import VideoChat from './pages/videochat';
 import StudentCards from './pages/StudentCards';
 import { StudentRendu } from './pages/StudentRendu';
+import AdminReport from './pages/adminreports';
 
 
 
@@ -103,6 +104,7 @@ export default function Router() {
         { path: 'videochat', element: <VideoChat /> },
         { path: 'StudentCards', element: <StudentCards /> },
         { path: 'StudentRendu', element: <StudentRendu /> },
+        { path: 'adminreport', element: <AdminReport /> },
       ]
     },
     

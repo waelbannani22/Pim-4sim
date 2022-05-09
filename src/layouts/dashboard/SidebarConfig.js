@@ -28,6 +28,12 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
   },
+  {
+    title: 'reports',
+    path: '/dashboard/adminreport',
+    icon: getIcon(lockFill)
+  },
+
 
  
   {
